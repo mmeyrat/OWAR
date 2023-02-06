@@ -618,11 +618,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: PFEhololensM22023
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: C:\Users\maxim\Cours\Master\PFE\pfe_project\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 8031780a6a4eda01
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: test_pfe_f
