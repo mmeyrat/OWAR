@@ -6,19 +6,19 @@ using System.IO;
 
 public class ReadText : MonoBehaviour
 {
-    public GameObject textArea;
-    public int maxTextSize;
+	public GameObject textArea;
+	public int maxTextSize;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        string filePath = "Assets/Texts/test.txt";
-        string textContent = File.ReadAllText(filePath);
+	// Start is called before the first frame update
+	void Start()
+	{
+		string filePath = "Assets/Texts/test.txt";
+		string textContent = File.ReadAllText(filePath);
 
-        if (textContent.Length > maxTextSize) {
-            textContent = textContent.Substring(0, maxTextSize) + "...";
-        }
+		if (textContent.Length > maxTextSize) {
+			textContent = textContent.Substring(0, maxTextSize) + "...";
+		}
 
-        textArea.GetComponent<Text>().text = textContent;
-    }
+		textArea.GetComponent<Text>().text = textContent;
+	}
 }
