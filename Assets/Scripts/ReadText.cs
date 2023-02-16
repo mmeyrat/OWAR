@@ -59,15 +59,14 @@ public class ReadText : MonoBehaviour
     * @param height : height of the window 
     **/
     void resizeWindow(int height) {
-        float sizeWidthOffset = 2.0f;
-        float sizeHeightOffset = - 20.0f;
-        float centerWidthOffset = 3.0f;
-        float centerHeightOffset = 11.0f;
+        float heightWeightingValue = 2.0f;
+        float widthWeightingValue = 10.0f;
+        float sizeHeightOffset = 1.0f;
+        float depthValue = 0.001f;
 
-        collider.center = new Vector3(maxLineLength / centerWidthOffset, - height + centerHeightOffset, 0);
-        collider.size = new Vector3(maxLineLength - sizeWidthOffset, 2 * height + sizeHeightOffset, 1.0f);
+        Vector3 newSize = new Vector3(maxLineLength - (maxLineLength / widthWeightingValue), heightWeightingValue * height + sizeHeightOffset, depthValue); 
 
-        background.transform.localPosition = new Vector3(maxLineLength / centerWidthOffset, - height + centerHeightOffset, 0.5f);
-        background.transform.localScale = new Vector3(maxLineLength - sizeWidthOffset, 2 * height + sizeHeightOffset, 0.001f);
+        collider.size = newSize;
+        background.transform.localScale = newSize; 
     }
 }
