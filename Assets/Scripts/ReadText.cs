@@ -8,10 +8,11 @@ using System.Text;
 
 public class ReadText : MonoBehaviour
 {
-    public TextAsset textFile;
-    public BoxCollider collider;
     public GameObject background;
-
+    
+    private BoxCollider collider;
+    private TextMesh textMesh;
+    private string fileName;
     private int maxLineLength = 20;
 
     /**
@@ -19,8 +20,11 @@ public class ReadText : MonoBehaviour
     **/
     void Start()
     {
-        TextMesh textMesh = GameObject.Find("3DText").GetComponent<TextMesh>();
-        string textContent = textFile.text;
+        //textMesh = GameObject.Find("3DText").GetComponent<TextMesh>();
+        // string textContent = textFile.text;
+        // TO USE LATER Path.GetFullPath("test2.txt");
+        string textContent = File.ReadAllText(fileName);
+        int width = 20; 
 
         // Format the text with a maximum length for each line of 15 characters
         string formatedText = formatText(textContent);
@@ -68,5 +72,17 @@ public class ReadText : MonoBehaviour
 
         collider.size = newSize;
         background.transform.localScale = newSize; 
+    }
+
+    public void setFilename(string name) {
+        fileName = name; 
+    }
+
+    public void setTextMesh(TextMesh mesh) {
+        textMesh = mesh;
+    }
+
+    public void setCollider(BoxCollider collider) {
+        this.collider = collider;
     }
 }

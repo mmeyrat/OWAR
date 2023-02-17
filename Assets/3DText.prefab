@@ -123,11 +123,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4768189942437998210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21dacd22fa99aa7459476c5eba6016b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a016cb5cbe59f949ad546f0ca437984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textFile: {fileID: 4900000, guid: 5551b1c6aa3ad1f42b029d748743ecf5, type: 3}
-  collider: {fileID: 0}
+  background: {fileID: 0}
 --- !u!222 &979616087624380554
 CanvasRenderer:
   m_ObjectHideFlags: 0
