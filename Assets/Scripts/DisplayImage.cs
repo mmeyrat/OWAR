@@ -7,13 +7,19 @@ using System.Drawing;
 
 public class DisplayImage : MonoBehaviour
 {
-    private GameObject imagePoster;
-    public Texture texture;
+    public GameObject imagePoster;
+    private string fileName;
 
     // Start is called before the first frame update
     void Start()
     {
-        imagePoster = GameObject.Find("ImagePoster");
-        imagePoster.GetComponent<Renderer>().material.mainTexture = texture;
+        //imagePoster = GameObject.Find("ImagePoster");
+        Texture2D image = new Texture2D(1, 1);
+		image.LoadImage(File.ReadAllBytes(fileName));
+        imagePoster.GetComponent<Renderer>().material.mainTexture = image;
+    }
+
+    public void setFilename(string name) {
+        fileName = name;
     }
 }
