@@ -11,6 +11,7 @@ public class DropdownHandler : MonoBehaviour
 
     private static Dictionary<string, bool> choosenFiles = new Dictionary<string, bool>(); 
     private static string[] fileEntries;
+    private static bool alreadyDisplayed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,9 @@ public class DropdownHandler : MonoBehaviour
         foreach(string file in fileEntries) {
             if (file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg") || file.EndsWith(".txt")) {
                 dropdown.options.Add(new Dropdown.OptionData(){ text = file.Substring(path.Length+1) });
-                choosenFiles.Add(file.Substring(path.Length), false);
+                if (alreadyDisplayed == false) {
+                    choosenFiles.Add(file.Substring(path.Length+1), false);
+                }
             }
         }
     }
@@ -42,9 +45,16 @@ public class DropdownHandler : MonoBehaviour
 
     public static string[] files() {
         for (int i=0; i<fileEntries.Length; i++) {
-            fileEntries[i] = fileEntries[i].Substring(path.Length);
+            fileEntries[i] = fileEntries[i].Substring(path.Length+1);
         }
 
         return fileEntries;
+    }
+
+    public static void hasBeenDisplayed() {
+        alreadyDisplayed = true;
+        foreach(string file in fileEntries) {
+            choosenFiles[file] = false;
+        }
     }
 }

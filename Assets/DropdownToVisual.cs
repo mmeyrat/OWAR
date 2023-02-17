@@ -24,6 +24,10 @@ public class DropdownToVisual : MonoBehaviour
     }
 
     public void visualize() {
-        SceneManager.LoadScene("Visualizer");
+        if (selectedFiles.text.Length > 17) {
+            SceneManager.LoadScene("Visualizer");
+        } else {
+            // TODO : Popup to show alert no files selected
+        }
     }
 }
