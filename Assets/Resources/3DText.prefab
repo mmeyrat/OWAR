@@ -105,12 +105,12 @@ GameObject:
   - component: {fileID: 4768189942437998212}
   - component: {fileID: 4768189942437998213}
   - component: {fileID: 6821885419141298496}
-  - component: {fileID: 4768189942437998214}
   - component: {fileID: 979616087624380554}
   - component: {fileID: 2678233572783069307}
   - component: {fileID: 8172086943158767355}
   - component: {fileID: 8941524331813505790}
   - component: {fileID: 7515636183717257712}
+  - component: {fileID: 5346097403395290027}
   m_Layer: 0
   m_Name: 3DText
   m_TagString: Spawnable
@@ -212,19 +212,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 20, y: 20, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4768189942437998214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4768189942437998210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a016cb5cbe59f949ad546f0ca437984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  background: {fileID: 604546090214865219}
 --- !u!222 &979616087624380554
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -359,3 +346,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   elasticsManager: {fileID: 0}
+--- !u!114 &5346097403395290027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4768189942437998210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1b135a184953f4882ba7f3054e562b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 604546090214865219}

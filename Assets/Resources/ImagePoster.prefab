@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 993238667252245716}
   - component: {fileID: 993238667252245717}
   - component: {fileID: 993238667252245706}
-  - component: {fileID: 993238667252245707}
   - component: {fileID: 993238667252245704}
   - component: {fileID: 993238667252245705}
   - component: {fileID: 993238667252245710}
+  - component: {fileID: 798036851722636668}
   m_Layer: 0
   m_Name: ImagePoster
   m_TagString: Untagged
@@ -111,19 +111,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993238667252245711}
   m_CullTransparentMesh: 0
---- !u!114 &993238667252245707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 993238667252245711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e61c693501be34ba5f536b7099fd1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imagePoster: {fileID: 993238667252245711}
 --- !u!114 &993238667252245704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,3 +219,16 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   elasticsManager: {fileID: 0}
+--- !u!114 &798036851722636668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993238667252245711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a3c294dcac9814590c3b4576ddd39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imagePoster: {fileID: 993238667252245711}
