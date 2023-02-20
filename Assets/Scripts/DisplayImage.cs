@@ -12,7 +12,7 @@ public class DisplayImage : MonoBehaviour
     private float pose_x = 0.0f;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         //imagePoster = GameObject.Find("ImagePoster");
         Texture2D image = new Texture2D(1, 1);
@@ -27,5 +27,13 @@ public class DisplayImage : MonoBehaviour
 
     public void setPoseX(float offset) {
         pose_x += offset;
+    }
+
+    public string getFilename() {
+        return fileName;
+    }
+
+    public float getPoseX() {
+        return pose_x;
     }
 }
