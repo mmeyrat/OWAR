@@ -17,7 +17,7 @@ namespace Tests
             DisplayImage di = new DisplayImage();
 
             di.imagePoster = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            di.setFilename("Assets/Images/giorno.png");
+            di.SetFilename("Assets/Images/giorno.png");
             di.Start();
 
             Assert.IsNotNull(di.imagePoster.GetComponent<Renderer>().material.mainTexture);
@@ -30,7 +30,7 @@ namespace Tests
                 DisplayImage di = new DisplayImage();
 
                 di.imagePoster = GameObject.CreatePrimitive(PrimitiveType.Cube);;
-                di.setFilename("Assets/Images/girono.jovana");
+                di.SetFilename("Assets/Images/girono.jovana");
                 di.Start();
 
                 Assert.IsNull(di.imagePoster.GetComponent<Renderer>().material.mainTexture);
@@ -40,14 +40,14 @@ namespace Tests
         }
 
         [Test]
-        public void FilenameSetterIsCorrectTest()
+        public void FileNameSetterIsCorrectTest()
         {
             DisplayImage di = new DisplayImage();
             string fn = "Assets/Images/giorno.png";
 
-            di.setFilename(fn);
+            di.SetFilename(fn);
 
-            Assert.AreEqual(fn, di.getFilename());
+            Assert.AreEqual(fn, di.GetFilename());
         }
 
         [Test]
@@ -56,9 +56,9 @@ namespace Tests
             DisplayImage di = new DisplayImage();
             float px = 0.5f;
 
-            di.setPoseX(px);
+            di.SetPoseX(px);
 
-            Assert.AreEqual(px, di.getPoseX());
+            Assert.AreEqual(px, di.GetPoseX());
         }
     }
 }

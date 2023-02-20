@@ -10,7 +10,7 @@ public class ReadText : MonoBehaviour
 {
     public GameObject background;
     
-    private BoxCollider collider;
+    private BoxCollider boxCollider;
     private TextMesh textMesh;
     private string fileName;
     private int maxLineLength = 20;
@@ -20,20 +20,16 @@ public class ReadText : MonoBehaviour
     **/
     void Start()
     {
-        //textMesh = GameObject.Find("3DText").GetComponent<TextMesh>();
-        // string textContent = textFile.text;
         // TO USE LATER Path.GetFullPath("test2.txt");
         string textContent = File.ReadAllText(fileName);
-        int width = 20; 
-
         // Format the text with a maximum length for each line of 15 characters
-        string formatedText = formatText(textContent);
+        string formatedText = FormatText(textContent);
         // Get the total number of lines of the text
         int height = formatedText.Split('\n').Length - 1;
 
         // set text and resize background and collider
         textMesh.text = formatedText;
-        resizeWindow(height);
+        ResizeWindow(height);
     }
 
     /**
@@ -43,13 +39,16 @@ public class ReadText : MonoBehaviour
     * @param lineLength : length of each line of the text
     * @return text in the wanted format
     **/
-    public string formatText(string text) {
+    public string FormatText(string text) 
+    {
         var builder = new StringBuilder();
 
-        for (int i = 0; i < text.Length; i++) {
+        for (int i = 0; i < text.Length; i++) 
+        {
             builder.Append(text[i]);
             
-            if (i != 0 && i % maxLineLength == 0) {
+            if (i != 0 && i % maxLineLength == 0) 
+            {
                 builder.Append(Environment.NewLine);
             }
         }
@@ -62,7 +61,7 @@ public class ReadText : MonoBehaviour
     * 
     * @param height : height of the window 
     **/
-    void resizeWindow(int height) {
+    void ResizeWindow(int height) {
         float heightWeightingValue = 2.0f;
         float widthWeightingValue = 10.0f;
         float sizeHeightOffset = 1.0f;
@@ -70,19 +69,34 @@ public class ReadText : MonoBehaviour
 
         Vector3 newSize = new Vector3(maxLineLength - (maxLineLength / widthWeightingValue), heightWeightingValue * height + sizeHeightOffset, depthValue); 
 
-        collider.size = newSize;
-        background.transform.localScale = newSize; 
+        this.boxCollider.size = newSize;
+        this.background.transform.localScale = newSize; 
     }
 
-    public void setFilename(string name) {
-        fileName = name; 
+    /**
+    * Set the file path
+    * 
+    * @param name : path of the file 
+    **/
+    public void SetFilename(string name) {
+        this.fileName = name; 
     }
 
-    public void setTextMesh(TextMesh mesh) {
-        textMesh = mesh;
+    /**
+    * Set the text mesh
+    * 
+    * @param mesh : the text mesh 
+    **/
+    public void SetTextMesh(TextMesh mesh) {
+        this.textMesh = mesh;
     }
 
-    public void setCollider(BoxCollider collider) {
-        this.collider = collider;
+    /**
+    * Set the box collider
+    * 
+    * @param collider : the box collider 
+    **/
+    public void SetCollider(BoxCollider collider) {
+        this.boxCollider = collider;
     }
 }

@@ -12,21 +12,39 @@ public class DropdownToVisual : MonoBehaviour
     public Button button;
     public Text selectedFiles;
 
-    public void fileSelector() {
+    private int maxLineLength = 17;
+
+    /**
+    * Add the selecetd files in a text preview
+    **/
+    public void FileSelector() 
+    {
         int index = dropdownList.value;
         string file = dropdownList.options[index].text;
-        DropdownHandler.setToChoosen(file);
-        if (DropdownHandler.isFileChoosen(file) == true) {
-            selectedFiles.text += "\n" + " - " + file;
-        } else {
-            selectedFiles.text = selectedFiles.text.Replace("\n" + " - " + file, "");
+
+        DropdownHandler.SetToChoosen(file);
+
+        if (DropdownHandler.IsFileChoosen(file)) 
+        {
+            selectedFiles.text += $"\n - {file}";
+        } 
+        else 
+        {
+            selectedFiles.text = selectedFiles.text.Replace($"\n - {file}", "");
         }
     }
 
-    public void visualize() {
-        if (selectedFiles.text.Length > 17) {
+    /**
+    * Change the scene to display the files
+    **/
+    public void Visualize() 
+    {
+        if (selectedFiles.text.Length > maxLineLength) 
+        {
             SceneManager.LoadScene("Visualizer");
-        } else {
+        } 
+        else 
+        {
             // TODO : Popup to show alert no files selected
         }
     }

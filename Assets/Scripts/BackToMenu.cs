@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class BackToMenu : MonoBehaviour
 {
-    public void back() {
-        DropdownHandler.hasBeenDisplayed();
+    /**
+    * Return to the main menu
+    **/
+    public void Back() 
+    {
+        DropdownHandler.HasBeenDisplayed();
         SceneManager.LoadScene("Menu");
     }
 }
