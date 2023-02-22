@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 3650595093111380283}
   - component: {fileID: 2623092547185938287}
   - component: {fileID: 7123384612878443046}
+  - component: {fileID: 5917350293238755682}
   m_Layer: 0
   m_Name: 3DText
   m_TagString: Spawnable
@@ -434,6 +435,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   go: {fileID: 4768189942437998210}
+--- !u!114 &5917350293238755682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4768189942437998210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff6450c75caddbd46bf2a335282df88f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3279477864262745826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -525,6 +538,16 @@ PrefabInstance:
         type: 3}
       propertyPath: distance
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483093654602221341, guid: 40b588bd40632eb41a0af374d91c4fc9,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5917350293238755682}
+    - target: {fileID: 2483093654602221341, guid: 40b588bd40632eb41a0af374d91c4fc9,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseWindow
       objectReference: {fileID: 0}
     - target: {fileID: 2565462926983481018, guid: 40b588bd40632eb41a0af374d91c4fc9,
         type: 3}
