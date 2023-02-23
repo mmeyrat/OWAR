@@ -36,7 +36,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993238667252245711}
   m_LocalRotation: {x: -0, y: -0, z: 0.99999934, w: -0.0011626002}
-  m_LocalPosition: {x: 0, y: 0, z: 1.84}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.001}
   m_Children:
   - {fileID: 8784757406742137311}
@@ -281,8 +281,8 @@ MonoBehaviour:
   targetToFace: {fileID: 0}
   pivotAxis: 7
   minDistance: 0.3
-  maxDistance: 0.9
-  defaultDistance: 0.7
+  maxDistance: 2
+  defaultDistance: 1.2
   maxViewHorizontalDegrees: 30
   maxViewVerticalDegrees: 20
   reorientWhenOutsideParameters: 1
