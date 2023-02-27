@@ -11,7 +11,6 @@ public class DropdownToVisual : MonoBehaviour
     public Dropdown dropdownList;
     public Button button;
     public Text selectedFiles;
-    private string[] files;
 
     private int maxLineLength = 17;
 
@@ -42,31 +41,44 @@ public class DropdownToVisual : MonoBehaviour
     {
         if (selectedFiles.text.Length > maxLineLength) 
         {
-            float offset_image = 0.2f;
-            float offset_text = -0.2f;
-            files = DropdownHandler.files();
-            foreach(string f in files) {
-                if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) {
-                    if (DropdownHandler.isFileChoosen(f)) {
+            float offsetImage = 0.2f;
+            float offsetImageIncrement = 3.0f;
+            float offsetText = - 0.2f;
+            float offsetTextIncrement = 2.1f;
+            string[] files = DropdownHandler.GetFiles();
+            
+            foreach (string f in files) 
+            {
+                if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
+                {
+                    if (DropdownHandler.IsFileChoosen(f)) 
+                    {
                         GameObject imagePoster = Instantiate(Resources.Load("ImagePoster")) as GameObject;
-                        imagePoster.GetComponent<Close>().setObj(imagePoster);
-                        imagePoster.GetComponent<DisplayImage>().setPoseX(offset_image);
-                        imagePoster.GetComponent<DisplayImage>().setFilename(Path.Combine(DropdownHandler.getPath(), f));
-                        offset_image *= 3;
-                        selectedFiles.text = selectedFiles.text.Replace("\n" + " - " + f, "");
-                        DropdownHandler.setToChoosen(f);
-                    }
-                } else if (f.EndsWith(".txt")) {
-                    if (DropdownHandler.isFileChoosen(f)) {
+                        imagePoster.GetComponent<Close>().SetObj(imagePoster);
+                        imagePoster.GetComponent<DisplayImage>().SetPoseX(offsetImage);
+                        imagePoster.GetComponent<DisplayImage>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
+
+                        offsetImage *= offsetImageIncrement;
+
+                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
+                        DropdownHandler.SetToChoosen(f);
+                    } 
+                }
+                else if (f.EndsWith(".txt")) 
+                {   
+                    if (DropdownHandler.IsFileChoosen(f)) 
+                    {
                         GameObject text3D = Instantiate(Resources.Load("3DText")) as GameObject;
-                        text3D.transform.localPosition = new Vector3(offset_text, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
-                        text3D.GetComponent<Close>().setObj(text3D);
-                        text3D.GetComponent<ReadText>().setFilename(Path.Combine(DropdownHandler.getPath(), f));
-                        text3D.GetComponent<ReadText>().setTextMesh(text3D.GetComponent<TextMesh>());
-                        text3D.GetComponent<ReadText>().setCollider(text3D.GetComponent<BoxCollider>());
-                        offset_text *= 2.1f;
-                        selectedFiles.text = selectedFiles.text.Replace("\n" + " - " + f, "");
-                        DropdownHandler.setToChoosen(f);
+                        text3D.transform.localPosition = new Vector3(offsetText, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
+                        text3D.GetComponent<Close>().SetObj(text3D);
+                        text3D.GetComponent<ReadText>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
+                        text3D.GetComponent<ReadText>().SetTextMesh(text3D.GetComponent<TextMesh>());
+                        text3D.GetComponent<ReadText>().SetCollider(text3D.GetComponent<BoxCollider>());
+
+                        offsetText *= offsetTextIncrement;
+
+                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
+                        DropdownHandler.SetToChoosen(f);
                     }
                 }
             }

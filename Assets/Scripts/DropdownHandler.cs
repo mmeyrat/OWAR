@@ -36,6 +36,7 @@ public class DropdownHandler : MonoBehaviour
                 }
             }
         }
+
         // Get the number of options
         //print(dropdown.options.Count);
     }
@@ -74,7 +75,6 @@ public class DropdownHandler : MonoBehaviour
         choosenFiles[file] = !choosenFiles[file];
     }
 
-<<<<<<< HEAD
     /**
     * Return the path of the directory where the files are located
     * 
@@ -92,15 +92,11 @@ public class DropdownHandler : MonoBehaviour
     **/
     public static string[] GetFiles() 
     {
+        fileEntries = Directory.GetFiles(path);
+
         for (int i = 0; i < fileEntries.Length; i++) 
         {
             fileEntries[i] = fileEntries[i].Substring(path.Length + 1);
-=======
-    public static string[] files() {
-        fileEntries = Directory.GetFiles(path);
-        for (int i=0; i<fileEntries.Length; i++) {
-            fileEntries[i] = fileEntries[i].Substring(path.Length+1);
->>>>>>> 8c8b329 (Fixing multiview and menu on same scene + close button)
         }
 
         return fileEntries;

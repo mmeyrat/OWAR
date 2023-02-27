@@ -8,6 +8,9 @@ public class DisplayDropdown : MonoBehaviour
 {
     public Dropdown dropdownList;
 
+    /**
+    * Update is called at each frame update
+    **/
     void Update() {
         dropdownList.Show();
     }
