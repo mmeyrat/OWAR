@@ -9,14 +9,16 @@ public class Close : MonoBehaviour
     /**
     * Set the file to close
     **/
-    public void SetObj(GameObject obj) {
+    public void SetObj(GameObject obj) 
+    {
         objectToClose = obj;
     }
 
     /**
     * Close the current file
     **/
-    public void CloseWindow() {
+    public void CloseWindow() 
+    {
         Destroy(objectToClose);
     }
 }

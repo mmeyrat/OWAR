@@ -72,6 +72,7 @@ public class DropdownToVisual : MonoBehaviour
                         GameObject text3D = Instantiate(Resources.Load("Canvas")) as GameObject;
                         text3D.transform.localPosition = new Vector3(offsetText, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
                         text3D.GetComponent<Close>().SetObj(text3D);
+                        text3D.GetComponent<ChangePage>().SetObj(text3D.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         text3D.GetComponent<ReadText>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
                         text3D.GetComponent<ReadText>().SetTextMesh(text3D.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         text3D.GetComponent<ReadText>().SetCollider(text3D.transform.GetChild(0).GetChild(0).GetComponent<BoxCollider>());
