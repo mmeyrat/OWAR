@@ -364,6 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 604546090214865219}
+  baseFontSize: 16
 --- !u!114 &3650595093111380283
 MonoBehaviour:
   m_ObjectHideFlags: 0

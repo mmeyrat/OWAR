@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System;
+using TMPro;
 
 public class DropdownToVisual : MonoBehaviour
 {
@@ -68,12 +69,12 @@ public class DropdownToVisual : MonoBehaviour
                 {   
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
-                        GameObject text3D = Instantiate(Resources.Load("3DText")) as GameObject;
+                        GameObject text3D = Instantiate(Resources.Load("Canvas")) as GameObject;
                         text3D.transform.localPosition = new Vector3(offsetText, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
                         text3D.GetComponent<Close>().SetObj(text3D);
                         text3D.GetComponent<ReadText>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
-                        text3D.GetComponent<ReadText>().SetTextMesh(text3D.GetComponent<TextMesh>());
-                        text3D.GetComponent<ReadText>().SetCollider(text3D.GetComponent<BoxCollider>());
+                        text3D.GetComponent<ReadText>().SetTextMesh(text3D.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
+                        text3D.GetComponent<ReadText>().SetCollider(text3D.transform.GetChild(0).GetChild(0).GetComponent<BoxCollider>());
 
                         offsetText *= offsetTextIncrement;
 

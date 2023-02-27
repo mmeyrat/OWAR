@@ -34,10 +34,10 @@ public class VisualizerLauncher : MonoBehaviour
                 if (DropdownHandler.IsFileChoosen(f)) 
                 {
                     GameObject text3D = Instantiate(Resources.Load("3DText")) as GameObject;
-                    text3D.transform.localPosition = new Vector3(offsetText, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
-                    text3D.GetComponent<ReadText>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
-                    text3D.GetComponent<ReadText>().SetTextMesh(text3D.GetComponent<TextMesh>());
-                    text3D.GetComponent<ReadText>().SetCollider(text3D.GetComponent<BoxCollider>());
+                    //text3D.transform.localPosition = new Vector3(offsetText, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
+                    //text3D.GetComponent<ReadText>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
+                    //text3D.GetComponent<ReadText>().SetTextMesh(text3D.GetComponent<TextMesh>());
+                    //text3D.GetComponent<ReadText>().SetCollider(text3D.GetComponent<BoxCollider>());
 
                     offsetText *= offsetTextIncrement;
                 }

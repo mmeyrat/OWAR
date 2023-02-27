@@ -5,15 +5,19 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 using System.Text;
+using TMPro;
 
 public class ReadText : MonoBehaviour
 {
     public GameObject background;
+    public int baseFontSize = 16;
     
     private BoxCollider boxCollider;
-    private TextMesh textMesh;
+    private TMP_Text textMesh;
     private string fileName;
     private int maxLineLength = 20;
+    private int nbOfLines = 0;
+    private int textLength;
 
     /**
     * Start is called before the first frame update
@@ -23,15 +27,39 @@ public class ReadText : MonoBehaviour
         // TO USE LATER Path.GetFullPath("test2.txt");
         string textContent = File.ReadAllText(fileName);
         // Format the text with a maximum length for each line of 15 characters
-        string formatedText = FormatText(textContent);
+        //string formatedText = FormatText(textContent);
         // Get the total number of lines of the text
-        int height = formatedText.Split('\n').Length - 1;
+        //int height = formatedText.Split('\n').Length - 1;
 
         // set text and resize background and collider
-        textMesh.text = formatedText;
-        ResizeWindow(height);
+        textMesh.text = textContent;
+        textLength = textMesh.text.Split('\n').Length;
+        //ResizeWindow(height);
     }
+/*
+    void Update()
+    {
+        var camera = GameObject.Find("Main Camera");
+        float dist = Vector3.Distance(textMesh.transform.position, camera.transform.position);
+        
+        if (dist > 2.0)
+        {
+            textMesh.fontSize = (int) (baseFontSize * dist * 2);
+            string[] linesInFile = textMesh.text.Split('\n');
 
+            List<string> tmp = new List<string>();
+
+            for (int i = 0; i < (int) (textLength / dist); i++)
+            {
+                tmp.Add(linesInFile[i]);
+            }
+            
+            string s = String.Join("\n", tmp);
+
+            textMesh.text = s;
+        }
+    }
+*/
     /**
     * Format the text, each line got the same length
     *
@@ -50,6 +78,7 @@ public class ReadText : MonoBehaviour
             if (i != 0 && i % maxLineLength == 0) 
             {
                 builder.Append(Environment.NewLine);
+                nbOfLines++;
             }
         }
 
@@ -87,7 +116,7 @@ public class ReadText : MonoBehaviour
     * 
     * @param mesh : the text mesh 
     **/
-    public void SetTextMesh(TextMesh mesh) {
+    public void SetTextMesh(TMP_Text mesh) {
         this.textMesh = mesh;
     }
 
