@@ -2503,7 +2503,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 215388893}
-        m_MethodName: switchMode
+        m_MethodName: switchMode2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
