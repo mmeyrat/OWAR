@@ -127,7 +127,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0.02, y: 0.02, z: 0.02, w: 0.02}
+  m_margin: {x: 0.03, y: 0.03, z: 0.03, w: 0.03}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -359,7 +359,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 0}
-  baseFontSize: 16
 --- !u!114 &1262247910092551624
 MonoBehaviour:
   m_ObjectHideFlags: 0

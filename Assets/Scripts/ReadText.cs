@@ -10,7 +10,7 @@ using TMPro;
 public class ReadText : MonoBehaviour
 {
     public GameObject background;
-    public int baseFontSize = 16;
+    private float baseFontSize = 0.03f;
     
     private BoxCollider boxCollider;
     private TMP_Text textMesh;
@@ -36,30 +36,15 @@ public class ReadText : MonoBehaviour
         textLength = textMesh.text.Split('\n').Length;
         //ResizeWindow(height);
     }
-/*
+
     void Update()
     {
         var camera = GameObject.Find("Main Camera");
         float dist = Vector3.Distance(textMesh.transform.position, camera.transform.position);
         
-        if (dist > 2.0)
-        {
-            textMesh.fontSize = (int) (baseFontSize * dist * 2);
-            string[] linesInFile = textMesh.text.Split('\n');
-
-            List<string> tmp = new List<string>();
-
-            for (int i = 0; i < (int) (textLength / dist); i++)
-            {
-                tmp.Add(linesInFile[i]);
-            }
-            
-            string s = String.Join("\n", tmp);
-
-            textMesh.text = s;
-        }
+        textMesh.fontSize = Mathf.Min(Mathf.Max(baseFontSize * dist * 2.0f, baseFontSize), 0.1f);
     }
-*/
+
     /**
     * Format the text, each line got the same length
     *
