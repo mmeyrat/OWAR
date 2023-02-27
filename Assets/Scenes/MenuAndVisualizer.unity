@@ -558,7 +558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8c0c99e944a814f9bab651acdef3f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  go: {fileID: 215388884}
+  anchoredObject: {fileID: 215388884}
+  switchModeTrigger: {fileID: 1827398247}
 --- !u!114 &215388894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,7 +1020,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 466056584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 215388885}
