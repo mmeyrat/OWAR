@@ -9,6 +9,7 @@ public class DisplayImage : MonoBehaviour
 {
     public GameObject imagePoster;
 
+    private RawImage image;
     private string fileName;
     private float pose_x = 0.0f;
 
@@ -17,11 +18,22 @@ public class DisplayImage : MonoBehaviour
     **/
     public void Start()
     {
-        Texture2D image = new Texture2D(1, 1);
-		image.LoadImage(File.ReadAllBytes(fileName));
+        Texture2D texture = new Texture2D(1, 1);
+		texture.LoadImage(File.ReadAllBytes(fileName));
 
-        imagePoster.GetComponent<Renderer>().material.mainTexture = image;
-        imagePoster.transform.localPosition = new Vector3(pose_x, imagePoster.transform.localPosition.y , imagePoster.transform.localPosition.z);
+        image.texture = texture;
+        //imagePoster.GetComponent<Renderer>().material.mainTexture = image;
+        //imagePoster.transform.localPosition = new Vector3(pose_x, imagePoster.transform.localPosition.y , imagePoster.transform.localPosition.z);
+    }
+
+    /**
+    * Set the file path
+    * 
+    * @param name : the file path 
+    **/
+    public void SetImage(RawImage image) 
+    {
+        this.image = image;
     }
 
     /**

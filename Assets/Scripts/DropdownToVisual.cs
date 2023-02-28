@@ -54,8 +54,9 @@ public class DropdownToVisual : MonoBehaviour
                 {
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
-                        GameObject imagePoster = Instantiate(Resources.Load("ImagePoster")) as GameObject;
+                        GameObject imagePoster = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
                         imagePoster.GetComponent<Close>().SetObj(imagePoster);
+                        imagePoster.GetComponent<DisplayImage>().SetImage(imagePoster.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePoster.GetComponent<DisplayImage>().SetPoseX(offsetImage);
                         imagePoster.GetComponent<DisplayImage>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
 
