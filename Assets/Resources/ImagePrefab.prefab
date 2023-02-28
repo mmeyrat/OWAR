@@ -312,10 +312,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8200a044a5affb843ba856b902d9fd3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
+  targetObject: {fileID: 5465664593042675508}
   boundsOverride: {fileID: 0}
   boundsCalculationMethod: 0
-  activation: 0
+  activation: 2
   flattenAxis: 0
   uniformScaleOnFlattenedAxis: 1
   boxPadding: {x: 0, y: 0, z: 0}
@@ -331,7 +331,7 @@ MonoBehaviour:
   scaleLerpTime: 0.001
   translateLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 0}
+  constraintsManager: {fileID: 8556013682215050462}
   rotateStarted:
     m_PersistentCalls:
       m_Calls: []

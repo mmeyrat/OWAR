@@ -12,6 +12,7 @@ public class DisplayImage : MonoBehaviour
     private RawImage image;
     private string fileName;
     private float pose_x = 0.0f;
+    private float baseSize;
 
     /**
     * Start is called before the first frame update
@@ -22,8 +23,19 @@ public class DisplayImage : MonoBehaviour
 		texture.LoadImage(File.ReadAllBytes(fileName));
 
         image.texture = texture;
+        baseSize = image.GetComponent<RectTransform>().sizeDelta.x;
         //imagePoster.GetComponent<Renderer>().material.mainTexture = image;
         //imagePoster.transform.localPosition = new Vector3(pose_x, imagePoster.transform.localPosition.y , imagePoster.transform.localPosition.z);
+    }
+
+    public void Update()
+    {
+        var camera = GameObject.Find("Main Camera");
+        float dist = Vector3.Distance(image.transform.position, camera.transform.position);
+
+        float newSize = Mathf.Min(Mathf.Max(dist * baseSize, baseSize), baseSize * 2.0f);
+
+        image.GetComponent<RectTransform>().sizeDelta = new Vector2 (newSize, newSize);
     }
 
     /**
