@@ -24,7 +24,7 @@ public class VisualizerLauncher : MonoBehaviour
                 {
                     GameObject imagePoster = Instantiate(Resources.Load("ImagePoster")) as GameObject;
                     imagePoster.GetComponent<DisplayImage>().SetPoseX(offsetImage);
-                    imagePoster.GetComponent<DisplayImage>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
+                    imagePoster.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
                     offsetImage *= offsetImageIncrement;
                 } 

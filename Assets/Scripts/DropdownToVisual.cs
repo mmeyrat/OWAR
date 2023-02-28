@@ -54,11 +54,15 @@ public class DropdownToVisual : MonoBehaviour
                 {
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
-                        GameObject imagePoster = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePoster.GetComponent<Close>().SetObj(imagePoster);
-                        imagePoster.GetComponent<DisplayImage>().SetImage(imagePoster.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
-                        imagePoster.GetComponent<DisplayImage>().SetPoseX(offsetImage);
-                        imagePoster.GetComponent<DisplayImage>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
+                        GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
+                        imagePrefab.transform.localPosition = new Vector3(offsetText, imagePrefab.transform.localPosition.y, imagePrefab.transform.localPosition.z);
+                        
+                        // Link to close button
+                        imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
+                        
+                        imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
+                        imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
+                        imagePrefab.GetComponent<DisplayImage>().SetPoseX(offsetImage);
 
                         offsetImage *= offsetImageIncrement;
 
@@ -70,13 +74,16 @@ public class DropdownToVisual : MonoBehaviour
                 {   
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
-                        GameObject text3D = Instantiate(Resources.Load("Canvas")) as GameObject;
-                        text3D.transform.localPosition = new Vector3(offsetText, text3D.transform.localPosition.y, text3D.transform.localPosition.z);
-                        text3D.GetComponent<Close>().SetObj(text3D);
-                        text3D.GetComponent<ChangePage>().SetObj(text3D.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        text3D.GetComponent<ReadText>().SetFilename(Path.Combine(DropdownHandler.GetPath(), f));
-                        text3D.GetComponent<ReadText>().SetTextMesh(text3D.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        text3D.GetComponent<ReadText>().SetCollider(text3D.transform.GetChild(0).GetChild(0).GetComponent<BoxCollider>());
+                        GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
+                        textPrefab.transform.localPosition = new Vector3(offsetText, textPrefab.transform.localPosition.y, textPrefab.transform.localPosition.z);
+                        
+                        // Link to close button
+                        textPrefab.GetComponent<Close>().SetObj(textPrefab);
+                        // Link to next page button
+                        textPrefab.GetComponent<ChangePage>().SetObj(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
+                        
+                        textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
+                        textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
                         offsetText *= offsetTextIncrement;
 

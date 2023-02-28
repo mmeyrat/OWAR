@@ -7,12 +7,11 @@ using System.Drawing;
 
 public class DisplayImage : MonoBehaviour
 {
-    public GameObject imagePoster;
-
-    private RawImage image;
+    private RawImage imageObject;
+    private GameObject camera;
     private string fileName;
-    private float pose_x = 0.0f;
-    private float baseSize;
+    private float poseX = 0.0f;
+    private float minSize;
 
     /**
     * Start is called before the first frame update
@@ -22,30 +21,31 @@ public class DisplayImage : MonoBehaviour
         Texture2D texture = new Texture2D(1, 1);
 		texture.LoadImage(File.ReadAllBytes(fileName));
 
-        image.texture = texture;
-        baseSize = image.GetComponent<RectTransform>().sizeDelta.x;
-        //imagePoster.GetComponent<Renderer>().material.mainTexture = image;
-        //imagePoster.transform.localPosition = new Vector3(pose_x, imagePoster.transform.localPosition.y , imagePoster.transform.localPosition.z);
+        imageObject.texture = texture;
+        minSize = imageObject.GetComponent<RectTransform>().sizeDelta.x;
+        camera = GameObject.Find("Main Camera");
     }
 
+    /**
+    * Update is called at each frame update
+    **/
     public void Update()
     {
-        var camera = GameObject.Find("Main Camera");
-        float dist = Vector3.Distance(image.transform.position, camera.transform.position);
+        float distOffset = 2.0f; 
+        float dist = Vector3.Distance(imageObject.transform.position, camera.transform.position);
+        float newSize = Mathf.Min(Mathf.Max(dist * minSize, minSize), minSize * distOffset);
 
-        float newSize = Mathf.Min(Mathf.Max(dist * baseSize, baseSize), baseSize * 2.0f);
-
-        image.GetComponent<RectTransform>().sizeDelta = new Vector2 (newSize, newSize);
+        imageObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (newSize, newSize);
     }
 
     /**
-    * Set the file path
+    * Set the image object
     * 
-    * @param name : the file path 
+    * @param obj : the image object 
     **/
-    public void SetImage(RawImage image) 
+    public void SetImageObject(RawImage obj) 
     {
-        this.image = image;
+        this.imageObject = obj;
     }
 
     /**
@@ -53,7 +53,7 @@ public class DisplayImage : MonoBehaviour
     * 
     * @param name : the file path 
     **/
-    public void SetFilename(string name) 
+    public void SetFileName(string name) 
     {
         this.fileName = name;
     }
@@ -65,7 +65,7 @@ public class DisplayImage : MonoBehaviour
     **/
     public void SetPoseX(float offset) 
     {
-        this.pose_x += offset;
+        this.poseX += offset;
     }
 
     /**
@@ -73,7 +73,7 @@ public class DisplayImage : MonoBehaviour
     *
     * @return file path
     **/
-    public string GetFilename() 
+    public string GetFileName() 
     {
         return fileName;
     }
@@ -85,6 +85,6 @@ public class DisplayImage : MonoBehaviour
     **/
     public float GetPoseX() 
     {
-        return pose_x;
+        return poseX;
     }
 }
