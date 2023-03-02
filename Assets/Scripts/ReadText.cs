@@ -58,4 +58,14 @@ public class ReadText : MonoBehaviour
     {
         this.textObject = obj;
     }
+
+    /**
+    * Return the value of the file path
+    *
+    * @return file path
+    **/
+    public string GetFileName() 
+    {
+        return this.fileName;
+    }
 }

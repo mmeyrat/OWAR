@@ -11,7 +11,8 @@ public class DisplayDropdown : MonoBehaviour
     /**
     * Update is called at each frame update
     **/
-    void Update() {
+    void Update() 
+    {
         dropdownList.Show();
     }
 }

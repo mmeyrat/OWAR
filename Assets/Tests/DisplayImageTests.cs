@@ -5,38 +5,48 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using System.IO;
 using System.Text;
+using UnityEngine.UI;
 
 
 namespace Tests
 {
     public class DisplayImageTests
-    {/*
+    {
         [Test]
         public void LoadImageCorrectlyTest()
         {
             DisplayImage di = new DisplayImage();
+            GameObject go = new GameObject();
+            RawImage ri = go.AddComponent<RawImage>();
 
-            di.imagePoster = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            di.SetFileName("Assets/Images/giorno.png");
+            di.SetImageObject(ri);
+            di.SetFileName("Assets/StreamingAssets/Giorno.png");
+            
             di.Start();
 
-            Assert.IsNotNull(di.imagePoster.GetComponent<Renderer>().material.mainTexture);
+            Assert.IsNotNull(di.GetImageObject().texture);
         }
 
         [Test]
         public void LoadImageIncorrectlyTest()
         {
-            try {
-                DisplayImage di = new DisplayImage();
+            DisplayImage di = new DisplayImage();
+            GameObject go = new GameObject();
+            RawImage ri = go.AddComponent<RawImage>();
 
-                di.imagePoster = GameObject.CreatePrimitive(PrimitiveType.Cube);;
-                di.SetFileName("Assets/Images/girono.jovana");
+            di.SetImageObject(ri);
+            di.SetFileName("Assets/StreamingAssets/GironoGirovana.png");
+            
+            try 
+            {
                 di.Start();
-
-                Assert.IsNull(di.imagePoster.GetComponent<Renderer>().material.mainTexture);
-            } catch  {
-                Debug.Log("Test failed.");
+            } 
+            catch
+            {
+                Debug.Log("File not loaded.");
             }
+
+            Assert.IsNull(di.GetImageObject().texture);
         }
 
         [Test]
@@ -59,6 +69,6 @@ namespace Tests
             di.SetPoseX(px);
 
             Assert.AreEqual(px, di.GetPoseX());
-        }*/
+        }
     }
 }

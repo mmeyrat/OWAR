@@ -69,13 +69,23 @@ public class DisplayImage : MonoBehaviour
     }
 
     /**
+    * Return the value of the image object
+    * 
+    * @return image object 
+    **/
+    public RawImage GetImageObject() 
+    {
+        return this.imageObject;
+    }
+
+    /**
     * Return the value of the file path
     *
     * @return file path
     **/
     public string GetFileName() 
     {
-        return fileName;
+        return this.fileName;
     }
 
     /**
@@ -85,6 +95,6 @@ public class DisplayImage : MonoBehaviour
     **/
     public float GetPoseX() 
     {
-        return poseX;
+        return this.poseX;
     }
 }
