@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Drawing;
+using System;
 
 public class DisplayImage : MonoBehaviour
 {
@@ -31,9 +32,12 @@ public class DisplayImage : MonoBehaviour
     **/
     public void Update()
     {
-        float distOffset = 2.0f; 
+        int maxDecimal = 2;
+        float maxDist = 2.0f; 
         float dist = Vector3.Distance(imageObject.transform.position, camera.transform.position);
-        float newSize = Mathf.Min(Mathf.Max(dist * minSize, minSize), minSize * distOffset);
+        // Round the size to avoid unpleasant small changes
+        float roundedSize = (float) Math.Round((double) (dist * minSize), maxDecimal);
+        float newSize = Mathf.Min(Mathf.Max(roundedSize, minSize), minSize * maxDist);
 
         imageObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (newSize, newSize);
     }

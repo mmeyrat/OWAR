@@ -33,10 +33,12 @@ public class ReadText : MonoBehaviour
     **/
     void Update()
     {
-        float distOffset = 2.0f; 
+        int maxDecimal = 3;
         float dist = Vector3.Distance(textObject.transform.position, camera.transform.position);
+        // Round the size to avoid unpleasant small changes
+        float roundedFontSize = (float) Math.Round((double) (minFontSize * dist), maxDecimal);
         
-        textObject.fontSize = Mathf.Min(Mathf.Max(minFontSize * dist * distOffset, minFontSize), maxFontSize);
+        textObject.fontSize = Mathf.Min(Mathf.Max(roundedFontSize, minFontSize), maxFontSize);
     }
 
     /**
