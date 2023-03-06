@@ -21,4 +21,10 @@ public class TagSceneHandler : MonoBehaviour
     {
         SceneManager.LoadScene("MenuAndVisualizer");
     }
+
+    public void GenerateTagArea(string tag)
+    {
+        GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
+        tagAreaPrefab.tag = tag;
+    }
 }

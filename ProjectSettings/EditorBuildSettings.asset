@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TagScene.unity
     guid: 979d87ad441c7bc4798dd424412a92a6
+  - enabled: 1
+    path: Assets/Scenes/MenuAndVisualizer.unity
+    guid: 19d1dec08a822a74ca2a3fdf4e4d7eec
   m_configObjects: {}
