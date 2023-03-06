@@ -12,8 +12,7 @@ public class DropdownToVisual : MonoBehaviour
     public Dropdown dropdownList;
     public Button button;
     public Text selectedFiles;
-
-    private int maxLineLength = 17;
+    public GameObject warning;
 
     /**
     * Add the selecetd files in a text preview
@@ -40,7 +39,7 @@ public class DropdownToVisual : MonoBehaviour
     **/
     public void Visualize() 
     {
-        if (selectedFiles.text.Length > maxLineLength) 
+        if (DropdownHandler.GetNumberOfChoosenFiles() > 0) 
         {
             float offsetImage = 0.2f;
             float offsetImageIncrement = 3.0f;
@@ -93,7 +92,9 @@ public class DropdownToVisual : MonoBehaviour
                 }
             }
         } else {
-            // TODO : Popup to show alert no files selected
+            warning.SetActive(true);
+            warning.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            warning.GetComponent<UnityEngine.UI.Text>().CrossFadeAlpha(0.0f, 2.0f, false);
         }
     }
 }

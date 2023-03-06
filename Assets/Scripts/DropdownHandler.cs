@@ -101,4 +101,24 @@ public class DropdownHandler : MonoBehaviour
 
         return fileEntries;
     }
+
+    /**
+    * Return the number of selected files
+    * 
+    * @return a quantity of files
+    **/
+    public static int GetNumberOfChoosenFiles()
+    {
+        int nbChoosenFiles = 0;
+
+        foreach (string key in choosenFiles.Keys)
+        {
+            if (choosenFiles[key])
+            {
+                nbChoosenFiles++;
+            }
+        }
+
+        return nbChoosenFiles;
+    }
 }
