@@ -105,8 +105,8 @@ public class DropDownHandler3 : MonoBehaviour
     * @param file : the file to select
     **/
     public static void SetToChoosen(string file)
-    {
-        choosenFiles[file] = !choosenFiles[file];
+    {        
+        choosenFiles[file] = !choosenFiles[file];     
     }
 
     /**

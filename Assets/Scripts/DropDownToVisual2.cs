@@ -119,7 +119,9 @@ public class DropDownToVisual2 : MonoBehaviour
                 Toggle currentChildToggle = (Toggle)currentChild.transform.Find("Toggle").GetComponent<Toggle>();
                 currentChildToggle.isOn = false;
 
-                DropDownHandler3.SetToChoosen(filename);
+                //DropDownHandler3.SetToChoosen(filename);
+
+                //print(filename + " " + DropDownHandler3.IsFileChoosen(filename));
             }
             
             
