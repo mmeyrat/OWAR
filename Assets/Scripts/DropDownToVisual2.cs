@@ -10,6 +10,7 @@ using TMPro;
 public class DropDownToVisual2 : MonoBehaviour
 {
     public Dropdown dropdownList;
+    public GameObject FileList;
     public Button button;
     public Text selectedFiles;
 
@@ -68,8 +69,9 @@ public class DropDownToVisual2 : MonoBehaviour
 
                         offsetImage *= offsetImageIncrement;
 
+                        // Remove file from UI selected files list
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
-                        DropDownHandler3.SetToChoosen(f);
+                        //DropDownHandler3.SetToChoosen(f); // Done later
                     }
                 }
                 else if (f.EndsWith(".txt"))
@@ -89,8 +91,9 @@ public class DropDownToVisual2 : MonoBehaviour
 
                         offsetText *= offsetTextIncrement;
 
+                        // Remove file from UI selected files list
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
-                        DropDownHandler3.SetToChoosen(f);
+                        //DropDownHandler3.SetToChoosen(f); // Done later
                     }
                 }
             }
@@ -99,5 +102,28 @@ public class DropDownToVisual2 : MonoBehaviour
         {
             // TODO : Popup to show alert no files selected
         }
+
+        // Untoggle visualized file in the list
+        GameObject PanelListComponent = FileList.transform.GetChild(0).gameObject;
+
+        for (int i = 1; i < PanelListComponent.transform.childCount; i++) // Start at 1 to avoid the disabled template item
+        {
+            GameObject currentChild = PanelListComponent.transform.GetChild(i).gameObject;
+
+            //Check if it's an item which corresponds to a selected file 
+            Text currentChildText = currentChild.transform.GetChild(1).GetComponent<Text>();
+            string filename = currentChildText.text;
+
+            if (DropDownHandler3.IsFileChoosen(filename))
+            {     
+                Toggle currentChildToggle = (Toggle)currentChild.transform.Find("Toggle").GetComponent<Toggle>();
+                currentChildToggle.isOn = false;
+
+                DropDownHandler3.SetToChoosen(filename);
+            }
+            
+            
+        }
+        
     }
 }
