@@ -59,7 +59,8 @@ public class DropDownHandler2 : MonoBehaviour
 
         // Set event to toggle on the item
         var ItemToggle = ItemTemplate.transform.GetChild(2);
-        Toggle ItemToggleComponent = (Toggle)ItemToggle.GetComponent<Toggle>();     
+        Toggle ItemToggleComponent = (Toggle)ItemToggle.GetComponent<Toggle>();
+        ItemToggleComponent.GetComponentInChildren<Text>().text = file;
 
         // Toggle listener on value changed is set in unity inspector (because it works better)
        

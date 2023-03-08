@@ -2730,7 +2730,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1626181677
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3377,7 +3377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1965087104
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3429,7 +3429,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Toggle
+  m_Text: ' -------------------------'
 --- !u!222 &1965087106
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3571,7 +3571,7 @@ MonoBehaviour:
         m_MethodName: FileSelector
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1626181678}
+          m_ObjectArgument: {fileID: 1965087105}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Text, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -3991,7 +3991,7 @@ TextMesh:
   m_Font: {fileID: 12800000, guid: e869342c56e54acf989b2422b4b80dcc, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4284112221
+    rgba: 4281808695
 --- !u!114 &114402418401383918
 MonoBehaviour:
   m_ObjectHideFlags: 0

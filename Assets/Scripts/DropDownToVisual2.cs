@@ -107,7 +107,7 @@ public class DropDownToVisual2 : MonoBehaviour
             GameObject currentChild = PanelListComponent.transform.GetChild(i).gameObject;
 
             //Check if it's an item which corresponds to a selected file 
-            Text currentChildText = currentChild.transform.GetChild(1).GetComponent<Text>();
+            Text currentChildText = currentChild.transform.GetChild(2).GetComponentInChildren<Text>();
             string filename = currentChildText.text;
 
             if (DropDownHandler2.IsFileChoosen(filename))
