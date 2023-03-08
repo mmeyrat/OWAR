@@ -29,4 +29,19 @@ public class ChangePage : MonoBehaviour
             textWithPages.pageToDisplay = 1;
         }
     }
+
+    /**
+    * Set the current page to the previous one
+    **/
+    public void ChangeToPreviousPage()
+    {
+        if (textWithPages.pageToDisplay > 0)
+        {
+            textWithPages.pageToDisplay--;
+        }
+        else
+        {
+            textWithPages.pageToDisplay = 1;
+        }
+    }
 }
