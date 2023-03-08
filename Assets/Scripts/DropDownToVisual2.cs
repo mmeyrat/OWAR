@@ -7,7 +7,7 @@ using System.IO;
 using System;
 using TMPro;
 
-public class DropdownToVisual2 : MonoBehaviour
+public class DropDownToVisual2 : MonoBehaviour
 {
     public GameObject FileList;
     public Button button;
@@ -22,9 +22,9 @@ public class DropdownToVisual2 : MonoBehaviour
     {
         string file = label.text;
 
-        DropdownHandler2.SetToChoosen(file);
+        DropDownHandler2.SetToChoosen(file);
 
-        if (DropdownHandler2.IsFileChoosen(file))
+        if (DropDownHandler2.IsFileChoosen(file))
         {
             selectedFiles.text += $"\n - {file}";
         }
@@ -45,13 +45,13 @@ public class DropdownToVisual2 : MonoBehaviour
             float offsetImageIncrement = 3.0f;
             float offsetText = -0.2f;
             float offsetTextIncrement = 2.1f;
-            string[] files = DropdownHandler2.GetFiles();
+            string[] files = DropDownHandler2.GetFiles();
 
             foreach (string f in files)
             {
                 if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png"))
                 {
-                    if (DropdownHandler2.IsFileChoosen(f))
+                    if (DropDownHandler2.IsFileChoosen(f))
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
                         imagePrefab.transform.localPosition = new Vector3(offsetText, imagePrefab.transform.localPosition.y, imagePrefab.transform.localPosition.z);
@@ -60,7 +60,7 @@ public class DropdownToVisual2 : MonoBehaviour
                         imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
 
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
-                        imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler2.GetPath(), f));
+                        imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropDownHandler2.GetPath(), f));
                         imagePrefab.GetComponent<DisplayImage>().SetPoseX(offsetImage);
 
                         offsetImage *= offsetImageIncrement;
@@ -72,7 +72,7 @@ public class DropdownToVisual2 : MonoBehaviour
                 }
                 else if (f.EndsWith(".txt"))
                 {
-                    if (DropdownHandler2.IsFileChoosen(f))
+                    if (DropDownHandler2.IsFileChoosen(f))
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
                         textPrefab.transform.localPosition = new Vector3(offsetText, textPrefab.transform.localPosition.y, textPrefab.transform.localPosition.z);
@@ -83,7 +83,7 @@ public class DropdownToVisual2 : MonoBehaviour
                         textPrefab.GetComponent<ChangePage>().SetObj(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
 
                         textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler2.GetPath(), f));
+                        textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropDownHandler2.GetPath(), f));
 
                         offsetText *= offsetTextIncrement;
 
@@ -110,7 +110,7 @@ public class DropdownToVisual2 : MonoBehaviour
             Text currentChildText = currentChild.transform.GetChild(1).GetComponent<Text>();
             string filename = currentChildText.text;
 
-            if (DropdownHandler2.IsFileChoosen(filename))
+            if (DropDownHandler2.IsFileChoosen(filename))
             {     
                 Toggle currentChildToggle = (Toggle)currentChild.transform.Find("Toggle").GetComponent<Toggle>();
                 currentChildToggle.isOn = false;

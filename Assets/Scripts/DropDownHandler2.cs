@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI.CoroutineTween;
 using System;
 
-public class DropdownHandler2 : MonoBehaviour
+public class DropDownHandler2 : MonoBehaviour
 {
     // To deploy on HoloLens use this path (works also on Unity):
     private static string path = Application.streamingAssetsPath;
