@@ -13,6 +13,8 @@ public class DropdownToVisual : MonoBehaviour
     public Button button;
     public Text selectedFiles;
     public GameObject warning;
+    private static List<Vector3> positionsFiles;
+    private static List<Vector3> orientationsFiles;
 
     /**
     * Add the selecetd files in a text preview
@@ -41,12 +43,9 @@ public class DropdownToVisual : MonoBehaviour
     {
         if (DropdownHandler.GetNumberOfChoosenFiles() > 0) 
         {
-            float offsetImage = 0.2f;
-            float offsetImageIncrement = 3.0f;
-            float offsetText = - 0.2f;
-            float offsetTextIncrement = 2.1f;
             string[] files = DropdownHandler.GetFiles();
-            
+            int fileIndex = 0;
+
             foreach (string f in files) 
             {
                 if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
@@ -54,19 +53,18 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePrefab.transform.localPosition = new Vector3(offsetText, imagePrefab.transform.localPosition.y, imagePrefab.transform.localPosition.z);
+                        imagePrefab.transform.localPosition = positionsFiles[fileIndex];
+                        imagePrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
                         
                         // Link to close button
                         imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
                         
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
-                        imagePrefab.GetComponent<DisplayImage>().SetPoseX(offsetImage);
-
-                        offsetImage *= offsetImageIncrement;
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
+                        fileIndex++;
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
@@ -74,7 +72,9 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
-                        textPrefab.transform.localPosition = new Vector3(offsetText, textPrefab.transform.localPosition.y, textPrefab.transform.localPosition.z);
+                        // Setting position according informations obtained with the heatmap
+                        textPrefab.transform.localPosition = positionsFiles[fileIndex];
+                        textPrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
                         
                         // Link to close button
                         textPrefab.GetComponent<Close>().SetObj(textPrefab);
@@ -84,10 +84,9 @@ public class DropdownToVisual : MonoBehaviour
                         textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
-                        offsetText *= offsetTextIncrement;
-
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
+                        fileIndex++;
                     }
                 }
             }
@@ -97,4 +96,13 @@ public class DropdownToVisual : MonoBehaviour
             warning.GetComponent<UnityEngine.UI.Text>().CrossFadeAlpha(0.0f, 2.0f, false);
         }
     }
+
+    public static void SetPositions(List<Vector3> positionsXYZ) {
+        positionsFiles = positionsXYZ;
+    }
+
+    public static void SetOrientations(List<Vector3> orientations) {
+        orientationsFiles = orientations;
+    }
+
 }
