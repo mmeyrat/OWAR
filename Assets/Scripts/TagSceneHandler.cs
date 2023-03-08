@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TagSceneHandler : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class TagSceneHandler : MonoBehaviour
     public void GenerateTagArea(string tag)
     {
         GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
+        tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = tag;
         tagAreaPrefab.tag = tag;
 
         tempTagAreaList.Add(tagAreaPrefab);
