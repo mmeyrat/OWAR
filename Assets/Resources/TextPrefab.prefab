@@ -2477,6 +2477,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
+      propertyPath: startDimensionIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89,
+        type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
