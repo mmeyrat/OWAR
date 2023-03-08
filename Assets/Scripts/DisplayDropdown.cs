@@ -14,5 +14,7 @@ public class DisplayDropdown : MonoBehaviour
     void Update() 
     {
         dropdownList.Show();
+        Debug.Log(TagSceneHandler.GetTagAreaList()[0].GetPosition());
+        Debug.Log(TagSceneHandler.GetTagAreaList()[1].GetPosition());
     }
 }

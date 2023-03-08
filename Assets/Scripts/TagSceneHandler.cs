@@ -5,26 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class TagSceneHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private static List<TagArea> tagAreaList = new List<TagArea>();
+    private List<GameObject> tempTagAreaList = new List<GameObject>();
 
     public void SwitchToMenuScene()
     {
-        SceneManager.LoadScene("MenuAndVisualizer");
+        foreach (GameObject go in tempTagAreaList)
+        {
+            tagAreaList.Add(new TagArea(go.tag, go.transform.position, go.transform.localScale));
+        }
+
+        SceneManager.LoadSceneAsync("MenuAndVisualizer");
     }
 
     public void GenerateTagArea(string tag)
     {
         GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
         tagAreaPrefab.tag = tag;
+
+        tempTagAreaList.Add(tagAreaPrefab);
+    }
+
+    static public List<TagArea> GetTagAreaList()
+    {
+        return tagAreaList;
     }
 }

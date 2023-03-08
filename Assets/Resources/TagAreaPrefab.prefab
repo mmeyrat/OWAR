@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8200a044a5affb843ba856b902d9fd3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetObject: {fileID: 0}
+  targetObject: {fileID: 31379982581909134}
   boundsOverride: {fileID: 0}
   boundsCalculationMethod: 0
   activation: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   scaleLerpTime: 0.001
   translateLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 0}
+  constraintsManager: {fileID: 31379982581909124}
   rotateStarted:
     m_PersistentCalls:
       m_Calls: []
