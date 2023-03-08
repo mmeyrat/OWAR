@@ -54,8 +54,13 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePrefab.transform.localPosition = new Vector3(offsetText, imagePrefab.transform.localPosition.y, imagePrefab.transform.localPosition.z);
                         
+                        string[] tags = new string[] { "Screen", "Screen" };
+                        imagePrefab.tag = tags[UnityEngine.Random.Range (0, tags.Length)];
+
+                        imagePrefab.transform.position = GetPositionBasedOnTag(imagePrefab);
+                        imagePrefab = RotateBasedOnTag(imagePrefab);
+
                         // Link to close button
                         imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
                         
@@ -74,7 +79,7 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
-                        textPrefab.transform.localPosition = new Vector3(offsetText, textPrefab.transform.localPosition.y, textPrefab.transform.localPosition.z);
+                        //textPrefab.transform.localPosition = new Vector3(offsetText, textPrefab.transform.localPosition.y, textPrefab.transform.localPosition.z);
                         
                         // Link to close button
                         textPrefab.GetComponent<Close>().SetObj(textPrefab);
@@ -96,5 +101,80 @@ public class DropdownToVisual : MonoBehaviour
             warning.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
             warning.GetComponent<UnityEngine.UI.Text>().CrossFadeAlpha(0.0f, 2.0f, false);
         }
+    }
+
+    public Vector3 GetPositionBasedOnTag(GameObject imagePrefab)
+    {
+        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
+        Vector3 v3 = new Vector3(0,0,0);
+
+        if (areaId >= 0)
+        {
+            TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
+
+            if (currentTagArea.GetSlotAvailability(0))
+            {
+                currentTagArea.SetSlotAvailability(0, false);
+                float tmp = currentTagArea.GetPosition().x - currentTagArea.GetScale().x / 2 - imagePrefab.transform.localScale.x;
+                v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
+            } 
+            else if (currentTagArea.GetSlotAvailability(1))
+            {
+                currentTagArea.SetSlotAvailability(1, false);
+                float tmp = currentTagArea.GetPosition().y + currentTagArea.GetScale().y / 2 + imagePrefab.transform.localScale.y;
+                v3 = new Vector3(currentTagArea.GetPosition().x, tmp, currentTagArea.GetPosition().z);
+            } 
+            else if (currentTagArea.GetSlotAvailability(2))
+            {
+                currentTagArea.SetSlotAvailability(2, false);
+                float tmp = currentTagArea.GetPosition().x + currentTagArea.GetScale().x / 2 + imagePrefab.transform.localScale.x;
+                v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
+            }
+        }
+
+        Debug.Log(areaId);
+        return v3;
+    }
+
+    public int GetNearestAreaFromTag(string tag)
+    {
+        int id = -1;
+        float minDist = 1000;
+        GameObject camera = GameObject.Find("Main Camera");
+
+        for (int i = 0; i < TagSceneHandler.GetTagAreaList().Count; i++)
+        {
+            if (TagSceneHandler.GetTagAreaList()[i].GetTag() == tag)
+            {
+                float currentDist = Vector3.Distance(TagSceneHandler.GetTagAreaList()[i].GetPosition(), camera.transform.position);
+            
+                if (currentDist < minDist)
+                {
+                    minDist = currentDist;
+                    id = i;
+                }
+            }
+        }
+
+        return id;
+    }
+
+    public GameObject RotateBasedOnTag(GameObject imagePrefab)
+    {
+        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
+
+        if (areaId >= 0)
+        {
+            GameObject rotationParent = new GameObject("RotationParent");
+
+            rotationParent.transform.position = TagSceneHandler.GetTagAreaList()[areaId].GetPosition();
+            rotationParent.transform.localScale = TagSceneHandler.GetTagAreaList()[areaId].GetScale();
+
+            imagePrefab.transform.parent = rotationParent.transform;
+
+            rotationParent.transform.localRotation = TagSceneHandler.GetTagAreaList()[areaId].GetRotation();
+        }
+
+        return imagePrefab;
     }
 }

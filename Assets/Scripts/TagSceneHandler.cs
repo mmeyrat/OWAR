@@ -12,10 +12,10 @@ public class TagSceneHandler : MonoBehaviour
     {
         foreach (GameObject go in tempTagAreaList)
         {
-            tagAreaList.Add(new TagArea(go.tag, go.transform.position, go.transform.localScale));
+            tagAreaList.Add(new TagArea(go.tag, go.transform.position, go.transform.localScale, go.transform.localRotation));
         }
 
-        SceneManager.LoadSceneAsync("MenuAndVisualizer");
+        SceneManager.LoadScene("MenuAndVisualizer");
     }
 
     public void GenerateTagArea(string tag)
