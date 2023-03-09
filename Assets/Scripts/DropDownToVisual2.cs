@@ -13,6 +13,8 @@ public class DropDownToVisual2 : MonoBehaviour
     public Button button;
     public Text selectedFiles;
 
+    public GameObject warning;
+
     private int maxLineLength = 17;
 
     /**
@@ -97,6 +99,10 @@ public class DropDownToVisual2 : MonoBehaviour
         else
         {
             // TODO : Popup to show alert no files selected
+            warning.SetActive(true);
+            warning.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            warning.GetComponent<UnityEngine.UI.Text>().CrossFadeAlpha(0.0f, 2.0f, false);
+
         }
 
         // Untoggle visualized file in the list

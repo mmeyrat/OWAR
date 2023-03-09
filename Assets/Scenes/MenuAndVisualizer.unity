@@ -1187,9 +1187,6 @@ MonoBehaviour:
   FileList: {fileID: 1412195701}
   button: {fileID: 1640710336}
   selectedFiles: {fileID: 581947916}
-<<<<<<< HEAD
-  warning: {fileID: 1060080627}
-=======
 --- !u!1 &467404777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,7 +1311,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
->>>>>>> prefabColliderMenu
 --- !u!1 &581947914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2982,11 +2978,7 @@ RectTransform:
   m_Children:
   - {fileID: 1159452185}
   m_Father: {fileID: 215388885}
-<<<<<<< HEAD
-  m_RootOrder: 4
-=======
   m_RootOrder: 2
->>>>>>> prefabColliderMenu
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
