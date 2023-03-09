@@ -76,10 +76,11 @@ public class Heatmap : MonoBehaviour
                 nextActionTime = Time.time + period;
 
                 // Update positions points where the user is looking
-                Vector3 lookAt= CoreServices.InputSystem.EyeGazeProvider.HitPosition;
-
-                // Direction where the user is looking
-                Vector3 lookDirection = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
+                // Vector3 lookAt= CoreServices.InputSystem.EyeGazeProvider.HitPosition;
+                Vector3 lookAt = CoreServices.InputSystem.GazeProvider.HitPosition;
+                // Direction where the user is looking (don't know which one is the best ?)
+                // Vector3 lookDirection = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
+                Vector3 lookDirection = -1.0f * CoreServices.InputSystem.EyeGazeProvider.HitNormal;
 
                 // we put the point where the user is looking in to the map (if not already in)
                 Vector4 pointLooked = new Vector4(lookAt.x, lookAt.y, lookAt.z, 0);
