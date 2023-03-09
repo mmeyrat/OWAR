@@ -1181,12 +1181,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 466056584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc820bef985bb5842948828ea87984e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 150039743443afc429b0f318729e92a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FileList: {fileID: 1412195701}
   button: {fileID: 1640710336}
   selectedFiles: {fileID: 581947916}
+  warning: {fileID: 1060080627}
 --- !u!1 &467404777
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1613,7 @@ RectTransform:
   m_LocalScale: {x: 0.0014, y: 0.0014, z: 1}
   m_Children: []
   m_Father: {fileID: 215388885}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2222,6 +2223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aec7a5617d5d424aaa63cf16c95a525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ItemTemplate: {fileID: 0}
 --- !u!1 &1199314768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2386,7 +2388,7 @@ GameObject:
   - component: {fileID: 1412195705}
   - component: {fileID: 1412195704}
   - component: {fileID: 1412195703}
-  - component: {fileID: 1412195707}
+  - component: {fileID: 1412195708}
   m_Layer: 5
   m_Name: FileListHomemade
   m_TagString: Untagged
@@ -2495,7 +2497,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1412195707
+--- !u!114 &1412195708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2504,7 +2506,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1412195701}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cd51bd899fbf7849b7fb8b552d266fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 6aec7a5617d5d424aaa63cf16c95a525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ItemTemplate: {fileID: 467404777}
@@ -2793,7 +2795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5446cc8952515fd44a12f142728ff575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ElementToDisable: {fileID: 215388884}
 --- !u!1 &1626181676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3269,7 +3270,7 @@ RectTransform:
   - {fileID: 1084691337}
   - {fileID: 1778074931}
   m_Father: {fileID: 215388885}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3842,7 +3843,7 @@ Transform:
   m_Children:
   - {fileID: 4303608861394000}
   m_Father: {fileID: 215388885}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &4948197407304564
 Transform:

@@ -9,22 +9,23 @@ using TMPro;
 
 public class DropdownToVisual : MonoBehaviour
 {
-    public Dropdown dropdownList;
+    public GameObject FileList;
     public Button button;
     public Text selectedFiles;
     public GameObject warning;
 
     /**
     * Add the selecetd files in a text preview
+    *
+    * @param label : Text object containing the file's name 
     **/
-    public void FileSelector() 
+    public void FileSelector(Text label) 
     {
-        int index = dropdownList.value;
-        string file = dropdownList.options[index].text;
+        string file = label.text;
 
         DropdownHandler.SetToChoosen(file);
 
-        if (DropdownHandler.IsFileChoosen(file)) 
+        if (DropdownHandler.IsFileChoosen(file))
         {
             selectedFiles.text += $"\n - {file}";
         } 
@@ -70,7 +71,7 @@ public class DropdownToVisual : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
-                        DropdownHandler.SetToChoosen(f);
+                        //DropdownHandler.SetToChoosen(f);
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
@@ -99,7 +100,7 @@ public class DropdownToVisual : MonoBehaviour
                         textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
-                        DropdownHandler.SetToChoosen(f);
+                        //DropdownHandler.SetToChoosen(f);
                     }
                 }
             }
@@ -107,6 +108,24 @@ public class DropdownToVisual : MonoBehaviour
             warning.SetActive(true);
             warning.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
             warning.GetComponent<UnityEngine.UI.Text>().CrossFadeAlpha(0.0f, 2.0f, false);
+        }
+
+        // Untoggle visualized file in the list
+        GameObject panelListComponent = FileList.transform.GetChild(0).gameObject;
+
+        for (int i = 1; i < panelListComponent.transform.childCount; i++) // Start at 1 to avoid the disabled template item
+        {
+            GameObject currentChild = panelListComponent.transform.GetChild(i).gameObject;
+
+            //Check if it's an item which corresponds to a selected file 
+            Text currentChildText = currentChild.transform.GetChild(2).GetComponentInChildren<Text>();
+            string filename = currentChildText.text;
+
+            if (DropdownHandler.IsFileChoosen(filename))
+            {     
+                Toggle currentChildToggle = (Toggle)currentChild.transform.Find("Toggle").GetComponent<Toggle>();
+                currentChildToggle.isOn = false;
+            }
         }
     }
 

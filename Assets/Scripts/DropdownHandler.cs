@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.EventSystems;
+using UnityEngine.UI.CoroutineTween;
 using System;
 
 public class DropdownHandler : MonoBehaviour
 {   
+    public GameObject ItemTemplate;
+
     // To deploy on HoloLens use this path (works also on Unity):
     private static string path = Application.streamingAssetsPath;
     private static Dictionary<string, bool> choosenFiles = new Dictionary<string, bool>(); 
@@ -18,9 +22,6 @@ public class DropdownHandler : MonoBehaviour
     **/
     void Start()
     {
-        Dropdown dropdown = transform.GetComponent<Dropdown>();
-        dropdown.options.Clear();
-
         // Display all files names available in the dropdown list
         fileEntries = Directory.GetFiles(path);
         
@@ -28,7 +29,8 @@ public class DropdownHandler : MonoBehaviour
         {
             if (file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg") || file.EndsWith(".txt")) 
             {
-                dropdown.options.Add(new Dropdown.OptionData(){ text = file.Substring(path.Length + 1) });
+                // Add file in the UI menu list
+                AddItemToList(file.Substring(path.Length + 1));
                 
                 if (alreadyDisplayed == false) 
                 {
@@ -39,6 +41,31 @@ public class DropdownHandler : MonoBehaviour
 
         // Get the number of options
         //print(dropdown.options.Count);
+    }
+
+    /**
+    * Add a file to the UI menu list
+    *
+    * @param : added file's name
+    **/
+    private void AddItemToList(string file)
+    {
+        // Duplicate item template and add it to the list (and set parent)
+        GameObject newItemList = Instantiate(ItemTemplate, this.transform.GetChild(0));
+
+        // Set text of instantiated item
+        Text newItemListText = newItemList.GetComponentInChildren<Text>();
+        newItemListText.text = file; // TODO maybe clean by not use a variable
+
+        // Set active the new item 
+        newItemList.SetActive(true);
+
+        // Set event to toggle on the item
+        var ItemToggle = ItemTemplate.transform.GetChild(2);
+        Toggle ItemToggleComponent = (Toggle) ItemToggle.GetComponent<Toggle>();
+        ItemToggleComponent.GetComponentInChildren<Text>().text = file;
+
+        // Toggle listener on value changed is set in unity inspector (because it works better)
     }
 
     /**
