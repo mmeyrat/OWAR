@@ -34,10 +34,11 @@ public class Heatmap : MonoBehaviour
     private GameObject menu;
 
     // Timer of 15 seconds to scan around 
-    public float timeRemaining = 15.0f;
+    private float timeRemaining = 30.0f;
  
     void Start ()
     {
+        print("Allo");
         positions = new Vector4[count];
         properties = new Vector4[count];
         orientations = new Vector3[count];
@@ -197,6 +198,16 @@ public class Heatmap : MonoBehaviour
         }
 
         return mostLookedPositions;
+    }
+
+    public void ScanEnvironment() {
+        cpt = 0;
+        timeRemaining = 15.0f;
+        Start();
+    }
+
+    public float GetTimeRemaining() {
+        return timeRemaining;
     }
 
 }
