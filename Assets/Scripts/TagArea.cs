@@ -19,26 +19,51 @@ public class TagArea
         this.slotsAvailable = new bool[] { true, true, true, true };
     }
 
+    /**
+    * Return the tag of the tag area
+    * 
+    * @return tag area's tag
+    **/
     public string GetTag()
     {
         return this.tag;
     }
 
+    /**
+    * Return the position values of the tag area
+    * 
+    * @return tag area's position
+    **/
     public Vector3 GetPosition()
     {
         return this.position;
     }
 
+    /**
+    * Return the scale values of the tag area
+    * 
+    * @return tag area's scale
+    **/
     public Vector3 GetScale()
     {
         return this.scale;
     }
 
+    /**
+    * Return the rotation values of the tag area
+    * 
+    * @return tag area's rotation
+    **/
     public Quaternion GetRotation()
     {
         return this.rotation;
     }
 
+    /**
+    * Return the availability of the specified slot in the tag area
+    * 
+    * @return the slot availability
+    **/
     public bool GetSlotAvailability(int id)
     {
         bool availability = false;
@@ -51,6 +76,12 @@ public class TagArea
         return availability;
     }
 
+    /**
+    * Change the availabiliy of the specified slot in the tag area
+    * 
+    * @param id : tag area's slot
+    * @param availability : slot's availability
+    **/
     public void SetSlotAvailability(int id, bool availability)
     {
         if (id >= 0 && id < slotsAvailable.Length)

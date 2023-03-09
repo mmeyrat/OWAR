@@ -9,6 +9,9 @@ public class TagSceneHandler : MonoBehaviour
     private static List<TagArea> tagAreaList = new List<TagArea>();
     private List<GameObject> tempTagAreaList = new List<GameObject>();
 
+    /**
+    * Change the current scene to the main menu scene
+    **/
     public void SwitchToMenuScene()
     {
         foreach (GameObject go in tempTagAreaList)
@@ -19,6 +22,11 @@ public class TagSceneHandler : MonoBehaviour
         SceneManager.LoadScene("MenuAndVisualizer");
     }
 
+    /**
+    * Create a tag area prefab in the scene
+    *
+    * @param tag : the associated tag of the tag area 
+    **/
     public void GenerateTagArea(string tag)
     {
         GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
@@ -28,6 +36,11 @@ public class TagSceneHandler : MonoBehaviour
         tempTagAreaList.Add(tagAreaPrefab);
     }
 
+    /**
+    * Return the list of placed tag areas in the scene
+    *
+    * @return a list of tag areas
+    **/
     static public List<TagArea> GetTagAreaList()
     {
         return tagAreaList;
