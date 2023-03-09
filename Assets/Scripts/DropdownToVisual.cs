@@ -41,34 +41,33 @@ public class DropdownToVisual : MonoBehaviour
     {
         if (DropdownHandler.GetNumberOfChoosenFiles() > 0) 
         {
-            float offsetImage = 0.2f;
-            float offsetImageIncrement = 3.0f;
-            float offsetText = - 0.2f;
-            float offsetTextIncrement = 2.1f;
             string[] files = DropdownHandler.GetFiles();
+            string[] tags = new string[] { "Screen", "Screen" };
             
             foreach (string f in files) 
             {
                 if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
                 {
-                    if (DropdownHandler.IsFileChoosen(f)) 
+                    string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
+                    int areaId = GetNearestAreaFromTag(tag);
+
+                    if (DropdownHandler.IsFileChoosen(f) && areaId >= 0) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
+                        imagePrefab.tag = tag;
                         
-                        string[] tags = new string[] { "Screen", "Screen" };
-                        imagePrefab.tag = tags[UnityEngine.Random.Range (0, tags.Length)];
-
-                        imagePrefab.transform.position = GetPositionBasedOnTag(imagePrefab);
+                        int availableSlot = CheckAvailableSlot(imagePrefab);
+                        imagePrefab.transform.position = GetPositionBasedOnTag(imagePrefab, availableSlot);
                         imagePrefab = RotateBasedOnTag(imagePrefab);
+                        imagePrefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
+                        imagePrefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
+                        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
 
                         // Link to close button
                         imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
                         
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
-                        imagePrefab.GetComponent<DisplayImage>().SetPoseX(offsetImage);
-
-                        offsetImage *= offsetImageIncrement;
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
@@ -76,11 +75,16 @@ public class DropdownToVisual : MonoBehaviour
                 }
                 else if (f.EndsWith(".txt")) 
                 {   
-                    if (DropdownHandler.IsFileChoosen(f)) 
+                    string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
+
+                    if (DropdownHandler.IsFileChoosen(f) && GetNearestAreaFromTag(tag) >= 0) 
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
-                        //textPrefab.transform.localPosition = new Vector3(offsetText, textPrefab.transform.localPosition.y, textPrefab.transform.localPosition.z);
                         
+                        textPrefab.tag = tag;
+                        //textPrefab.transform.position = GetPositionBasedOnTag(textPrefab);
+                        textPrefab = RotateBasedOnTag(textPrefab);
+
                         // Link to close button
                         textPrefab.GetComponent<Close>().SetObj(textPrefab);
                         // Link to next page button
@@ -88,8 +92,6 @@ public class DropdownToVisual : MonoBehaviour
                         
                         textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
-
-                        offsetText *= offsetTextIncrement;
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
@@ -103,39 +105,6 @@ public class DropdownToVisual : MonoBehaviour
         }
     }
 
-    public Vector3 GetPositionBasedOnTag(GameObject imagePrefab)
-    {
-        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
-        Vector3 v3 = new Vector3(0,0,0);
-
-        if (areaId >= 0)
-        {
-            TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
-
-            if (currentTagArea.GetSlotAvailability(0))
-            {
-                currentTagArea.SetSlotAvailability(0, false);
-                float tmp = currentTagArea.GetPosition().x - currentTagArea.GetScale().x / 2 - imagePrefab.transform.localScale.x;
-                v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
-            } 
-            else if (currentTagArea.GetSlotAvailability(1))
-            {
-                currentTagArea.SetSlotAvailability(1, false);
-                float tmp = currentTagArea.GetPosition().y + currentTagArea.GetScale().y / 2 + imagePrefab.transform.localScale.y;
-                v3 = new Vector3(currentTagArea.GetPosition().x, tmp, currentTagArea.GetPosition().z);
-            } 
-            else if (currentTagArea.GetSlotAvailability(2))
-            {
-                currentTagArea.SetSlotAvailability(2, false);
-                float tmp = currentTagArea.GetPosition().x + currentTagArea.GetScale().x / 2 + imagePrefab.transform.localScale.x;
-                v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
-            }
-        }
-
-        Debug.Log(areaId);
-        return v3;
-    }
-
     public int GetNearestAreaFromTag(string tag)
     {
         int id = -1;
@@ -144,9 +113,11 @@ public class DropdownToVisual : MonoBehaviour
 
         for (int i = 0; i < TagSceneHandler.GetTagAreaList().Count; i++)
         {
-            if (TagSceneHandler.GetTagAreaList()[i].GetTag() == tag)
+            TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[i];
+
+            if (currentTagArea.GetTag() == tag && (currentTagArea.GetSlotAvailability(0) || currentTagArea.GetSlotAvailability(1) || currentTagArea.GetSlotAvailability(2) || currentTagArea.GetSlotAvailability(3)))
             {
-                float currentDist = Vector3.Distance(TagSceneHandler.GetTagAreaList()[i].GetPosition(), camera.transform.position);
+                float currentDist = Vector3.Distance(currentTagArea.GetPosition(), camera.transform.position);
             
                 if (currentDist < minDist)
                 {
@@ -157,6 +128,42 @@ public class DropdownToVisual : MonoBehaviour
         }
 
         return id;
+    }
+
+    public Vector3 GetPositionBasedOnTag(GameObject imagePrefab, int slot)
+    {
+        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
+        Vector3 v3 = new Vector3(0,0,0);
+        float tmp = 0.0f;
+
+        if (areaId >= 0)
+        {
+            TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
+
+            switch(slot)
+            {
+                case 0:
+                    tmp = currentTagArea.GetPosition().x - currentTagArea.GetScale().x / 2 - imagePrefab.transform.localScale.x;
+                    v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
+                    break;
+                case 1:
+                    tmp = currentTagArea.GetPosition().y + currentTagArea.GetScale().y / 2 + imagePrefab.transform.localScale.y;
+                    v3 = new Vector3(currentTagArea.GetPosition().x, tmp, currentTagArea.GetPosition().z);
+                    break;
+                case 2:
+                    tmp = currentTagArea.GetPosition().x + currentTagArea.GetScale().x / 2 + imagePrefab.transform.localScale.x;
+                    v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
+                    break;
+                case 3:
+                    tmp = currentTagArea.GetPosition().y - currentTagArea.GetScale().y / 2 - imagePrefab.transform.localScale.y;
+                    v3 = new Vector3(currentTagArea.GetPosition().x, tmp, currentTagArea.GetPosition().z);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return v3;
     }
 
     public GameObject RotateBasedOnTag(GameObject imagePrefab)
@@ -176,5 +183,26 @@ public class DropdownToVisual : MonoBehaviour
         }
 
         return imagePrefab;
+    }
+
+    public int CheckAvailableSlot(GameObject imagePrefab)
+    {
+        int maxSlots = 4;
+        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
+
+        if (areaId >= 0)
+        {
+            TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
+            
+            for (int i = 0 ; i < maxSlots; i++)
+            {
+                if (currentTagArea.GetSlotAvailability(i))
+                {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
     }
 }

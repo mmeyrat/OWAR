@@ -16,7 +16,7 @@ public class TagArea
         this.position = position;
         this.scale = scale;
         this.rotation = rotation;
-        this.slotsAvailable = new bool[] { true, true, true };
+        this.slotsAvailable = new bool[] { true, true, true, true };
     }
 
     public string GetTag()

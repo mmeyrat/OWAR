@@ -55,6 +55,10 @@ public class AnchorHandler : MonoBehaviour
             //Change "anchor mode" button color to feedback
             //oldColor = triggerColor;
             //switchModeTrigger.GetComponent<Image>().color = Color.green;
+
+            int tagAreaId = anchoredObject.GetComponent<PrefabData>().GetTagAreaId();
+            int slotId = anchoredObject.GetComponent<PrefabData>().GetTagAreaSlotId();
+            TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
         }
     }
 
