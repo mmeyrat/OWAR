@@ -42,7 +42,7 @@ public class DropdownToVisual : MonoBehaviour
         if (DropdownHandler.GetNumberOfChoosenFiles() > 0) 
         {
             string[] files = DropdownHandler.GetFiles();
-            string[] tags = new string[] { "Screen", "Screen" };
+            string[] tags = new string[] { "Screen", "Table" };
             
             foreach (string f in files) 
             {
@@ -76,14 +76,19 @@ public class DropdownToVisual : MonoBehaviour
                 else if (f.EndsWith(".txt")) 
                 {   
                     string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
+                    int areaId = GetNearestAreaFromTag(tag);
 
-                    if (DropdownHandler.IsFileChoosen(f) && GetNearestAreaFromTag(tag) >= 0) 
+                    if (DropdownHandler.IsFileChoosen(f) && areaId >= 0) 
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
-                        
                         textPrefab.tag = tag;
-                        //textPrefab.transform.position = GetPositionBasedOnTag(textPrefab);
+                        
+                        int availableSlot = CheckAvailableSlot(textPrefab);
+                        textPrefab.transform.position = GetPositionBasedOnTag(textPrefab, availableSlot);
                         textPrefab = RotateBasedOnTag(textPrefab);
+                        textPrefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
+                        textPrefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
+                        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
 
                         // Link to close button
                         textPrefab.GetComponent<Close>().SetObj(textPrefab);
