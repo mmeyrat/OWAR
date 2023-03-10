@@ -7,7 +7,27 @@ using UnityEngine.UI;
 public class TagSceneHandler : MonoBehaviour
 {
     private static List<TagArea> tagAreaList = new List<TagArea>();
-    private List<GameObject> tempTagAreaList = new List<GameObject>();
+    private static List<GameObject> tempTagAreaList = new List<GameObject>();
+
+    void Start()
+    {
+        tempTagAreaList.Clear();
+
+        foreach (TagArea ta in tagAreaList)
+        {
+            GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
+            tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = ta.GetTag();
+            tagAreaPrefab.tag = ta.GetTag();
+
+            tagAreaPrefab.transform.position = ta.GetPosition();
+            tagAreaPrefab.transform.localScale = ta.GetScale();
+            tagAreaPrefab.transform.localRotation = ta.GetRotation();
+
+            tempTagAreaList.Add(tagAreaPrefab);
+        }
+
+        tagAreaList.Clear();
+    }
 
     /**
     * Change the current scene to the main menu scene

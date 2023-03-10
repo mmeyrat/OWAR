@@ -24,6 +24,11 @@ public class DropdownHandler : MonoBehaviour
     {
         // Display all files names available in the dropdown list
         fileEntries = Directory.GetFiles(path);
+
+        if (choosenFiles.Count > 0)
+        {
+            choosenFiles.Clear();
+        }
         
         foreach (string file in fileEntries) 
         {
@@ -32,7 +37,7 @@ public class DropdownHandler : MonoBehaviour
                 // Add file in the UI menu list
                 AddItemToList(file.Substring(path.Length + 1));
                 
-                if (alreadyDisplayed == false) 
+                if (!alreadyDisplayed) 
                 {
                     choosenFiles.Add(file.Substring(path.Length + 1), false);
                 }

@@ -27,11 +27,11 @@ public class DropdownToVisual : MonoBehaviour
 
         if (DropdownHandler.IsFileChoosen(file))
         {
-            selectedFiles.text += $"\n - {file}";
+            selectedFiles.text += $"\n-{file}";
         } 
         else 
         {
-            selectedFiles.text = selectedFiles.text.Replace($"\n - {file}", "");
+            selectedFiles.text = selectedFiles.text.Replace($"\n-{file}", "");
         }
     }
 
@@ -70,7 +70,7 @@ public class DropdownToVisual : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
-                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
+                        selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
                         //DropdownHandler.SetToChoosen(f);
                     } 
                 }
@@ -99,7 +99,7 @@ public class DropdownToVisual : MonoBehaviour
                         textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
 
-                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
+                        selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
                         //DropdownHandler.SetToChoosen(f);
                     }
                 }
@@ -228,5 +228,13 @@ public class DropdownToVisual : MonoBehaviour
         }
 
         return -1;
+    }
+
+    /**
+    * Change the current scene to the tag scene
+    **/
+    public void SwitchToTagScene()
+    {
+        SceneManager.LoadScene("TagScene");
     }
 }
