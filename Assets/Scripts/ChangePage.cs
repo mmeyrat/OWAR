@@ -6,6 +6,7 @@ using TMPro;
 public class ChangePage : MonoBehaviour
 {
     private TMP_Text textWithPages;
+    private int minPage = 1;
 
     /**
     * Set the file to change the pages
@@ -26,7 +27,7 @@ public class ChangePage : MonoBehaviour
         }
         else 
         {
-            textWithPages.pageToDisplay = 1;
+            textWithPages.pageToDisplay = minPage;
         }
     }
 
@@ -35,13 +36,13 @@ public class ChangePage : MonoBehaviour
     **/
     public void ChangeToPreviousPage()
     {
-        if (textWithPages.pageToDisplay > 0)
+        if (textWithPages.pageToDisplay > minPage)
         {
             textWithPages.pageToDisplay--;
         }
         else
         {
-            textWithPages.pageToDisplay = 1;
+            textWithPages.pageToDisplay = textWithPages.textInfo.pageCount;
         }
     }
 }
