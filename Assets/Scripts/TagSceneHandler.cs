@@ -39,7 +39,7 @@ public class TagSceneHandler : MonoBehaviour
             tagAreaList.Add(new TagArea(go.tag, go.transform.position, go.transform.localScale, go.transform.localRotation));
         }
 
-        SceneManager.LoadScene("MenuAndVisualizer");
+        SceneManager.LoadScene("MainScene");
     }
 
     /**

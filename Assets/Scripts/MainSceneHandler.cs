@@ -7,7 +7,7 @@ using System.IO;
 using System;
 using TMPro;
 
-public class DropdownToVisual : MonoBehaviour
+public class MainSceneHandler : MonoBehaviour
 {
     public GameObject FileList;
     public Button button;
@@ -23,9 +23,9 @@ public class DropdownToVisual : MonoBehaviour
     {
         string file = label.text;
 
-        DropdownHandler.SetToChoosen(file);
+        FileListHandler.SetToChoosen(file);
 
-        if (DropdownHandler.IsFileChoosen(file))
+        if (FileListHandler.IsFileChoosen(file))
         {
             selectedFiles.text += $"\n-{file}";
         } 
@@ -40,9 +40,9 @@ public class DropdownToVisual : MonoBehaviour
     **/
     public void Visualize() 
     {
-        if (DropdownHandler.GetNumberOfChoosenFiles() > 0) 
+        if (FileListHandler.GetNumberOfChoosenFiles() > 0) 
         {
-            string[] files = DropdownHandler.GetFiles();
+            string[] files = FileListHandler.GetFiles();
             string[] tags = new string[] { "Screen", "Table" };
             
             foreach (string f in files) 
@@ -52,7 +52,7 @@ public class DropdownToVisual : MonoBehaviour
                     string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
                     int areaId = GetNearestAreaFromTag(tag);
 
-                    if (DropdownHandler.IsFileChoosen(f) && areaId >= 0) 
+                    if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
                         imagePrefab.tag = tag;
@@ -68,10 +68,10 @@ public class DropdownToVisual : MonoBehaviour
                         imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
                         
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
-                        imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
+                        imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
-                        //DropdownHandler.SetToChoosen(f);
+                        //FileListHandler.SetToChoosen(f);
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
@@ -79,7 +79,7 @@ public class DropdownToVisual : MonoBehaviour
                     string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
                     int areaId = GetNearestAreaFromTag(tag);
 
-                    if (DropdownHandler.IsFileChoosen(f) && areaId >= 0) 
+                    if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
                         textPrefab.tag = tag;
@@ -97,10 +97,10 @@ public class DropdownToVisual : MonoBehaviour
                         textPrefab.GetComponent<ChangePage>().SetObj(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         
                         textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(DropdownHandler.GetPath(), f));
+                        textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
-                        //DropdownHandler.SetToChoosen(f);
+                        //FileListHandler.SetToChoosen(f);
                     }
                 }
             }
@@ -121,7 +121,7 @@ public class DropdownToVisual : MonoBehaviour
             Text currentChildText = currentChild.transform.GetChild(2).GetComponentInChildren<Text>();
             string filename = currentChildText.text;
 
-            if (DropdownHandler.IsFileChoosen(filename))
+            if (FileListHandler.IsFileChoosen(filename))
             {     
                 Toggle currentChildToggle = (Toggle)currentChild.transform.Find("Toggle").GetComponent<Toggle>();
                 currentChildToggle.isOn = false;

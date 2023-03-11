@@ -889,7 +889,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchoredObject: {fileID: 1262247910092551625}
-  switchModeTrigger: {fileID: 0}
 --- !u!114 &1262247910092551635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,7 +1584,7 @@ PrefabInstance:
     - target: {fileID: 2204069621426241315, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: m_Name
-      value: ButtonThree
+      value: PreviousButton
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621878992557, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
@@ -1835,7 +1834,7 @@ PrefabInstance:
     - target: {fileID: 2204069621426241315, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: m_Name
-      value: ButtonTwo
+      value: NextButton
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621878992557, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
@@ -2060,7 +2059,7 @@ PrefabInstance:
     - target: {fileID: 2204069621426241315, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: m_Name
-      value: ButtonOne
+      value: CloseButton
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621878992557, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
@@ -2401,11 +2400,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1491894523937538, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1850867357197028, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_Name
-      value: ToggleSwitch
+      value: AnchorToggleSwitch
       objectReference: {fileID: 0}
     - target: {fileID: 4303610339839266, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2512,7 +2511,7 @@ PrefabInstance:
     - target: {fileID: 102895803057417886, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
       propertyPath: m_Text
-      value: Anchor
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
@@ -2523,7 +2522,7 @@ PrefabInstance:
         type: 3}
       propertyPath: profiles.Array.data[3].Target
       value: 
-      objectReference: {fileID: 17206801364307279}
+      objectReference: {fileID: 6383970598877010966}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2590,6 +2589,12 @@ Transform:
 --- !u!4 &6382284211804475958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4303610339839266, guid: a0dc4a34875700c4aba845405dc43a89,
+    type: 3}
+  m_PrefabInstance: {fileID: 6385303489349574420}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6383970598877010966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1491894523937538, guid: a0dc4a34875700c4aba845405dc43a89,
     type: 3}
   m_PrefabInstance: {fileID: 6385303489349574420}
   m_PrefabAsset: {fileID: 0}

@@ -1224,7 +1224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anchoredObject: {fileID: 5465664593042675508}
-  switchModeTrigger: {fileID: 0}
 --- !u!114 &7133139773456117502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1571,9 +1570,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9215a7c858170d74fb2257375d5feaf1, type: 3}
---- !u!23 &6213153406558681090 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6326842415924641645, guid: 9215a7c858170d74fb2257375d5feaf1,
+--- !u!4 &708757856278336830 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 586303850521236049, guid: 9215a7c858170d74fb2257375d5feaf1,
     type: 3}
   m_PrefabInstance: {fileID: 141014278529337199}
   m_PrefabAsset: {fileID: 0}
@@ -1583,9 +1582,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 141014278529337199}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &708757856278336830 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 586303850521236049, guid: 9215a7c858170d74fb2257375d5feaf1,
+--- !u!23 &6213153406558681090 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6326842415924641645, guid: 9215a7c858170d74fb2257375d5feaf1,
     type: 3}
   m_PrefabInstance: {fileID: 141014278529337199}
   m_PrefabAsset: {fileID: 0}
@@ -1598,11 +1597,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1491894523937538, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1850867357197028, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_Name
-      value: ToggleSwitch
+      value: AnchorToggleSwitch
       objectReference: {fileID: 0}
     - target: {fileID: 4810659548472064, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1686,7 +1685,7 @@ PrefabInstance:
     - target: {fileID: 102895803057417886, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
       propertyPath: m_Text
-      value: Anchor
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
@@ -1697,7 +1696,7 @@ PrefabInstance:
         type: 3}
       propertyPath: profiles.Array.data[3].Target
       value: 
-      objectReference: {fileID: 1400275171600455430}
+      objectReference: {fileID: 1775363701811342406}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1750,15 +1749,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
---- !u!4 &1781064409491123656 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4938574377845388, guid: a0dc4a34875700c4aba845405dc43a89,
+--- !u!1 &1775363701811342406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1491894523937538, guid: a0dc4a34875700c4aba845405dc43a89,
     type: 3}
   m_PrefabInstance: {fileID: 1776132665258422084}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1777053937027572326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4303610339839266, guid: a0dc4a34875700c4aba845405dc43a89,
+    type: 3}
+  m_PrefabInstance: {fileID: 1776132665258422084}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1781064409491123656 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4938574377845388, guid: a0dc4a34875700c4aba845405dc43a89,
     type: 3}
   m_PrefabInstance: {fileID: 1776132665258422084}
   m_PrefabAsset: {fileID: 0}
@@ -1777,7 +1782,7 @@ PrefabInstance:
     - target: {fileID: 2204069621426241315, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: m_Name
-      value: ButtonOne
+      value: CloseButton
       objectReference: {fileID: 0}
     - target: {fileID: 2204069621878992557, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
