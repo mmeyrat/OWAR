@@ -19,9 +19,12 @@ public class Close : MonoBehaviour
     **/
     public void CloseWindow() 
     {
-        int tagAreaId = objectToClose.GetComponent<PrefabData>().GetTagAreaId();
-        int slotId = objectToClose.GetComponent<PrefabData>().GetTagAreaSlotId();
-        TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
+        if (objectToClose.GetComponent<PrefabData>())
+        {
+            int tagAreaId = objectToClose.GetComponent<PrefabData>().GetTagAreaId();
+            int slotId = objectToClose.GetComponent<PrefabData>().GetTagAreaSlotId();
+            TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
+        }
 
         Destroy(objectToClose);
     }

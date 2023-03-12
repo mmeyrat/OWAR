@@ -72,6 +72,15 @@ public class MainSceneHandler : MonoBehaviour
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
                         //FileListHandler.SetToChoosen(f);
+
+                        TagArea ta = TagSceneHandler.GetTagAreaList()[areaId];
+                        GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
+                        tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = ta.GetTag();
+                        tagAreaPrefab.tag = ta.GetTag();
+
+                        tagAreaPrefab.transform.position = ta.GetPosition();
+                        tagAreaPrefab.transform.localScale = ta.GetScale();
+                        tagAreaPrefab.transform.localRotation = ta.GetRotation();
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
@@ -154,45 +163,48 @@ public class MainSceneHandler : MonoBehaviour
         return id;
     }
 
-    public Vector3 GetPositionBasedOnTag(GameObject imagePrefab, int slot)
+    public Vector3 GetPositionBasedOnTag(GameObject prefab, int slot)
     {
-        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
-        Vector3 v3 = new Vector3(0,0,0);
-        float tmp = 0.0f;
+        Vector3 position = new Vector3(0,0,0);
+        int areaId = GetNearestAreaFromTag(prefab.tag);
+        float slotPos = 0.0f;
+        float posDistOffset = 2.0f;
 
         if (areaId >= 0)
         {
             TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
+            float width = prefab.GetComponent<BoxCollider>().size[0];
+            float height = prefab.GetComponent<BoxCollider>().size[1];
 
             switch(slot)
             {
                 case 0:
-                    tmp = currentTagArea.GetPosition().x - currentTagArea.GetScale().x / 2 - imagePrefab.transform.localScale.x;
-                    v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
+                    slotPos = currentTagArea.GetPosition().x - currentTagArea.GetScale().x / posDistOffset - prefab.transform.localScale.x * width;
+                    position = new Vector3(slotPos, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
                     break;
                 case 1:
-                    tmp = currentTagArea.GetPosition().y + currentTagArea.GetScale().y / 2 + imagePrefab.transform.localScale.y;
-                    v3 = new Vector3(currentTagArea.GetPosition().x, tmp, currentTagArea.GetPosition().z);
+                    slotPos = currentTagArea.GetPosition().y + currentTagArea.GetScale().y / posDistOffset + prefab.transform.localScale.y * height;
+                    position = new Vector3(currentTagArea.GetPosition().x, slotPos, currentTagArea.GetPosition().z);
                     break;
                 case 2:
-                    tmp = currentTagArea.GetPosition().x + currentTagArea.GetScale().x / 2 + imagePrefab.transform.localScale.x;
-                    v3 = new Vector3(tmp, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
+                    slotPos = currentTagArea.GetPosition().x + currentTagArea.GetScale().x / posDistOffset + prefab.transform.localScale.x * width;
+                    position = new Vector3(slotPos, currentTagArea.GetPosition().y, currentTagArea.GetPosition().z);
                     break;
                 case 3:
-                    tmp = currentTagArea.GetPosition().y - currentTagArea.GetScale().y / 2 - imagePrefab.transform.localScale.y;
-                    v3 = new Vector3(currentTagArea.GetPosition().x, tmp, currentTagArea.GetPosition().z);
+                    slotPos = currentTagArea.GetPosition().y - currentTagArea.GetScale().y / posDistOffset - prefab.transform.localScale.y * height;
+                    position = new Vector3(currentTagArea.GetPosition().x, slotPos, currentTagArea.GetPosition().z);
                     break;
                 default:
                     break;
             }
         }
 
-        return v3;
+        return position;
     }
 
-    public GameObject RotateBasedOnTag(GameObject imagePrefab)
+    public GameObject RotateBasedOnTag(GameObject prefab)
     {
-        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
+        int areaId = GetNearestAreaFromTag(prefab.tag);
 
         if (areaId >= 0)
         {
@@ -201,18 +213,18 @@ public class MainSceneHandler : MonoBehaviour
             rotationParent.transform.position = TagSceneHandler.GetTagAreaList()[areaId].GetPosition();
             rotationParent.transform.localScale = TagSceneHandler.GetTagAreaList()[areaId].GetScale();
 
-            imagePrefab.transform.parent = rotationParent.transform;
+            prefab.transform.parent = rotationParent.transform;
 
             rotationParent.transform.localRotation = TagSceneHandler.GetTagAreaList()[areaId].GetRotation();
         }
 
-        return imagePrefab;
+        return prefab;
     }
 
-    public int CheckAvailableSlot(GameObject imagePrefab)
+    public int CheckAvailableSlot(GameObject prefab)
     {
         int maxSlots = 4;
-        int areaId = GetNearestAreaFromTag(imagePrefab.tag);
+        int areaId = GetNearestAreaFromTag(prefab.tag);
 
         if (areaId >= 0)
         {
