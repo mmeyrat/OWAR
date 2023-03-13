@@ -48,7 +48,7 @@ public class MainSceneHandler : MonoBehaviour
             
             foreach (string f in files) 
             {
-                string tag = "";
+                string tag = "[Untagged]";
                 
                 if (ftl.fileList.Contains(f))
                 {
@@ -89,20 +89,17 @@ public class MainSceneHandler : MonoBehaviour
         }
 
         // Untoggle visualized file in the list
-        GameObject panelListComponent = FileList.transform.GetChild(0).gameObject;
+        GameObject panelListComp = FileList.transform.GetChild(0).gameObject;
 
-        for (int i = 1; i < panelListComponent.transform.childCount; i++) // Start at 1 to avoid the disabled template item
+        for (int i = 0; i < panelListComp.transform.childCount; i++) 
         {
-            GameObject currentChild = panelListComponent.transform.GetChild(i).gameObject;
-
+            GameObject currentChild = panelListComp.transform.GetChild(i).gameObject;
             //Check if it's an item which corresponds to a selected file 
-            Text currentChildText = currentChild.transform.GetChild(2).GetComponentInChildren<Text>();
-            string filename = currentChildText.text;
+            string fileName = currentChild.transform.GetChild(1).GetChild(1).GetComponent<Text>().text;
 
-            if (FileListHandler.IsFileChoosen(filename))
+            if (FileListHandler.IsFileChoosen(fileName))
             {     
-                Toggle currentChildToggle = (Toggle)currentChild.transform.Find("Toggle").GetComponent<Toggle>();
-                currentChildToggle.isOn = false;
+                currentChild.transform.Find("Toggle").GetComponent<Toggle>().isOn = false;
             }
         }
     }

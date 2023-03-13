@@ -42,8 +42,11 @@ public class TagSceneHandler : MonoBehaviour
 
         StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/FileTagList.json");
         FileTagList ftl = JsonUtility.FromJson<FileTagList>(reader.ReadToEnd());
+        
+        List<string> trimmedList = ftl.tagList.Distinct().ToList();
+        trimmedList.Add("[Untagged]");
 
-        foreach (string tag in ftl.tagList.Distinct().ToList())
+        foreach (string tag in trimmedList)
         {
             GameObject newButton = Instantiate(Resources.Load("ButtonPrefab")) as GameObject;
             newButton.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate{GenerateTagArea(tag);});
@@ -73,7 +76,7 @@ public class TagSceneHandler : MonoBehaviour
     **/
     public void GenerateTagArea(string tag)
     {
-        int dist = 1;
+        float dist = 0.5f;
         GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
 
         tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = tag;

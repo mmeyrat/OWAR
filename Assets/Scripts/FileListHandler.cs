@@ -9,8 +9,6 @@ using System;
 
 public class FileListHandler : MonoBehaviour
 {   
-    public GameObject ItemTemplate;
-
     // To deploy on HoloLens use this path (works also on Unity):
     private static string path = Application.streamingAssetsPath;
     private static Dictionary<string, bool> choosenFiles = new Dictionary<string, bool>(); 
@@ -54,23 +52,28 @@ public class FileListHandler : MonoBehaviour
     * @param : added file's name
     **/
     private void AddItemToList(string file)
-    {
+    {StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/FileTagList.json");
+            FileTagList ftl = JsonUtility.FromJson<FileTagList>(reader.ReadToEnd());
+
+            string tag = "[Untagged]";
+                
+                if (ftl.fileList.Contains(file))
+                {
+                    tag = ftl.tagList[ftl.fileList.IndexOf(file)];
+                }
         // Duplicate item template and add it to the list (and set parent)
-        GameObject newItemList = Instantiate(ItemTemplate, this.transform.GetChild(0));
+        GameObject listItem = Instantiate(Resources.Load("ListItemPrefab"), this.transform.GetChild(0)) as GameObject;
 
         // Set text of instantiated item
-        Text newItemListText = newItemList.GetComponentInChildren<Text>();
-        newItemListText.text = file; // TODO maybe clean by not use a variable
+        Text label = listItem.transform.GetChild(1).GetChild(1).GetComponent<Text>();
+        label.text = file;
 
-        // Set active the new item 
-        newItemList.SetActive(true);
+        listItem.transform.GetChild(1).GetChild(2).GetComponent<Text>().text = tag;
 
         // Set event to toggle on the item
-        var ItemToggle = ItemTemplate.transform.GetChild(2);
-        Toggle ItemToggleComponent = (Toggle) ItemToggle.GetComponent<Toggle>();
-        ItemToggleComponent.GetComponentInChildren<Text>().text = file;
-
-        // Toggle listener on value changed is set in unity inspector (because it works better)
+        MainSceneHandler msh = GameObject.Find("Menu").GetComponent<MainSceneHandler>();
+        Toggle toggle = listItem.transform.GetChild(1).GetComponent<Toggle>();
+        toggle.onValueChanged.AddListener(delegate{msh.FileSelector(label);});
     }
 
     /**
