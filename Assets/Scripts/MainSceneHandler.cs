@@ -14,6 +14,16 @@ public class MainSceneHandler : MonoBehaviour
     public Text selectedFiles;
     public GameObject warning;
 
+    private GameObject camera;
+    
+    /** 
+    * Start is called before the first frame update
+    **/
+    void Start()
+    {
+        camera = GameObject.Find("Main Camera");
+    }
+
     /**
     * Add the selecetd files in a text preview
     *
@@ -56,13 +66,27 @@ public class MainSceneHandler : MonoBehaviour
                 }
 
                 int areaId = GetNearestAreaFromTag(tag);
+                float dist = 0.5f;
 
-                if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
+                if (FileListHandler.IsFileChoosen(f)) 
                 {   
                     if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
                     {  
                         GameObject prefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        prefab = PreparePrefab(prefab, tag, areaId);
+
+                        if (areaId >= 0)
+                        {
+                            prefab = PreparePrefab(prefab, tag, areaId);
+                        }
+                        else 
+                        {
+                            prefab.transform.position = camera.transform.position + camera.transform.forward * dist;
+                            prefab.transform.rotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
+                        }
+
+                        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
+                        // Link to close button
+                        prefab.GetComponent<Close>().SetObj(prefab);
                         
                         prefab.GetComponent<DisplayImage>().SetImageObject(prefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         prefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
@@ -70,7 +94,20 @@ public class MainSceneHandler : MonoBehaviour
                     else if (f.EndsWith(".txt")) 
                     {       
                         GameObject prefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
-                        prefab = PreparePrefab(prefab, tag, areaId);
+                        
+                        if (areaId >= 0)
+                        {
+                            prefab = PreparePrefab(prefab, tag, areaId);
+                        }    
+                        else 
+                        {
+                            prefab.transform.position = camera.transform.position + camera.transform.forward * dist;
+                            prefab.transform.rotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
+                        }
+
+                        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
+                        // Link to close button
+                        prefab.GetComponent<Close>().SetObj(prefab);
 
                         // Link to next page button
                         prefab.GetComponent<ChangePage>().SetObj(prefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
@@ -134,12 +171,8 @@ public class MainSceneHandler : MonoBehaviour
         int availableSlot = CheckAvailableSlot(prefab, tag);
         prefab.transform.position = GetPositionBasedOnTag(prefab, availableSlot, tag);
         prefab = RotateBasedOnTag(prefab, tag);
-        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
         prefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
         TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
-
-        // Link to close button
-        prefab.GetComponent<Close>().SetObj(prefab);
 
         return prefab;
     }
