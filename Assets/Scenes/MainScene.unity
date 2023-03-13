@@ -1794,7 +1794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2f42cde72a74848859cc0ef459164e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ElementToDisable: {fileID: 215388884}
+  objectToDisable: {fileID: 215388884}
 --- !u!1 &1640710334
 GameObject:
   m_ObjectHideFlags: 0

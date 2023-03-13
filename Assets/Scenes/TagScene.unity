@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2f42cde72a74848859cc0ef459164e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ElementToDisable: {fileID: 371547596}
+  objectToDisable: {fileID: 371547596}
 --- !u!114 &140218996
 MonoBehaviour:
   m_ObjectHideFlags: 0

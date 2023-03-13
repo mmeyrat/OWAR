@@ -4,36 +4,23 @@ using Microsoft.MixedReality.Toolkit.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ScrollbarHandler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class ScrollbarHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Start is called before the first frame update
-
     // Element which is partially disable when scrollbar is used
-    public GameObject ElementToDisable;
+    public GameObject objectToDisable;
 
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
         // Disable object manipulator when the scrollbar is used
-        var manipulatorComponent = ElementToDisable.GetComponent<ObjectManipulator>();
-        manipulatorComponent.enabled = false;
+        var manipulatorComp = objectToDisable.GetComponent<ObjectManipulator>();
+        manipulatorComp.enabled = false;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)
     {
         // (Re)enable object manipulator when the scrollbar have been used
-        var manipulatorComponent = ElementToDisable.GetComponent<ObjectManipulator>();
-        manipulatorComponent.enabled = true;
+        var manipulatorComp = objectToDisable.GetComponent<ObjectManipulator>();
+        manipulatorComp.enabled = true;
     }
 
 }
