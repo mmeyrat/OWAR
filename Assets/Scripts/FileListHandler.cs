@@ -81,7 +81,12 @@ public class FileListHandler : MonoBehaviour
     **/
     public static bool IsFileChoosen(string file) 
     {
-        return choosenFiles[file];
+        if (choosenFiles.ContainsKey(file))
+        {
+            return choosenFiles[file];
+        }
+
+        return false;
     } 
 
     /**

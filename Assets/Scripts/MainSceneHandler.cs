@@ -48,68 +48,38 @@ public class MainSceneHandler : MonoBehaviour
             
             foreach (string f in files) 
             {
-                if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
+                string tag = "";
+                
+                if (ftl.fileList.Contains(f))
                 {
-                    string tag = "";
-                    if (ftl.fileList.Contains(f))
-                    {
-                        tag = ftl.tagList[ftl.fileList.IndexOf(f)];
-                    }
-                    int areaId = GetNearestAreaFromTag(tag);
-
-                    if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
-                    {
-                        GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePrefab.tag = tag;
-                        
-                        int availableSlot = CheckAvailableSlot(imagePrefab);
-                        imagePrefab.transform.position = GetPositionBasedOnTag(imagePrefab, availableSlot);
-                        imagePrefab = RotateBasedOnTag(imagePrefab);
-                        imagePrefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
-                        imagePrefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
-                        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
-
-                        // Link to close button
-                        imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
-                        
-                        imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
-                        imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
-
-                        selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
-                    } 
+                    tag = ftl.tagList[ftl.fileList.IndexOf(f)];
                 }
-                else if (f.EndsWith(".txt")) 
+                
+                int areaId = GetNearestAreaFromTag(tag);
+
+                if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
                 {   
-                    
-                    string tag = "";
-                    if (ftl.fileList.Contains(f))
-                    {
-                        tag = ftl.tagList[ftl.fileList.IndexOf(f)];
-                    }
-                    int areaId = GetNearestAreaFromTag(tag);
-
-                    if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
-                    {
-                        GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
-                        textPrefab.tag = tag;
+                    if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
+                    {  
+                        GameObject prefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
+                        prefab = PreparePrefab(prefab, tag, areaId);
                         
-                        int availableSlot = CheckAvailableSlot(textPrefab);
-                        textPrefab.transform.position = GetPositionBasedOnTag(textPrefab, availableSlot);
-                        textPrefab = RotateBasedOnTag(textPrefab);
-                        textPrefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
-                        textPrefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
-                        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
+                        prefab.GetComponent<DisplayImage>().SetImageObject(prefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
+                        prefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
+                    }
+                    else if (f.EndsWith(".txt")) 
+                    {       
+                        GameObject prefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
+                        prefab = PreparePrefab(prefab, tag, areaId);
 
-                        // Link to close button
-                        textPrefab.GetComponent<Close>().SetObj(textPrefab);
                         // Link to next page button
-                        textPrefab.GetComponent<ChangePage>().SetObj(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
+                        prefab.GetComponent<ChangePage>().SetObj(prefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         
-                        textPrefab.GetComponent<ReadText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
-
-                        selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
+                        prefab.GetComponent<ReadText>().SetTextObject(prefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
+                        prefab.GetComponent<ReadText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
                     }
+
+                    selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
                 }
             }
         } else {
@@ -160,6 +130,23 @@ public class MainSceneHandler : MonoBehaviour
         }
 
         return id;
+    }
+
+    public GameObject PreparePrefab(GameObject prefab, string tag, int areaId)
+    {
+        prefab.tag = tag;
+                    
+        int availableSlot = CheckAvailableSlot(prefab);
+        prefab.transform.position = GetPositionBasedOnTag(prefab, availableSlot);
+        prefab = RotateBasedOnTag(prefab);
+        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
+        prefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
+        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
+
+        // Link to close button
+        prefab.GetComponent<Close>().SetObj(prefab);
+
+        return prefab;
     }
 
     public Vector3 GetPositionBasedOnTag(GameObject prefab, int slot)

@@ -31,6 +31,9 @@ public class AnchorHandler : MonoBehaviour
             {
                 int tagAreaId = anchoredObject.GetComponent<PrefabData>().GetTagAreaId();
                 int slotId = anchoredObject.GetComponent<PrefabData>().GetTagAreaSlotId();
+                GameObject parent = anchoredObject.transform.parent.gameObject;
+                anchoredObject.transform.SetParent(null);
+                Destroy(parent);
                 TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
             }
         }
