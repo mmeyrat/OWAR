@@ -7,9 +7,11 @@ using UnityEngine;
 public class ApplyForces : MonoBehaviour
 {
     public List<GameObject> filesObjects;
-    private Vector3 velocity;
+    private float nextActionTime = 0.0f;
+    private float interval = 2.0f;
     public float desiredConnectedDistance = 1.0f;
-    public float connectedForce = 1.0f;
+    private float connectedForce = 1.0F;
+    private bool areFilesPlaced = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,42 +22,43 @@ public class ApplyForces : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+        print(connectedForce);
         if (!IsEmpty(filesObjects)) {
             ApplyFilesObjectsForces();
             foreach(GameObject go in filesObjects) {
-                if (go.GetComponent<ReadText>() != null) {
-                    Vector3 velocity = go.GetComponent<ReadText>().GetVelocity();
-                    go.transform.localPosition += velocity * Time.deltaTime;
-                } else {
-                    Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
-                    go.transform.localPosition += velocity * Time.deltaTime;
+                if (!areFilesPlaced) {
+                    if (go.GetComponent<ReadText>() != null) {
+                        Vector3 velocity = go.GetComponent<ReadText>().GetVelocity();
+                        go.transform.localPosition += (velocity * Time.deltaTime)/5.0f;
+                    } else {
+                        Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
+                        go.transform.localPosition += (velocity * Time.deltaTime)/5.0f;
+                    }
                 }
             }
-        } 
+            if ((Time.time - DropdownToVisual.GetTimeFilesSelected()) >= nextActionTime) {
+                nextActionTime += interval;
+                if (connectedForce > 0.1f) {
+                    connectedForce -= 0.05f;
+                } else {
+                    areFilesPlaced = true;
+                }
+            }
+        }
     }
 
     private void ApplyFilesObjectsForces() {
         foreach(GameObject go in filesObjects) {
             foreach (GameObject gobj in filesObjects) {
                 if (go != gobj) {
-                    if (filesObjects.Count <= 4) {
-                        Vector3 difference = go.transform.localPosition - gobj.transform.localPosition;
-                        float distance = (float)Math.Sqrt(Math.Pow(difference.x, 2) + Math.Pow(difference.y, 2) + Math.Pow(difference.z, 2));
-                        var appliedForce = connectedForce * Mathf.Log10(distance / desiredConnectedDistance);
-                        if (gobj.GetComponent<ReadText>() != null) {
-                            gobj.GetComponent<ReadText>().SetVelocity(appliedForce*Time.deltaTime*difference.normalized);
-                        } else {
-                            gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime*difference.normalized); 
-                        }
+                    Vector3 difference = go.transform.localPosition - gobj.transform.localPosition;
+                    float distance = (float)Math.Sqrt(Math.Pow(difference.x, 2) + Math.Pow(difference.y, 2) + Math.Pow(difference.z, 2));
+                    var appliedForce = connectedForce * Mathf.Log10(distance / desiredConnectedDistance);
+                    if (gobj.GetComponent<ReadText>() != null) {
+                        gobj.GetComponent<ReadText>().SetVelocity(appliedForce*Time.deltaTime*difference.normalized);
                     } else {
-                        Vector3 difference = go.transform.localPosition - gobj.transform.localPosition;
-                        var appliedForce = connectedForce / 10.0f;
-                        if (gobj.GetComponent<ReadText>() != null) {
-                            gobj.GetComponent<ReadText>().SetVelocity(appliedForce*Time.deltaTime*difference);
-                        } else {
-                            gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime*difference); 
-                        }
-                    }
+                        gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime*difference.normalized); 
+                    } 
                 }
             }
         }
@@ -76,6 +79,12 @@ public class ApplyForces : MonoBehaviour
 
     public void RemoveObj(GameObject go) {
         filesObjects.Remove(go);
+    }
+
+    public void InitMovements() {
+        areFilesPlaced = false;
+        connectedForce = 1.0F;
+        nextActionTime = 0.0f;
     }
 
 }

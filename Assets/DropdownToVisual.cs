@@ -17,6 +17,7 @@ public class DropdownToVisual : MonoBehaviour
 
     private static List<Vector3> positionsFiles;
     private static List<Vector3> orientationsFiles;
+    private static float timeFilesSelected;
     private float offsetDisplay = 0.0f;
     private GameObject heatmapVisualizer;
 
@@ -74,7 +75,7 @@ public class DropdownToVisual : MonoBehaviour
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
                         //fileIndex++;
-                        offsetDisplay += 0.1f;
+                        offsetDisplay += 0.01f;
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
@@ -98,11 +99,13 @@ public class DropdownToVisual : MonoBehaviour
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
                         //fileIndex++;
-                        offsetDisplay += 0.1f;
+                        offsetDisplay += 0.01f;
                     }
                 }
             }
             offsetDisplay = 0.0f;
+            timeFilesSelected = Time.time;
+            mixedRealityPlayspace.GetComponent<ApplyForces>().InitMovements();
             if (heatmapVisualizer != null)
                 heatmapVisualizer.SetActive(false);
         } else {
@@ -123,6 +126,10 @@ public class DropdownToVisual : MonoBehaviour
 
     public static void SetOrientations(List<Vector3> orientations) {
         orientationsFiles = orientations;
+    }
+
+    public static float GetTimeFilesSelected() {
+        return timeFilesSelected;
     }
 
 }
