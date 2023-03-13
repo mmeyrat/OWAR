@@ -1,4 +1,4 @@
-﻿// Alan Zucconi
+// Alan Zucconi
 // www.alanzucconi.com
 // doc : https://forum.unity.com/threads/how-to-create-heatmap-in-unity.423163/
 // https://www.alanzucconi.com/2016/01/27/arrays-shaders-heatmaps-in-unity3d/#more-2003
@@ -34,11 +34,10 @@ public class Heatmap : MonoBehaviour
     private GameObject menu;
 
     // Timer of 15 seconds to scan around 
-    private float timeRemaining = 30.0f;
+    private float timeRemaining = 15.0f;
  
     void Start ()
     {
-        print("Allo");
         positions = new Vector4[count];
         properties = new Vector4[count];
         orientations = new Vector3[count];
@@ -77,6 +76,7 @@ public class Heatmap : MonoBehaviour
 
                 // Update positions points where the user is looking
                 // Vector3 lookAt= CoreServices.InputSystem.EyeGazeProvider.HitPosition;
+                
                 Vector3 lookAt = CoreServices.InputSystem.GazeProvider.HitPosition;
                 // Direction where the user is looking (don't know which one is the best ?)
                 // Vector3 lookDirection = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;

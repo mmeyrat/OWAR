@@ -13,6 +13,7 @@ public class DisplayImage : MonoBehaviour
     private string fileName;
     private float poseX = 0.0f;
     private float minSize;
+    private Vector3 velocity;
 
     /**
     * Start is called before the first frame update
@@ -100,5 +101,13 @@ public class DisplayImage : MonoBehaviour
     public float GetPoseX() 
     {
         return this.poseX;
+    }
+
+    public void SetVelocity(Vector3 vel) {
+        velocity += vel;
+    }
+
+    public Vector3 GetVelocity() {
+        return velocity;
     }
 }

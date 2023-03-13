@@ -13,9 +13,16 @@ public class DropdownToVisual : MonoBehaviour
     public Button button;
     public Text selectedFiles;
     public GameObject warning;
+    public GameObject mixedRealityPlayspace; 
+
     private static List<Vector3> positionsFiles;
     private static List<Vector3> orientationsFiles;
-    public GameObject mixedRealityPlayspace; 
+    private float offsetDisplay = 0.0f;
+    private GameObject heatmapVisualizer;
+
+    void Start() {
+        heatmapVisualizer = GameObject.Find("HeatmapVisualizer");
+    }
 
     /**
     * Add the selecetd files in a text preview
@@ -54,8 +61,9 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePrefab.transform.localPosition = positionsFiles[fileIndex];
+                        imagePrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z + offsetDisplay);
                         imagePrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
+                        mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(imagePrefab);
                         
                         // Link to close button
                         imagePrefab.GetComponent<Close>().SetObj(imagePrefab);
@@ -65,7 +73,8 @@ public class DropdownToVisual : MonoBehaviour
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
-                        fileIndex++;
+                        //fileIndex++;
+                        offsetDisplay += 0.1f;
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
@@ -74,9 +83,10 @@ public class DropdownToVisual : MonoBehaviour
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
                         // Setting position according informations obtained with the heatmap
-                        textPrefab.transform.localPosition = positionsFiles[fileIndex];
+                        textPrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z + offsetDisplay);
                         textPrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
-                        
+                        mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(textPrefab);
+
                         // Link to close button
                         textPrefab.GetComponent<Close>().SetObj(textPrefab);
                         // Link to next page button
@@ -87,12 +97,14 @@ public class DropdownToVisual : MonoBehaviour
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
                         DropdownHandler.SetToChoosen(f);
-                        fileIndex++;
+                        //fileIndex++;
+                        offsetDisplay += 0.1f;
                     }
                 }
             }
-
-
+            offsetDisplay = 0.0f;
+            if (heatmapVisualizer != null)
+                heatmapVisualizer.SetActive(false);
         } else {
             warning.SetActive(true);
             warning.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
@@ -101,6 +113,7 @@ public class DropdownToVisual : MonoBehaviour
     }
 
     public void StartScanningEnvironment() {
+        heatmapVisualizer.SetActive(true);
         mixedRealityPlayspace.GetComponent<Heatmap>().ScanEnvironment();
     }
 

@@ -11,7 +11,7 @@ public class ReadText : MonoBehaviour
 {
     public float minFontSize = 0.03f;
     public float maxFontSize = 0.1f;
-
+    private Vector3 velocity;
     private TMP_Text textObject;
     private GameObject camera;
     private string fileName;
@@ -69,5 +69,13 @@ public class ReadText : MonoBehaviour
     public string GetFileName() 
     {
         return this.fileName;
+    }
+
+    public void SetVelocity(Vector3 vel) {
+        velocity += vel;
+    }
+
+    public Vector3 GetVelocity() {
+        return velocity;
     }
 }
