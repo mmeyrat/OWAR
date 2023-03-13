@@ -54,7 +54,7 @@ public class MainSceneHandler : MonoBehaviour
                 {
                     tag = ftl.tagList[ftl.fileList.IndexOf(f)];
                 }
-                
+
                 int areaId = GetNearestAreaFromTag(tag);
 
                 if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
@@ -110,7 +110,7 @@ public class MainSceneHandler : MonoBehaviour
     public int GetNearestAreaFromTag(string tag)
     {
         int id = -1;
-        float minDist = 1000;
+        float minDist = float.MaxValue;
         GameObject camera = GameObject.Find("Main Camera");
 
         for (int i = 0; i < TagSceneHandler.GetTagAreaList().Count; i++)
@@ -133,12 +133,10 @@ public class MainSceneHandler : MonoBehaviour
     }
 
     public GameObject PreparePrefab(GameObject prefab, string tag, int areaId)
-    {
-        prefab.tag = tag;
-                    
-        int availableSlot = CheckAvailableSlot(prefab);
-        prefab.transform.position = GetPositionBasedOnTag(prefab, availableSlot);
-        prefab = RotateBasedOnTag(prefab);
+    {               
+        int availableSlot = CheckAvailableSlot(prefab, tag);
+        prefab.transform.position = GetPositionBasedOnTag(prefab, availableSlot, tag);
+        prefab = RotateBasedOnTag(prefab, tag);
         prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
         prefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
         TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
@@ -149,10 +147,10 @@ public class MainSceneHandler : MonoBehaviour
         return prefab;
     }
 
-    public Vector3 GetPositionBasedOnTag(GameObject prefab, int slot)
+    public Vector3 GetPositionBasedOnTag(GameObject prefab, int slot, string tag)
     {
         Vector3 position = new Vector3(0,0,0);
-        int areaId = GetNearestAreaFromTag(prefab.tag);
+        int areaId = GetNearestAreaFromTag(tag);
         float slotPos = 0.0f;
         float posDistOffset = 2.0f;
 
@@ -188,9 +186,9 @@ public class MainSceneHandler : MonoBehaviour
         return position;
     }
 
-    public GameObject RotateBasedOnTag(GameObject prefab)
+    public GameObject RotateBasedOnTag(GameObject prefab, string tag)
     {
-        int areaId = GetNearestAreaFromTag(prefab.tag);
+        int areaId = GetNearestAreaFromTag(tag);
 
         if (areaId >= 0)
         {
@@ -207,10 +205,10 @@ public class MainSceneHandler : MonoBehaviour
         return prefab;
     }
 
-    public int CheckAvailableSlot(GameObject prefab)
+    public int CheckAvailableSlot(GameObject prefab, string tag)
     {
         int maxSlots = 4;
-        int areaId = GetNearestAreaFromTag(prefab.tag);
+        int areaId = GetNearestAreaFromTag(tag);
 
         if (areaId >= 0)
         {

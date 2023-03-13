@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.IO;
+using System;
 using TMPro;
+using System.Linq;
 
 public class TagSceneHandler : MonoBehaviour
 {
+    public GameObject buttonMenu;
+
     private GameObject camera;
     private static List<TagArea> tagAreaList = new List<TagArea>();
     private static List<GameObject> tempTagAreaList = new List<GameObject>();
@@ -25,7 +30,6 @@ public class TagSceneHandler : MonoBehaviour
         {
             GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
             tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = ta.GetTag();
-            tagAreaPrefab.tag = ta.GetTag();
 
             tagAreaPrefab.transform.position = ta.GetPosition();
             tagAreaPrefab.transform.localScale = ta.GetScale();
@@ -35,6 +39,17 @@ public class TagSceneHandler : MonoBehaviour
         }
 
         tagAreaList.Clear();
+
+        StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/FileTagList.json");
+        FileTagList ftl = JsonUtility.FromJson<FileTagList>(reader.ReadToEnd());
+
+        foreach (string tag in ftl.tagList.Distinct().ToList())
+        {
+            GameObject newButton = Instantiate(Resources.Load("ButtonPrefab")) as GameObject;
+            newButton.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate{GenerateTagArea(tag);});
+            newButton.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = tag;
+            newButton.transform.SetParent(buttonMenu.transform, false);
+        }
     }
 
     /**
@@ -44,7 +59,8 @@ public class TagSceneHandler : MonoBehaviour
     {
         foreach (GameObject go in tempTagAreaList)
         {
-            tagAreaList.Add(new TagArea(go.tag, go.transform.position, go.transform.localScale, go.transform.localRotation));
+            string tag = go.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text;
+            tagAreaList.Add(new TagArea(tag, go.transform.position, go.transform.localScale, go.transform.localRotation));
         }
 
         SceneManager.LoadScene("MainScene");
@@ -63,7 +79,6 @@ public class TagSceneHandler : MonoBehaviour
         tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = tag;
         tagAreaPrefab.transform.position = camera.transform.position + camera.transform.forward * dist;
         tagAreaPrefab.transform.rotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
-        tagAreaPrefab.tag = tag;
 
         tempTagAreaList.Add(tagAreaPrefab);
     }
