@@ -43,13 +43,18 @@ public class MainSceneHandler : MonoBehaviour
         if (FileListHandler.GetNumberOfChoosenFiles() > 0) 
         {
             string[] files = FileListHandler.GetFiles();
-            string[] tags = new string[] { "Screen", "Table" };
+            StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/FileTagList.json");
+            FileTagList ftl = JsonUtility.FromJson<FileTagList>(reader.ReadToEnd());
             
             foreach (string f in files) 
             {
                 if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
                 {
-                    string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
+                    string tag = "";
+                    if (ftl.fileList.Contains(f))
+                    {
+                        tag = ftl.tagList[ftl.fileList.IndexOf(f)];
+                    }
                     int areaId = GetNearestAreaFromTag(tag);
 
                     if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
@@ -71,21 +76,16 @@ public class MainSceneHandler : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
-                        //FileListHandler.SetToChoosen(f);
-
-                        TagArea ta = TagSceneHandler.GetTagAreaList()[areaId];
-                        GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
-                        tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = ta.GetTag();
-                        tagAreaPrefab.tag = ta.GetTag();
-
-                        tagAreaPrefab.transform.position = ta.GetPosition();
-                        tagAreaPrefab.transform.localScale = ta.GetScale();
-                        tagAreaPrefab.transform.localRotation = ta.GetRotation();
                     } 
                 }
                 else if (f.EndsWith(".txt")) 
                 {   
-                    string tag = tags[UnityEngine.Random.Range (0, tags.Length)];
+                    
+                    string tag = "";
+                    if (ftl.fileList.Contains(f))
+                    {
+                        tag = ftl.tagList[ftl.fileList.IndexOf(f)];
+                    }
                     int areaId = GetNearestAreaFromTag(tag);
 
                     if (FileListHandler.IsFileChoosen(f) && areaId >= 0) 
@@ -109,7 +109,6 @@ public class MainSceneHandler : MonoBehaviour
                         textPrefab.GetComponent<ReadText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
-                        //FileListHandler.SetToChoosen(f);
                     }
                 }
             }
