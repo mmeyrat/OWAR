@@ -62,7 +62,7 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z + offsetDisplay);
+                        imagePrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z);
                         imagePrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(imagePrefab);
                         
@@ -84,7 +84,7 @@ public class DropdownToVisual : MonoBehaviour
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
                         // Setting position according informations obtained with the heatmap
-                        textPrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z + offsetDisplay);
+                        textPrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z);
                         textPrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(textPrefab);
 

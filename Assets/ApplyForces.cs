@@ -22,17 +22,17 @@ public class ApplyForces : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        print(connectedForce);
+        //print(connectedForce);
         if (!IsEmpty(filesObjects)) {
             ApplyFilesObjectsForces();
             foreach(GameObject go in filesObjects) {
                 if (!areFilesPlaced) {
                     if (go.GetComponent<ReadText>() != null) {
                         Vector3 velocity = go.GetComponent<ReadText>().GetVelocity();
-                        go.transform.localPosition += (velocity * Time.deltaTime)/5.0f;
+                        go.transform.localPosition += velocity * Time.deltaTime;
                     } else {
                         Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
-                        go.transform.localPosition += (velocity * Time.deltaTime)/5.0f;
+                        go.transform.localPosition += velocity * Time.deltaTime;
                     }
                 }
             }
@@ -51,14 +51,16 @@ public class ApplyForces : MonoBehaviour
         foreach(GameObject go in filesObjects) {
             foreach (GameObject gobj in filesObjects) {
                 if (go != gobj) {
-                    Vector3 difference = go.transform.localPosition - gobj.transform.localPosition;
-                    float distance = (float)Math.Sqrt(Math.Pow(difference.x, 2) + Math.Pow(difference.y, 2) + Math.Pow(difference.z, 2));
+                    Vector3 p1 = go.GetComponent<Collider>().ClosestPointOnBounds(go.transform.localPosition);
+                    Vector3 p2 = gobj.GetComponent<Collider>().ClosestPointOnBounds(gobj.transform.localPosition);
+                    Vector3 difference = p1 - p2;
+                    float distance = Vector3.Distance(p1, p2);
                     var appliedForce = connectedForce * Mathf.Log10(distance / desiredConnectedDistance);
                     if (gobj.GetComponent<ReadText>() != null) {
                         gobj.GetComponent<ReadText>().SetVelocity(appliedForce*Time.deltaTime*difference.normalized);
                     } else {
                         gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime*difference.normalized); 
-                    } 
+                    }
                 }
             }
         }
