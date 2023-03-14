@@ -364,7 +364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2f42cde72a74848859cc0ef459164e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToDisable: {fileID: 371547596}
 --- !u!114 &140218996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,6 +992,7 @@ GameObject:
   - component: {fileID: 1173579419}
   - component: {fileID: 1173579418}
   - component: {fileID: 1173579417}
+  - component: {fileID: 1173579420}
   m_Layer: 5
   m_Name: ValidateButton
   m_TagString: Untagged
@@ -1111,6 +1111,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1173579415}
   m_CullTransparentMesh: 0
+--- !u!114 &1173579420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173579415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbfe00e97e090e419a85ff0807e902b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToDisable: {fileID: 371547596}
 --- !u!1 &1322956762
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,6 +1296,7 @@ GameObject:
   - component: {fileID: 1764419810}
   - component: {fileID: 1764419812}
   - component: {fileID: 1764419813}
+  - component: {fileID: 1764419814}
   m_Layer: 5
   m_Name: TagList
   m_TagString: Untagged
@@ -1391,6 +1405,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &1764419814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764419808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbfe00e97e090e419a85ff0807e902b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToDisable: {fileID: 371547596}
 --- !u!1 &2051428863
 GameObject:
   m_ObjectHideFlags: 0

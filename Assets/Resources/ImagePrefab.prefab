@@ -626,6 +626,7 @@ GameObject:
   - component: {fileID: 2347868757388867407}
   - component: {fileID: 2333450651370621908}
   - component: {fileID: 3242774697825901868}
+  - component: {fileID: 8961309786641918484}
   m_Layer: 0
   m_Name: NearMenu4x1
   m_TagString: Untagged
@@ -816,6 +817,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8961309786641918484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5197755784920603617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbbfe00e97e090e419a85ff0807e902b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToDisable: {fileID: 5465664593042675508}
 --- !u!1 &5442036506331034378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1570,12 +1584,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9215a7c858170d74fb2257375d5feaf1, type: 3}
---- !u!4 &708757856278336830 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 586303850521236049, guid: 9215a7c858170d74fb2257375d5feaf1,
-    type: 3}
-  m_PrefabInstance: {fileID: 141014278529337199}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8010126672654782106 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7988634196090784245, guid: 9215a7c858170d74fb2257375d5feaf1,
@@ -1585,6 +1593,12 @@ GameObject:
 --- !u!23 &6213153406558681090 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6326842415924641645, guid: 9215a7c858170d74fb2257375d5feaf1,
+    type: 3}
+  m_PrefabInstance: {fileID: 141014278529337199}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &708757856278336830 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 586303850521236049, guid: 9215a7c858170d74fb2257375d5feaf1,
     type: 3}
   m_PrefabInstance: {fileID: 141014278529337199}
   m_PrefabAsset: {fileID: 0}

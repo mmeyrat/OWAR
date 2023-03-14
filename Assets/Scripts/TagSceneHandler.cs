@@ -76,7 +76,7 @@ public class TagSceneHandler : MonoBehaviour
     **/
     public void GenerateTagArea(string tag)
     {
-        float dist = 0.5f;
+        float dist = 1.0f;
         GameObject tagAreaPrefab = Instantiate(Resources.Load("TagAreaPrefab")) as GameObject;
 
         tagAreaPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>().text = tag;

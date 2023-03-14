@@ -66,7 +66,7 @@ public class MainSceneHandler : MonoBehaviour
                 }
 
                 int areaId = GetNearestAreaFromTag(tag);
-                float dist = 0.5f;
+                float dist = 1.0f;
 
                 if (FileListHandler.IsFileChoosen(f)) 
                 {   
