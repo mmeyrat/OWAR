@@ -15,6 +15,8 @@ public class ReadText : MonoBehaviour
     private TMP_Text textObject;
     private GameObject camera;
     private string fileName;
+    private bool isCollided;
+    private bool isCollidedWithCenter;
 
     /**
     * Start is called before the first frame update
@@ -26,6 +28,7 @@ public class ReadText : MonoBehaviour
 
         textObject.text = textContent;
         camera = GameObject.Find("Main Camera");
+        velocity = new Vector3(0, 0, 0);
     }
 
     /**
@@ -77,5 +80,25 @@ public class ReadText : MonoBehaviour
 
     public Vector3 GetVelocity() {
         return velocity;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.name == "CenterCollider") {
+            isCollidedWithCenter = true;
+        } else {
+            isCollided = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        isCollided = false;
+    } 
+
+    public bool IsCollided() {
+        return isCollided;
+    }
+
+    public bool IsCollidedWithCenter() {
+        return isCollidedWithCenter;
     }
 }

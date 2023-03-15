@@ -18,8 +18,9 @@ public class DropdownToVisual : MonoBehaviour
     private static List<Vector3> positionsFiles;
     private static List<Vector3> orientationsFiles;
     private static float timeFilesSelected;
-    private float offsetDisplay = 0.0f;
+    private float offsetDisplay = 0.01f;
     private GameObject heatmapVisualizer;
+    private GameObject gravityCenter;
 
     void Start() {
         heatmapVisualizer = GameObject.Find("HeatmapVisualizer");
@@ -62,6 +63,9 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
+                        Rigidbody body = imagePrefab.AddComponent<Rigidbody>();
+                        body.isKinematic = true;
+                        body.useGravity = false;
                         imagePrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z);
                         imagePrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(imagePrefab);
@@ -83,6 +87,9 @@ public class DropdownToVisual : MonoBehaviour
                     if (DropdownHandler.IsFileChoosen(f)) 
                     {
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
+                        Rigidbody body = textPrefab.AddComponent<Rigidbody>();
+                        body.isKinematic = true;
+                        body.useGravity = false;
                         // Setting position according informations obtained with the heatmap
                         textPrefab.transform.localPosition = new Vector3(positionsFiles[fileIndex].x + offsetDisplay, positionsFiles[fileIndex].y - offsetDisplay, positionsFiles[fileIndex].z);
                         textPrefab.transform.rotation = Quaternion.LookRotation(orientationsFiles[fileIndex]);
@@ -103,8 +110,12 @@ public class DropdownToVisual : MonoBehaviour
                     }
                 }
             }
-            offsetDisplay = 0.0f;
+            offsetDisplay = 0.01f;
             timeFilesSelected = Time.time;
+
+            // Init a center of gravity for objects files
+            InitGravityCenter();
+
             mixedRealityPlayspace.GetComponent<ApplyForces>().InitMovements();
             if (heatmapVisualizer != null)
                 heatmapVisualizer.SetActive(false);
@@ -115,8 +126,20 @@ public class DropdownToVisual : MonoBehaviour
         }
     }
 
+    private void InitGravityCenter() {
+        gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        gravityCenter.transform.position = positionsFiles[0];
+        gravityCenter.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+        gravityCenter.GetComponent<SphereCollider>().isTrigger = true;
+        gravityCenter.GetComponent<SphereCollider>().name = "CenterCollider";
+        Rigidbody centerRigidbody = gravityCenter.AddComponent<Rigidbody>();
+        centerRigidbody.isKinematic = true;
+        centerRigidbody.useGravity = false;
+    }
+
     public void StartScanningEnvironment() {
         heatmapVisualizer.SetActive(true);
+        mixedRealityPlayspace.GetComponent<ApplyForces>().RemoveAllObjects();
         mixedRealityPlayspace.GetComponent<Heatmap>().ScanEnvironment();
     }
 
@@ -130,6 +153,10 @@ public class DropdownToVisual : MonoBehaviour
 
     public static float GetTimeFilesSelected() {
         return timeFilesSelected;
+    }
+
+    public static Vector3 GetGravityCenterPosition() {
+        return positionsFiles[0];
     }
 
 }

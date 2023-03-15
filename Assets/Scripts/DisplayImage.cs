@@ -14,6 +14,8 @@ public class DisplayImage : MonoBehaviour
     private float poseX = 0.0f;
     private float minSize;
     private Vector3 velocity;
+    private bool isCollided;
+    private bool isCollidedWithCenter;
 
     /**
     * Start is called before the first frame update
@@ -26,6 +28,7 @@ public class DisplayImage : MonoBehaviour
         imageObject.texture = texture;
         minSize = imageObject.GetComponent<RectTransform>().sizeDelta.x;
         camera = GameObject.Find("Main Camera");
+        velocity = new Vector3(0, 0, 0);
     }
 
     /**
@@ -109,5 +112,25 @@ public class DisplayImage : MonoBehaviour
 
     public Vector3 GetVelocity() {
         return velocity;
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.name == "CenterCollider") {
+            isCollidedWithCenter = true;
+        } else {
+            isCollided = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        isCollided = false;
+    }  
+
+    public bool IsCollided() {
+        return isCollided;
+    }
+
+    public bool IsCollidedWithCenter() {
+        return isCollidedWithCenter;
     }
 }

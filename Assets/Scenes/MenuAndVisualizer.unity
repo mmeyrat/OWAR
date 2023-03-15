@@ -3299,4 +3299,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   filesObjects: []
-  desiredConnectedDistance: 0.4
+  desiredConnectedDistance: 0.35
