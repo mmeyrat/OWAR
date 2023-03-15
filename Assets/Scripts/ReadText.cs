@@ -9,23 +9,24 @@ using TMPro;
 
 public class ReadText : MonoBehaviour
 {
-    public float minFontSize = 0.03f;
-    public float maxFontSize = 0.1f;
-
     private TMP_Text textObject;
-    private GameObject camera;
+    private GameObject mainCamera;
+    private float minFontSize;
     private string fileName;
 
+    private int maxDecimal = 2; // For LOD gap between size changes
+    private float maxFontSize = 0.1f; // For LOD changes
+ 
     /**
     * Start is called before the first frame update
     **/
     void Start()
     {
-        // TO USE LATER Path.GetFullPath("test2.txt");
         string textContent = File.ReadAllText(fileName);
-
         textObject.text = textContent;
-        camera = GameObject.Find("Main Camera");
+
+        minFontSize = textObject.fontSize;
+        mainCamera = GameObject.Find("Main Camera");
     }
 
     /**
@@ -33,8 +34,7 @@ public class ReadText : MonoBehaviour
     **/
     void Update()
     {
-        int maxDecimal = 2;
-        float dist = Vector3.Distance(textObject.transform.position, camera.transform.position);
+        float dist = Vector3.Distance(textObject.transform.position, mainCamera.transform.position);
         // Round the size to avoid unpleasant small changes
         float roundedFontSize = (float) Math.Round((double) (minFontSize * dist), maxDecimal);
         

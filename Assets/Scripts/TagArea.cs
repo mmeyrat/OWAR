@@ -10,6 +10,11 @@ public class TagArea
     private Quaternion rotation;
     private bool[] slotsAvailable;
 
+    private int minSlotId = 0;
+
+    /**
+    * Constructor for the TagArea class
+    **/
     public TagArea(string tag, Vector3 position, Vector3 scale, Quaternion rotation)
     {
         this.tag = tag;
@@ -62,13 +67,14 @@ public class TagArea
     /**
     * Return the availability of the specified slot in the tag area
     * 
+    * @param id : tag area's slot
     * @return the slot availability
     **/
     public bool GetSlotAvailability(int id)
     {
         bool availability = false;
 
-        if (id >= 0 && id < slotsAvailable.Length)
+        if (id >= minSlotId && id < slotsAvailable.Length)
         {
             availability = slotsAvailable[id];
         }
@@ -84,7 +90,7 @@ public class TagArea
     **/
     public void SetSlotAvailability(int id, bool availability)
     {
-        if (id >= 0 && id < slotsAvailable.Length)
+        if (id >= minSlotId && id < slotsAvailable.Length)
         {
             slotsAvailable[id] = availability;
         }

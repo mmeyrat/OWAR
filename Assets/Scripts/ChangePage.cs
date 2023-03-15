@@ -6,6 +6,7 @@ using TMPro;
 public class ChangePage : MonoBehaviour
 {
     private TMP_Text textWithPages;
+    
     private int minPage = 1;
 
     /**

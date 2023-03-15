@@ -6,21 +6,29 @@ using UnityEngine.EventSystems;
 
 public class DeactivateManipulator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Element which is partially disable when scrollbar is used
+    // Element to disable when the user interacts with it
     public GameObject objectToDisable;
 
+    /**
+    * Check if the pointer enters the current element
+    *
+    * @param eventData : data of the occured event 
+    **/
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Disable object manipulator when the scrollbar is used
-        var manipulatorComp = objectToDisable.GetComponent<ObjectManipulator>();
-        manipulatorComp.enabled = false;
+        // Disable object manipulator
+        objectToDisable.GetComponent<ObjectManipulator>().enabled = false;
     }
 
+    /**
+    * Check if the pointer leaves the current element
+    *
+    * @param eventData : data of the occured event 
+    **/
     public void OnPointerExit(PointerEventData eventData)
     {
-        // (Re)enable object manipulator when the scrollbar have been used
-        var manipulatorComp = objectToDisable.GetComponent<ObjectManipulator>();
-        manipulatorComp.enabled = true;
+        // (Re)enable object manipulator
+        objectToDisable.GetComponent<ObjectManipulator>().enabled = true;
     }
 
 }

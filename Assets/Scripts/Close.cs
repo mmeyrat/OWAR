@@ -5,6 +5,8 @@ using UnityEngine;
 public class Close : MonoBehaviour
 {
     private GameObject objectToClose;
+    
+    private int minTagAreaId = 0;
 
     /**
     * Set the file to close
@@ -23,7 +25,8 @@ public class Close : MonoBehaviour
         {
             int tagAreaId = objectToClose.GetComponent<PrefabData>().GetTagAreaId();
             int slotId = objectToClose.GetComponent<PrefabData>().GetTagAreaSlotId();
-            if (tagAreaId >= 0)
+
+            if (tagAreaId >= minTagAreaId)
             {
                 TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
             }

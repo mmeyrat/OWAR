@@ -14,14 +14,15 @@ public class MainSceneHandler : MonoBehaviour
     public Text selectedFiles;
     public GameObject warning;
 
-    private GameObject camera;
+    private GameObject mainCamera;
+    
     
     /** 
     * Start is called before the first frame update
     **/
     void Start()
     {
-        camera = GameObject.Find("Main Camera");
+        mainCamera = GameObject.Find("Main Camera");
     }
 
     /**
@@ -80,8 +81,8 @@ public class MainSceneHandler : MonoBehaviour
                         }
                         else 
                         {
-                            prefab.transform.position = camera.transform.position + camera.transform.forward * dist;
-                            prefab.transform.rotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
+                            prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * dist;
+                            prefab.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
                         }
 
                         prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
@@ -101,8 +102,8 @@ public class MainSceneHandler : MonoBehaviour
                         }    
                         else 
                         {
-                            prefab.transform.position = camera.transform.position + camera.transform.forward * dist;
-                            prefab.transform.rotation = Quaternion.Euler(0, camera.transform.eulerAngles.y, 0);
+                            prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * dist;
+                            prefab.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
                         }
 
                         prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
@@ -145,7 +146,6 @@ public class MainSceneHandler : MonoBehaviour
     {
         int id = -1;
         float minDist = float.MaxValue;
-        GameObject camera = GameObject.Find("Main Camera");
 
         for (int i = 0; i < TagSceneHandler.GetTagAreaList().Count; i++)
         {
@@ -153,7 +153,7 @@ public class MainSceneHandler : MonoBehaviour
 
             if (currentTagArea.GetTag() == tag && (currentTagArea.GetSlotAvailability(0) || currentTagArea.GetSlotAvailability(1) || currentTagArea.GetSlotAvailability(2) || currentTagArea.GetSlotAvailability(3)))
             {
-                float currentDist = Vector3.Distance(currentTagArea.GetPosition(), camera.transform.position);
+                float currentDist = Vector3.Distance(currentTagArea.GetPosition(), mainCamera.transform.position);
             
                 if (currentDist < minDist)
                 {

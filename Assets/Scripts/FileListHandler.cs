@@ -9,14 +9,16 @@ using System;
 
 public class FileListHandler : MonoBehaviour
 {   
-    // To deploy on HoloLens use this path (works also on Unity):
-    private static string path = Application.streamingAssetsPath;
-    private static Dictionary<string, bool> choosenFiles = new Dictionary<string, bool>(); 
     private static string[] fileEntries;
+
     private static bool alreadyDisplayed = false;
+    private static string path = Application.streamingAssetsPath; // Path to deploy on HoloLens (works also on Unity)
+    private static string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".txt" };
+    private static Dictionary<string, bool> choosenFiles = new Dictionary<string, bool>(); 
 
     /**
     * Start is called before the first frame update
+    * Fill the file list object
     **/
     void Start()
     {
@@ -30,7 +32,8 @@ public class FileListHandler : MonoBehaviour
         
         foreach (string file in fileEntries) 
         {
-            if (file.EndsWith(".png") || file.EndsWith(".jpg") || file.EndsWith(".jpeg") || file.EndsWith(".txt")) 
+            // Check if the file's extension belongs to the accepted extension array
+            if (Array.IndexOf(acceptedExtensions, Path.GetExtension(file)) >= 0)
             {
                 // Add file in the UI menu list
                 AddItemToList(file.Substring(path.Length + 1));
@@ -41,9 +44,6 @@ public class FileListHandler : MonoBehaviour
                 }
             }
         }
-
-        // Get the number of options
-        //print(dropdown.options.Count);
     }
 
     /**
@@ -52,15 +52,15 @@ public class FileListHandler : MonoBehaviour
     * @param : added file's name
     **/
     private void AddItemToList(string file)
-    {StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/FileTagList.json");
-            FileTagList ftl = JsonUtility.FromJson<FileTagList>(reader.ReadToEnd());
+    {
+        string tag = "[Untagged]";
+        FileTagList ftl = FileTagList.GetFileTagList();
 
-            string tag = "[Untagged]";
-                
-                if (ftl.fileList.Contains(file))
-                {
-                    tag = ftl.tagList[ftl.fileList.IndexOf(file)];
-                }
+        if (ftl.fileList.Contains(file))
+        {
+            tag = ftl.tagList[ftl.fileList.IndexOf(file)];
+        }
+
         // Duplicate item template and add it to the list (and set parent)
         GameObject listItem = Instantiate(Resources.Load("ListItemPrefab"), this.transform.GetChild(0)) as GameObject;
 

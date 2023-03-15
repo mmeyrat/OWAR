@@ -10,11 +10,11 @@ public class AnchorHandler : MonoBehaviour
     public GameObject anchoredObject;
 
     /** 
-    * To switch anchor mode of anchoredObject 
+    * To switch between view anchor mode and world anchor mode 
     **/
     public void switchMode()
     {        
-        // component that handle view anchor mode, so handle follow movement transformation
+        // component that handles view anchor mode, so that handle follows movement transformations
         SolverHandler comp = anchoredObject.GetComponent<SolverHandler>(); 
 
         if (comp.enabled) // if object is view anchored
@@ -26,11 +26,13 @@ public class AnchorHandler : MonoBehaviour
         {
             // Switch to view anchor mode
             comp.enabled = true;
+
+            PrefabData data = anchoredObject.GetComponent<PrefabData>();
             
-            if (anchoredObject.GetComponent<PrefabData>()) // Check if object is a displayed file
+            if (data) // Check if object is a displayed file
             {
-                int tagAreaId = anchoredObject.GetComponent<PrefabData>().GetTagAreaId();
-                int slotId = anchoredObject.GetComponent<PrefabData>().GetTagAreaSlotId();
+                int tagAreaId = data.GetTagAreaId();
+                int slotId = data.GetTagAreaSlotId();
                 
                 if (anchoredObject.transform.parent != null)
                 {
