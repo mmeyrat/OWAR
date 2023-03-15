@@ -28,7 +28,7 @@ public class ReadText : MonoBehaviour
 
         textObject.text = textContent;
         camera = GameObject.Find("Main Camera");
-        velocity = new Vector3(0, 0, 0);
+        InitVelocity();
     }
 
     /**
@@ -76,6 +76,10 @@ public class ReadText : MonoBehaviour
 
     public void SetVelocity(Vector3 vel) {
         velocity += vel;
+    }
+
+    public void InitVelocity() {
+        velocity = new Vector3(0, 0, 0);
     }
 
     public Vector3 GetVelocity() {

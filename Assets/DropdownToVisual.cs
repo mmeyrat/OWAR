@@ -114,7 +114,8 @@ public class DropdownToVisual : MonoBehaviour
             timeFilesSelected = Time.time;
 
             // Init a center of gravity for objects files
-            InitGravityCenter();
+            if (GameObject.Find("GravityCenter") == null)
+                InitGravityCenter();
 
             mixedRealityPlayspace.GetComponent<ApplyForces>().InitMovements();
             if (heatmapVisualizer != null)
@@ -128,6 +129,7 @@ public class DropdownToVisual : MonoBehaviour
 
     private void InitGravityCenter() {
         gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        gravityCenter.name = "GravityCenter";
         gravityCenter.transform.position = positionsFiles[0];
         gravityCenter.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
         gravityCenter.GetComponent<SphereCollider>().isTrigger = true;

@@ -28,7 +28,7 @@ public class DisplayImage : MonoBehaviour
         imageObject.texture = texture;
         minSize = imageObject.GetComponent<RectTransform>().sizeDelta.x;
         camera = GameObject.Find("Main Camera");
-        velocity = new Vector3(0, 0, 0);
+        InitVelocity();
     }
 
     /**
@@ -108,6 +108,10 @@ public class DisplayImage : MonoBehaviour
 
     public void SetVelocity(Vector3 vel) {
         velocity += vel;
+    }
+
+    public void InitVelocity() {
+        velocity = new Vector3(0, 0, 0);
     }
 
     public Vector3 GetVelocity() {
