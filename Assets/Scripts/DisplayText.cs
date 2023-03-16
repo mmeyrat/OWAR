@@ -7,7 +7,7 @@ using System;
 using System.Text;
 using TMPro;
 
-public class ReadText : MonoBehaviour
+public class DisplayText : MonoBehaviour
 {
     private TMP_Text textObject;
     private GameObject mainCamera;
@@ -39,6 +39,11 @@ public class ReadText : MonoBehaviour
         float roundedFontSize = (float) Math.Round((double) (minFontSize * dist), maxDecimal);
         
         textObject.fontSize = Mathf.Min(Mathf.Max(roundedFontSize, minFontSize), maxFontSize);
+
+        if (textObject.pageToDisplay > textObject.textInfo.pageCount)
+        {
+            textObject.pageToDisplay = textObject.textInfo.pageCount;
+        }
     }
 
     /**

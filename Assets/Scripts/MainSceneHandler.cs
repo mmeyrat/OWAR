@@ -15,7 +15,14 @@ public class MainSceneHandler : MonoBehaviour
     public GameObject warning;
 
     private GameObject mainCamera;
-    
+
+    private int minChoosenFiles = 0;
+    private int maxSlots = 4; // Number of slots per tag area
+    private int minTagAreaId = 0;
+    private float dist = 1.0f; // Distance between object and camera
+    private float posDistOffset = 2.0f; // For slot positionning
+    private string[] imageExtensions = { ".jpg", ".jpeg", ".png" };
+    private string textExtension = ".txt";
     
     /** 
     * Start is called before the first frame update
@@ -38,11 +45,11 @@ public class MainSceneHandler : MonoBehaviour
 
         if (FileListHandler.IsFileChoosen(file))
         {
-            selectedFiles.text += $"\n-{file}";
+            selectedFiles.text += $"\n• {file}";
         } 
         else 
         {
-            selectedFiles.text = selectedFiles.text.Replace($"\n-{file}", "");
+            selectedFiles.text = selectedFiles.text.Replace($"\n• {file}", "");
         }
     }
 
@@ -51,73 +58,67 @@ public class MainSceneHandler : MonoBehaviour
     **/
     public void Visualize() 
     {
-        if (FileListHandler.GetNumberOfChoosenFiles() > 0) 
+        if (FileListHandler.GetNumberOfChoosenFiles() > minChoosenFiles) 
         {
             string[] files = FileListHandler.GetFiles();
-            StreamReader reader = new StreamReader(Application.streamingAssetsPath + "/FileTagList.json");
-            FileTagList ftl = JsonUtility.FromJson<FileTagList>(reader.ReadToEnd());
+            FileTagList ftl = FileTagList.GetFileTagList();
             
             foreach (string f in files) 
             {
-                string tag = "[Untagged]";
-                
-                if (ftl.fileList.Contains(f))
-                {
-                    tag = ftl.tagList[ftl.fileList.IndexOf(f)];
-                }
-
-                int areaId = GetNearestAreaFromTag(tag);
-                float dist = 1.0f;
-
                 if (FileListHandler.IsFileChoosen(f)) 
                 {   
-                    if (f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".png")) 
+                    GameObject prefab;
+                    string tag = "[Untagged]";
+                    
+                    if (ftl.fileList.Contains(f))
+                    {
+                        tag = ftl.tagList[ftl.fileList.IndexOf(f)];
+                    }
+
+                    int areaId = GetNearestAreaFromTag(tag);
+
+                    if (Array.IndexOf(imageExtensions, Path.GetExtension(f)) >= 0) 
                     {  
-                        GameObject prefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-
-                        if (areaId >= 0)
-                        {
-                            prefab = PreparePrefab(prefab, tag, areaId);
-                        }
-                        else 
-                        {
-                            prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * dist;
-                            prefab.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
-                        }
-
-                        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
-                        // Link to close button
-                        prefab.GetComponent<Close>().SetObj(prefab);
+                        prefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
                         
                         prefab.GetComponent<DisplayImage>().SetImageObject(prefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         prefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
                     }
-                    else if (f.EndsWith(".txt")) 
+                    else if (f.EndsWith(textExtension)) 
                     {       
-                        GameObject prefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
+                        prefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
                         
-                        if (areaId >= 0)
-                        {
-                            prefab = PreparePrefab(prefab, tag, areaId);
-                        }    
-                        else 
-                        {
-                            prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * dist;
-                            prefab.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
-                        }
-
-                        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
-                        // Link to close button
-                        prefab.GetComponent<Close>().SetObj(prefab);
-
-                        // Link to next page button
+                        prefab.GetComponent<DisplayText>().SetTextObject(prefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
+                        prefab.GetComponent<DisplayText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
+                        // Link to next & previous page buttons
                         prefab.GetComponent<ChangePage>().SetObj(prefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        
-                        prefab.GetComponent<ReadText>().SetTextObject(prefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
-                        prefab.GetComponent<ReadText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
+                    }
+                    else 
+                    {
+                        prefab = new GameObject();
                     }
 
-                    selectedFiles.text = selectedFiles.text.Replace($"\n-{f}", "");
+                    if (areaId >= minTagAreaId)
+                    {
+                        int availableSlot = CheckAvailableSlot(tag);
+                        
+                        prefab.transform.position = GetPositionBasedOnTag(prefab, availableSlot, tag);
+                        prefab = RotateBasedOnTag(prefab, tag);
+                        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
+                        
+                        prefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
+                        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
+                    }    
+                    else 
+                    {
+                        prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * dist;
+                        prefab.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
+                    }
+
+                    // Link to close button
+                    prefab.GetComponent<Close>().SetObj(prefab);
+
+                    selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                 }
             }
         } else {
@@ -142,6 +143,12 @@ public class MainSceneHandler : MonoBehaviour
         }
     }
 
+    /**
+    * Check every tag area to find the nearest one to the camera for a given tag
+    *
+    * @param tag : the tag to check
+    * @return the area id
+    **/
     public int GetNearestAreaFromTag(string tag)
     {
         int id = -1;
@@ -151,7 +158,9 @@ public class MainSceneHandler : MonoBehaviour
         {
             TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[i];
 
-            if (currentTagArea.GetTag() == tag && (currentTagArea.GetSlotAvailability(0) || currentTagArea.GetSlotAvailability(1) || currentTagArea.GetSlotAvailability(2) || currentTagArea.GetSlotAvailability(3)))
+            if (currentTagArea.GetTag() == tag && 
+                (currentTagArea.GetSlotAvailability(0) || currentTagArea.GetSlotAvailability(1) || 
+                 currentTagArea.GetSlotAvailability(2) || currentTagArea.GetSlotAvailability(3)))
             {
                 float currentDist = Vector3.Distance(currentTagArea.GetPosition(), mainCamera.transform.position);
             
@@ -166,25 +175,21 @@ public class MainSceneHandler : MonoBehaviour
         return id;
     }
 
-    public GameObject PreparePrefab(GameObject prefab, string tag, int areaId)
-    {               
-        int availableSlot = CheckAvailableSlot(prefab, tag);
-        prefab.transform.position = GetPositionBasedOnTag(prefab, availableSlot, tag);
-        prefab = RotateBasedOnTag(prefab, tag);
-        prefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
-        TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
-
-        return prefab;
-    }
-
+    /**
+    * Compute the correct position to place the prefab based on its slot
+    *
+    * @param prefab : the prefab to place
+    * @param slot : the prefab's asigned slot
+    * @param tag : the prefab's tag
+    * @return the position
+    **/
     public Vector3 GetPositionBasedOnTag(GameObject prefab, int slot, string tag)
     {
-        Vector3 position = new Vector3(0,0,0);
+        Vector3 position = new Vector3(0, 0, 0);
         int areaId = GetNearestAreaFromTag(tag);
         float slotPos = 0.0f;
-        float posDistOffset = 2.0f;
 
-        if (areaId >= 0)
+        if (areaId >= minTagAreaId)
         {
             TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
             float width = prefab.GetComponent<BoxCollider>().size[0];
@@ -216,18 +221,25 @@ public class MainSceneHandler : MonoBehaviour
         return position;
     }
 
+    /**
+    * Add a parent to the prefab to perform a rotation based on the specified tag area
+    *
+    * @param prefab : the prefab to rotate
+    * @param tag : the prefab's tag
+    * @return the rotated prefab
+    **/
     public GameObject RotateBasedOnTag(GameObject prefab, string tag)
     {
         int areaId = GetNearestAreaFromTag(tag);
 
-        if (areaId >= 0)
+        if (areaId >= minTagAreaId)
         {
             GameObject rotationParent = new GameObject("RotationParent");
 
             rotationParent.transform.position = TagSceneHandler.GetTagAreaList()[areaId].GetPosition();
             rotationParent.transform.localScale = TagSceneHandler.GetTagAreaList()[areaId].GetScale();
 
-            prefab.transform.parent = rotationParent.transform;
+            prefab.transform.SetParent(rotationParent.transform);
 
             rotationParent.transform.localRotation = TagSceneHandler.GetTagAreaList()[areaId].GetRotation();
         }
@@ -235,12 +247,18 @@ public class MainSceneHandler : MonoBehaviour
         return prefab;
     }
 
-    public int CheckAvailableSlot(GameObject prefab, string tag)
+    /**
+    * Check if a slot is available for the nearest tag area
+    *
+    * @param tag : the tag area's tag
+    * @return the available slot
+    **/
+    public int CheckAvailableSlot(string tag)
     {
-        int maxSlots = 4;
+        int noSlotId = -1;
         int areaId = GetNearestAreaFromTag(tag);
 
-        if (areaId >= 0)
+        if (areaId >= minTagAreaId)
         {
             TagArea currentTagArea = TagSceneHandler.GetTagAreaList()[areaId];
             
@@ -253,7 +271,7 @@ public class MainSceneHandler : MonoBehaviour
             }
         }
 
-        return -1;
+        return noSlotId;
     }
 
     /**

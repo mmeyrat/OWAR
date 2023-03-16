@@ -11,6 +11,7 @@ public class FileListHandler : MonoBehaviour
 {   
     private static string[] fileEntries;
 
+    private static int minChoosenFiles = 0;
     private static bool alreadyDisplayed = false;
     private static string path = Application.streamingAssetsPath; // Path to deploy on HoloLens (works also on Unity)
     private static string[] acceptedExtensions = { ".png", ".jpg", ".jpeg", ".txt" };
@@ -25,7 +26,7 @@ public class FileListHandler : MonoBehaviour
         // Display all files names available in the dropdown list
         fileEntries = Directory.GetFiles(path);
 
-        if (choosenFiles.Count > 0)
+        if (choosenFiles.Count > minChoosenFiles)
         {
             choosenFiles.Clear();
         }

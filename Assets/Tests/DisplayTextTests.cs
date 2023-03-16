@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Tests
 {
-    public class ReadTextTests
+    public class DisplayTextTests
     {
         [Test]
         public void ReadCorrectlyTextFromFileTest()
@@ -35,7 +35,7 @@ namespace Tests
         [Test]
         public void FileNameSetterIsCorrectTest()
         {
-            ReadText rt = new ReadText();
+            DisplayText rt = new DisplayText();
             string fn = "Assets/StreamingAssets/Giorno.png";
 
             rt.SetFileName(fn);
