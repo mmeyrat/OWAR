@@ -388,7 +388,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             yield return new WaitForSeconds(2f);
 
             // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.065f, -0.14f, 0.3f); 
+            Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
             yield return rightHand.Show(firstPosition);
 
             // Click on anchor button
@@ -407,7 +407,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             });
 
             // Make sure the menu is really anchored
-            Assert.LessOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu is correctly anchored");
+            Assert.LessOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu isn't correctly anchored");
             
             yield return new WaitForSeconds(5f);
             yield return new WaitForFixedUpdate();
@@ -429,7 +429,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             yield return new WaitForSeconds(2f);
 
             // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.065f, -0.14f, 0.3f); 
+           Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
             yield return rightHand.Show(firstPosition);
 
             // Click on anchor button
@@ -448,7 +448,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             });
 
             // Make sure the menu is really anchored
-            Assert.GreaterOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu is correctly anchored");
+            Assert.GreaterOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu isn't correctly anchored");
             
             yield return new WaitForSeconds(5f);
             yield return new WaitForFixedUpdate();
@@ -471,7 +471,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             yield return new WaitForSeconds(2f);
 
             // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.065f, -0.14f, 0.3f); 
+            Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
             yield return rightHand.Show(firstPosition);
 
             // Click on anchor button
@@ -490,7 +490,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             });
 
             // Make sure the menu is really anchored
-            Assert.GreaterOrEqual((int)backgroundMenu.transform.position.y, (int)CameraCache.Main.transform.position.y, "The menu is correctly anchored");
+            Assert.GreaterOrEqual((int)backgroundMenu.transform.position.y, (int)CameraCache.Main.transform.position.y, "The menu isn't correctly anchored");
             
             yield return new WaitForSeconds(5f);
             yield return new WaitForFixedUpdate();
@@ -512,11 +512,15 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             yield return new WaitForSeconds(2f);
 
             // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.065f, -0.14f, 0.3f); 
+            Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
             yield return rightHand.Show(firstPosition);
 
+            yield return new WaitForSeconds(2f);
+
             // Click on anchor button
-            yield return rightHand.Click();
+            yield return rightHand.Click(); 
+
+            yield return new WaitForSeconds(2f);
 
             // Moving the hand now 
             Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
@@ -531,13 +535,12 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             });
 
             // Make sure the menu is really anchored
-            Assert.LessOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu is correctly anchored");
+            Assert.LessOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu isn't correctly anchored");
             
             yield return new WaitForSeconds(5f);
             yield return new WaitForFixedUpdate();
             yield return null;
         }
-
         #endregion
 
         #region TapToPlace Tests
