@@ -34,15 +34,18 @@ public class DisplayText : MonoBehaviour
     **/
     void Update()
     {
-        float dist = Vector3.Distance(textObject.transform.position, mainCamera.transform.position);
-        // Round the size to avoid unpleasant small changes
-        float roundedFontSize = (float) Math.Round((double) (minFontSize * dist), maxDecimal);
-        
-        textObject.fontSize = Mathf.Min(Mathf.Max(roundedFontSize, minFontSize), maxFontSize);
-
-        if (textObject.pageToDisplay > textObject.textInfo.pageCount)
+        if (mainCamera != null)
         {
-            textObject.pageToDisplay = textObject.textInfo.pageCount;
+            float dist = Vector3.Distance(textObject.transform.position, mainCamera.transform.position);
+            // Round the size to avoid unpleasant small changes
+            float roundedFontSize = (float) Math.Round((double) (minFontSize * dist), maxDecimal);
+            
+            textObject.fontSize = Mathf.Min(Mathf.Max(roundedFontSize, minFontSize), maxFontSize);
+
+            if (textObject.pageToDisplay > textObject.textInfo.pageCount)
+            {
+                textObject.pageToDisplay = textObject.textInfo.pageCount;
+            }
         }
     }
 

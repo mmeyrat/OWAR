@@ -107,7 +107,6 @@ public class MainSceneHandler : MonoBehaviour
                         TagSceneHandler.GetTagAreaList()[areaId].SetSlotAvailability(availableSlot, false);
                         
                         prefab.GetComponent<PrefabData>().SetTagAreaSlotId(availableSlot);
-                        prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
                     }    
                     else 
                     {
@@ -117,6 +116,7 @@ public class MainSceneHandler : MonoBehaviour
 
                     // Link to close button
                     prefab.GetComponent<Close>().SetObj(prefab);
+                    prefab.GetComponent<PrefabData>().SetTagAreaId(areaId);
 
                     selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                 }

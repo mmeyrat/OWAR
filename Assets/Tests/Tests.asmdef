@@ -1,6 +1,7 @@
 {
     "name": "Tests",
     "references": [
+        "Unity.TextMeshPro",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "GameAssembly"

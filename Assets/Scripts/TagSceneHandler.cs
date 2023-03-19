@@ -22,7 +22,7 @@ public class TagSceneHandler : MonoBehaviour
     * Start is called before the first frame update
     * If tag areas were previously generated, they are loaded again
     **/
-    void Start()
+    public void Start()
     {
         mainCamera = GameObject.Find("Main Camera");
 
@@ -97,5 +97,15 @@ public class TagSceneHandler : MonoBehaviour
     static public List<TagArea> GetTagAreaList()
     {
         return tagAreaList;
+    }
+
+    /**
+    * Return the list of temporary placed tag areas in the scene
+    *
+    * @return a list of gameobject of tag areas
+    **/
+    public List<GameObject> GetTempTagAreaList()
+    {
+        return tempTagAreaList;
     }
 }

@@ -46,4 +46,14 @@ public class ChangePage : MonoBehaviour
             textWithPages.pageToDisplay = textWithPages.textInfo.pageCount;
         }
     }
+
+    /**
+    * Return to text object from which its page are changeable
+    *
+    * @return text object 
+    **/
+    public TMP_Text GetTextObject()
+    {
+        return this.textWithPages;
+    }
 }
