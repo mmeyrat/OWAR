@@ -17,7 +17,7 @@ public class DeactivateManipulator : MonoBehaviour, IPointerEnterHandler, IPoint
     public void OnPointerEnter(PointerEventData eventData)
     {
         // Disable object manipulator
-        objectToDisable.GetComponent<ObjectManipulator>().enabled = false;
+        DisableManipulator();
     }
 
     /**
@@ -28,6 +28,16 @@ public class DeactivateManipulator : MonoBehaviour, IPointerEnterHandler, IPoint
     public void OnPointerExit(PointerEventData eventData)
     {
         // (Re)enable object manipulator
+        EnableManipulator();
+    }
+
+    public void DisableManipulator()
+    {
+        objectToDisable.GetComponent<ObjectManipulator>().enabled = false;
+    }
+
+    public void EnableManipulator()
+    {
         objectToDisable.GetComponent<ObjectManipulator>().enabled = true;
     }
 
