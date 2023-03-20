@@ -6,6 +6,9 @@ public class ManipulatorHandler : MonoBehaviour
 {   
     private int minTagAreaId = 0;
 
+    /**
+    * If the object is moved while in a slot of a tag area, it's removed from the slot of that tag area
+    **/
     public void RemoveFromTagAreaSlot()
     {
         int tagAreaId = this.GetComponent<PrefabData>().GetTagAreaId();
