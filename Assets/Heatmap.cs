@@ -13,13 +13,12 @@ using Microsoft.MixedReality.Toolkit;
 
 public class Heatmap : MonoBehaviour
 {
-    public Vector4[] positions;
-    public Vector4[] properties;
+    private Vector3[] positions;
+    private Vector2[] properties;
     private Vector3[] orientations;
-
-    public Material material;
+    private GameObject[] zones;
     
-    // Number of points in the heatmap (Max is 1024)
+    // Number of points in the heatmap (Max is 1024 if we use the shader)
     public int count = 100;
 
     private int cpt = 0;
@@ -35,28 +34,43 @@ public class Heatmap : MonoBehaviour
 
     // Timer of 15 seconds to scan around 
     private float timeRemaining = 15.0f;
- 
+    
+    private bool canBeUpdated = false;
     void Start ()
     {
-        positions = new Vector4[count];
-        properties = new Vector4[count];
+        positions = new Vector3[count];
+        properties = new Vector2[count];
         orientations = new Vector3[count];
+        zones = new GameObject[count];
+
         menu = GameObject.Find("BackgroundMenu");
 
         for (int i = 0; i < positions.Length; i++)
         {
             // pos = (x, y, z)
             // At the launch the pointer is in the center so we initialize all points to 0.0f
-            positions[i] = new Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+            positions[i] = new Vector3(0.0f, 0.0f, 0.0f);
             
             // x = radius 
             // y = intensity
-            // radius is 0.4 to be enough large and no too large
+            // radius is 0.05 to be enough large and no too large
             // intensity will correspond to time the user look at this particular point 
-            properties[i] = new Vector4(0.4f, 0.0f, 0, 0);
+            properties[i] = new Vector2(0.05f, 0.0f);
 
-            // Initialise orientations with 0.0f
+            // Initialise orientations with 0.0f for each positions
             orientations[i] = new Vector3(0, 0, 0);
+
+            // Adding spheres at each position looked to prevent user (all spheres are at 0.0f for the begining and invisible)
+            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            sphere.transform.localPosition = new Vector3(positions[i].x, positions[i].x, positions[i].x);
+            sphere.transform.localScale = new Vector3(properties[i].x, properties[i].x, properties[i].x);
+
+            // Init the color of these sphere to green (because user never look here)
+            // They become more and more red if user look more at this position
+            Color customColor = new Color(0.0f, 1.0f, 0.0f, 0.0f);
+            sphere.GetComponent<Renderer>().material.SetColor("_Color", customColor);
+            sphere.SetActive(false);
+            zones[i] = sphere;
         }
     }
  
@@ -75,22 +89,20 @@ public class Heatmap : MonoBehaviour
                 nextActionTime = Time.time + period;
 
                 // Update positions points where the user is looking
-                // Vector3 lookAt= CoreServices.InputSystem.EyeGazeProvider.HitPosition;
+                Vector3 pointLooked = CoreServices.InputSystem.GazeProvider.HitPosition;
                 
-                Vector3 lookAt = CoreServices.InputSystem.GazeProvider.HitPosition;
-                // Direction where the user is looking (don't know which one is the best ?)
-                // Vector3 lookDirection = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
+                // Direction where the user is looking 
                 Vector3 lookDirection = -1.0f * CoreServices.InputSystem.EyeGazeProvider.HitNormal;
 
-                // we put the point where the user is looking in to the map (if not already in)
-                Vector4 pointLooked = new Vector4(lookAt.x, lookAt.y, lookAt.z, 0);
-
+                // we put the point where the user is looking in to the map 
                 //print(pointLooked);
                 bool isAlreadyLooked = Array.Exists(positions, point => 
                     {
                         if (distance(point, pointLooked) < 0.5) {
                             int index = Array.IndexOf(positions, point);
-                            properties[index] += new Vector4(0.0f, 0.1f, 0, 0); 
+                            properties[index] += new Vector2(0.0f, 0.1f); 
+                            zones[index].transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+                            zones[index].GetComponent<Renderer>().material.color += new Color(0.015f, -0.015f, 0.0f, 0.0f);
                             return true;
                         } else {
                             return false;
@@ -105,19 +117,27 @@ public class Heatmap : MonoBehaviour
                     positions[cpt] = pointLooked;
 
                     // Update the intensity of this point a little bit 
-                    properties[cpt] += new Vector4(0.0f, 0.1f, 0, 0); 
+                    properties[cpt] += new Vector2(0.0f, 0.1f); 
 
                     // Adding direction to orient the object when will be displayed
                     orientations[cpt] = lookDirection;
+
+                    // Update the sphere corresponding 
+                    zones[cpt].transform.localPosition = positions[cpt];
+                    zones[cpt].SetActive(true);
                     cpt++;
-                }
+                } 
             } 
         } else {
-            //cpt = 0;
-            //print("Heatmap calcul done ! Files can be selected ! ");
-            menu.SetActive(true);
-            DropdownToVisual.SetPositions(GetMostLookedPositions());
-            DropdownToVisual.SetOrientations(GetOrientations());
+            if (!canBeUpdated) {
+                menu.SetActive(true);
+                DropdownToVisual.SetPositions(GetMostLookedPositions());
+                DropdownToVisual.SetOrientations(GetOrientations());
+                foreach (GameObject go in zones) {
+                    go.SetActive(false);
+                }
+                canBeUpdated = true;
+            }
         }
 
         // NOTE TO DISPLAY FILES : 
@@ -128,14 +148,9 @@ public class Heatmap : MonoBehaviour
         * 3e : get coordinates from index into the positions array 
         * 4e : display the files at these positions 
         */
-
-        material.SetInt("_Points_Length", count);
-        material.SetVectorArray("_Points", positions);
-        material.SetVectorArray("_Properties", properties);
-
     }
 
-    private double distance(Vector4 p1, Vector4 p2) {
+    private double distance(Vector3 p1, Vector3 p2) {
         return Math.Sqrt(Math.Pow(p2.x-p1.x, 2) + Math.Pow(p2.y-p1.y, 2) + Math.Pow(p2.z-p1.z, 2));
     }
 
@@ -204,6 +219,7 @@ public class Heatmap : MonoBehaviour
     public void ScanEnvironment() {
         cpt = 0;
         timeRemaining = 15.0f;
+        canBeUpdated = false;
         Start();
     }
 

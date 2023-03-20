@@ -732,15 +732,15 @@ GameObject:
   - component: {fileID: 7016285170642045783}
   - component: {fileID: 3982795674275284292}
   - component: {fileID: 8447869349089976041}
-  - component: {fileID: 1380887360088359860}
   - component: {fileID: 2392832080604484318}
+  - component: {fileID: 1489639555181423784}
   - component: {fileID: 8556013682215050462}
   - component: {fileID: 8433459537382088516}
   - component: {fileID: 6343416187625099218}
   - component: {fileID: 1117235233884453950}
   - component: {fileID: 5901885527929149573}
   - component: {fileID: 8923554749923647282}
-  - component: {fileID: 7133139773456117502}
+  - component: {fileID: 5431726023034443010}
   - component: {fileID: 6261554881955850381}
   m_Layer: 5
   m_Name: ImagePrefab
@@ -842,18 +842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4e3b9019304b5aaec5664de0778d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1380887360088359860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5465664593042675508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0afa53b4ce8f794f8dc152f7a1f93ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2392832080604484318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +856,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTetherWhenManipulating: 0
   IsBoundsHandles: 0
+--- !u!114 &1489639555181423784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5465664593042675508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0afa53b4ce8f794f8dc152f7a1f93ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8556013682215050462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anchoredObject: {fileID: 5465664593042675508}
   switchModeTrigger: {fileID: 3029493488548943299}
---- !u!114 &7133139773456117502
+--- !u!114 &5431726023034443010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1057,7 +1057,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5465664593042675508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6450c75caddbd46bf2a335282df88f, type: 3}
+  m_Script: {fileID: 11500000, guid: e2ea4eacfbeb10c44aa074028fbf1291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!65 &6261554881955850381
@@ -1725,7 +1725,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7133139773456117502}
+      objectReference: {fileID: 0}
     - target: {fileID: 8779034279059886464, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

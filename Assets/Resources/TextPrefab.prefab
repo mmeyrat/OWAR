@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 1262247910092551637}
   - component: {fileID: 1262247910092551638}
   - component: {fileID: 1262247910092551639}
-  - component: {fileID: 1262247910092551632}
+  - component: {fileID: 8229950158560463693}
   - component: {fileID: 1262247910092551624}
   - component: {fileID: 1262247910092551631}
   - component: {fileID: 1262247910092551630}
@@ -466,7 +466,7 @@ GameObject:
   - component: {fileID: 1262247910092551628}
   - component: {fileID: 1262247910092551635}
   - component: {fileID: 1262247910092551634}
-  - component: {fileID: 7645801880086923891}
+  - component: {fileID: 4196787722042633406}
   - component: {fileID: 4788082121249984708}
   - component: {fileID: 3065398257751583306}
   m_Layer: 5
@@ -569,7 +569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff4e3b9019304b5aaec5664de0778d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1262247910092551632
+--- !u!114 &8229950158560463693
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -777,7 +777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoConstraintSelection: 1
   selectedConstraints: []
---- !u!114 &7645801880086923891
+--- !u!114 &4196787722042633406
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -786,7 +786,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1262247910092551625}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6450c75caddbd46bf2a335282df88f, type: 3}
+  m_Script: {fileID: 11500000, guid: e2ea4eacfbeb10c44aa074028fbf1291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!65 &4788082121249984708
@@ -1796,7 +1796,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7645801880086923891}
+      objectReference: {fileID: 0}
     - target: {fileID: 8779034279059886464, guid: 3f1f46cbecbe08e46a303ccfdb5b498a,
         type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

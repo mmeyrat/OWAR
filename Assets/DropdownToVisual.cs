@@ -120,6 +120,10 @@ public class DropdownToVisual : MonoBehaviour
             mixedRealityPlayspace.GetComponent<ApplyForces>().InitMovements();
             if (heatmapVisualizer != null)
                 heatmapVisualizer.SetActive(false);
+            
+            GameObject menu = GameObject.Find("BackgroundMenu");
+            menu.SetActive(true);
+
         } else {
             warning.SetActive(true);
             warning.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
