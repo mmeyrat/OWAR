@@ -74,6 +74,21 @@ public class TagSceneHandler : MonoBehaviour
     }
 
     /**
+    * Remove all placed tag areas
+    **/
+    public void RemoveAll()
+    {
+        tempTagAreaList.Clear();
+
+        GameObject[] tagAreaPrefabs = GameObject.FindGameObjectsWithTag("TagAreaPrefab");
+        
+        foreach (GameObject tap in tagAreaPrefabs) 
+        {
+            Destroy(tap);
+        }
+    }
+
+    /**
     * Create a tag area prefab in the scene
     *
     * @param tag : the associated tag of the tag area 
