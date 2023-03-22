@@ -19,6 +19,8 @@ public class Close : MonoBehaviour
     **/
     public void CloseWindow() 
     {
+        ApplyForces.RemoveObj(objectToClose);
         Destroy(objectToClose);
     }
+
 }

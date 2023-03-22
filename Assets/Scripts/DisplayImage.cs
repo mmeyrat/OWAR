@@ -9,26 +9,28 @@ using System;
 public class DisplayImage : MonoBehaviour
 {
     private RawImage imageObject;
-    private GameObject camera;
-    private string fileName;
-    private float poseX = 0.0f;
+    private GameObject mainCamera;
     private float minSize;
+    private string fileName;
+
     private Vector3 velocity;
-    private bool isCollided;
-    private bool isCollidedWithCenter;
+
+    private int textureSize = 1;
+    private int maxDecimal = 2; // For LOD gap between size changes
+    private float maxDist = 2.0f; // For LOD changes
 
     /**
     * Start is called before the first frame update
+    * The image is loaded and applied to the object
     **/
     public void Start()
     {
-        Texture2D texture = new Texture2D(1, 1);
+        Texture2D texture = new Texture2D(textureSize, textureSize);
 		texture.LoadImage(File.ReadAllBytes(fileName));
-
         imageObject.texture = texture;
+
         minSize = imageObject.GetComponent<RectTransform>().sizeDelta.x;
-        camera = GameObject.Find("Main Camera");
-        InitVelocity();
+        mainCamera = GameObject.Find("Main Camera");
     }
 
     /**
@@ -36,9 +38,7 @@ public class DisplayImage : MonoBehaviour
     **/
     public void Update()
     {
-        int maxDecimal = 2;
-        float maxDist = 2.0f; 
-        float dist = Vector3.Distance(imageObject.transform.position, camera.transform.position);
+        float dist = Vector3.Distance(imageObject.transform.position, mainCamera.transform.position);
         // Round the size to avoid unpleasant small changes
         float roundedSize = (float) Math.Round((double) (dist * minSize), maxDecimal);
         float newSize = Mathf.Min(Mathf.Max(roundedSize, minSize), minSize * maxDist);
@@ -67,16 +67,6 @@ public class DisplayImage : MonoBehaviour
     }
 
     /**
-    * Change the x position based on the offset
-    * 
-    * @param offset : the offset 
-    **/
-    public void SetPoseX(float offset) 
-    {
-        this.poseX += offset;
-    }
-
-    /**
     * Return the value of the image object
     * 
     * @return image object 
@@ -96,16 +86,6 @@ public class DisplayImage : MonoBehaviour
         return this.fileName;
     }
 
-    /**
-    * Return the value of the x position
-    * 
-    * @return x position
-    **/
-    public float GetPoseX() 
-    {
-        return this.poseX;
-    }
-
     public void SetVelocity(Vector3 vel) {
         velocity += vel;
     }
@@ -117,24 +97,5 @@ public class DisplayImage : MonoBehaviour
     public Vector3 GetVelocity() {
         return velocity;
     }
-
-    private void OnTriggerEnter(Collider other) {
-        if (other.name == "CenterCollider") {
-            isCollidedWithCenter = true;
-        } else {
-            isCollided = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        isCollided = false;
-    }  
-
-    public bool IsCollided() {
-        return isCollided;
-    }
-
-    public bool IsCollidedWithCenter() {
-        return isCollidedWithCenter;
-    }
+    
 }

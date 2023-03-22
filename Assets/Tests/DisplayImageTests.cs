@@ -59,16 +59,5 @@ namespace Tests
 
             Assert.AreEqual(fn, di.GetFileName());
         }
-
-        [Test]
-        public void PoseXSetterIsCorrectTest()
-        {
-            DisplayImage di = new DisplayImage();
-            float px = 0.5f;
-
-            di.SetPoseX(px);
-
-            Assert.AreEqual(px, di.GetPoseX());
-        }
     }
 }

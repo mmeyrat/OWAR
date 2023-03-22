@@ -6,6 +6,8 @@ using TMPro;
 public class ChangePage : MonoBehaviour
 {
     private TMP_Text textWithPages;
+    
+    private int minPage = 1;
 
     /**
     * Set the file to change the pages
@@ -26,7 +28,32 @@ public class ChangePage : MonoBehaviour
         }
         else 
         {
-            textWithPages.pageToDisplay = 1;
+            textWithPages.pageToDisplay = minPage;
         }
+    }
+
+    /**
+    * Set the current page to the previous one
+    **/
+    public void ChangeToPreviousPage()
+    {
+        if (textWithPages.pageToDisplay > minPage)
+        {
+            textWithPages.pageToDisplay--;
+        }
+        else
+        {
+            textWithPages.pageToDisplay = textWithPages.textInfo.pageCount;
+        }
+    }
+
+    /**
+    * Return to text object from which its page are changeable
+    *
+    * @return text object 
+    **/
+    public TMP_Text GetTextObject()
+    {
+        return this.textWithPages;
     }
 }

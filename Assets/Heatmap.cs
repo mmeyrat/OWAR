@@ -1,4 +1,4 @@
-// Alan Zucconi
+﻿// Alan Zucconi
 // www.alanzucconi.com
 // doc : https://forum.unity.com/threads/how-to-create-heatmap-in-unity.423163/
 // https://www.alanzucconi.com/2016/01/27/arrays-shaders-heatmaps-in-unity3d/#more-2003
@@ -30,10 +30,11 @@ public class Heatmap : MonoBehaviour
     private float period = 0.1f;
 
     // Get menu to not count when user is looking the menu 
-    private GameObject menu;
+    public GameObject menu;
+    public GameObject displayer;
 
-    // Timer of 15 seconds to scan around 
-    private float timeRemaining = 15.0f;
+    // Timer of 30 seconds to scan around (lower to test)
+    private float timeRemaining = 10.0f;
     
     private bool canBeUpdated = false;
     void Start ()
@@ -42,8 +43,6 @@ public class Heatmap : MonoBehaviour
         properties = new Vector2[count];
         orientations = new Vector3[count];
         zones = new GameObject[count];
-
-        menu = GameObject.Find("BackgroundMenu");
 
         for (int i = 0; i < positions.Length; i++)
         {
@@ -95,10 +94,9 @@ public class Heatmap : MonoBehaviour
                 Vector3 lookDirection = -1.0f * CoreServices.InputSystem.EyeGazeProvider.HitNormal;
 
                 // we put the point where the user is looking in to the map 
-                //print(pointLooked);
                 bool isAlreadyLooked = Array.Exists(positions, point => 
                     {
-                        if (distance(point, pointLooked) < 0.5) {
+                        if (distance(point, pointLooked) < 0.25) {
                             int index = Array.IndexOf(positions, point);
                             properties[index] += new Vector2(0.0f, 0.1f); 
                             zones[index].transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
@@ -110,10 +108,10 @@ public class Heatmap : MonoBehaviour
                     }
                 );
 
-                double diag = Math.Sqrt(Math.Pow(2 * menu.GetComponent<Renderer>().bounds.size.x, 2));
+                float semiWidth = menu.transform.localScale.x / 2.0f;
+                double diag = Math.Sqrt(Math.Pow(2 * semiWidth, 2));
                 bool isLookingMenu = distance(menu.transform.position, pointLooked) < diag;
                 if (!isAlreadyLooked && !isLookingMenu) {
-                    print("NotLooked");
                     positions[cpt] = pointLooked;
 
                     // Update the intensity of this point a little bit 
@@ -131,23 +129,15 @@ public class Heatmap : MonoBehaviour
         } else {
             if (!canBeUpdated) {
                 menu.SetActive(true);
-                DropdownToVisual.SetPositions(GetMostLookedPositions());
-                DropdownToVisual.SetOrientations(GetOrientations());
+                displayer.SetActive(false);
+                MainSceneHandler.SetPositions(GetMostLookedPositions());
+                MainSceneHandler.SetOrientations(GetOrientations());
                 foreach (GameObject go in zones) {
                     go.SetActive(false);
                 }
                 canBeUpdated = true;
             }
         }
-
-        // NOTE TO DISPLAY FILES : 
-        /*
-        * Supposing we want to display n files so we do this below n times :
-        * 1st : find the max intensity in the properties array
-        * 2e : Get the index of the point corresponding to this intensity
-        * 3e : get coordinates from index into the positions array 
-        * 4e : display the files at these positions 
-        */
     }
 
     private double distance(Vector3 p1, Vector3 p2) {
@@ -173,7 +163,7 @@ public class Heatmap : MonoBehaviour
     }
 
     private List<int> GetIndices() {
-        int numberFiles = DropdownHandler.GetNumberOfChoosenFiles();
+        int numberFiles = FileListHandler.GetNumberOfChoosenFiles();
         float[] intensities = GetIntensities();
         float[] intensitiesInOrder = GetIntensities();
         List<int> indices = new List<int>();
@@ -220,6 +210,8 @@ public class Heatmap : MonoBehaviour
         cpt = 0;
         timeRemaining = 15.0f;
         canBeUpdated = false;
+        menu.SetActive(false);
+        displayer.SetActive(true);
         Start();
     }
 

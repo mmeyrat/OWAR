@@ -51,7 +51,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
         [UnityTearDown]
         public override IEnumerator TearDown()
         {
-            Scene scene = SceneManager.GetSceneByName("MenuAndVisualizer");
+            Scene scene = SceneManager.GetSceneByName("MainScene");
             yield return null;
         }
 
@@ -354,7 +354,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
         [UnitySetUp]
         public IEnumerator Setup()
         {
-            AsyncOperation loadOp = SceneManager.LoadSceneAsync("MenuAndVisualizer", LoadSceneMode.Single);
+            AsyncOperation loadOp = SceneManager.LoadSceneAsync("MainScene", LoadSceneMode.Single);
             loadOp.allowSceneActivation = true;
             while (!loadOp.isDone)
             {
@@ -381,7 +381,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
         public IEnumerator TestMenuAnchorAndMovingRight()
         {
             // Finding objects used for this test
-            GameObject backgroundMenu = GameObject.Find("BackgroundMenu");
+            GameObject backgroundMenu = GameObject.Find("Menu");
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();
@@ -422,7 +422,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
         public IEnumerator TestMenuAnchorAndMovingLeft()
         {
             // Finding objects used for this test
-            GameObject backgroundMenu = GameObject.Find("BackgroundMenu");
+            GameObject backgroundMenu = GameObject.Find("Menu");
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();
@@ -464,7 +464,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
         public IEnumerator TestMenuAnchorAndMovingUp()
         {
             // Finding objects used for this test
-            GameObject backgroundMenu = GameObject.Find("BackgroundMenu");
+            GameObject backgroundMenu = GameObject.Find("Menu");
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();
@@ -505,7 +505,7 @@ namespace Microsoft.MixedReality.Toolkit.Tests
         public IEnumerator TestMenuAnchorAndMovingDown()
         {
             // Finding objects used for this test
-            GameObject backgroundMenu = GameObject.Find("BackgroundMenu");
+            GameObject backgroundMenu = GameObject.Find("Menu");
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();

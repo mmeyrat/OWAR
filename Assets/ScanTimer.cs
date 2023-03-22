@@ -7,11 +7,11 @@ public class ScanTimer : MonoBehaviour
 {
 
     public GameObject mixedRealityPlayspace; 
-    private Text scanIndicator;
+    private TextMesh scanIndicator;
 
     void Start() 
     {
-        scanIndicator = GetComponent<Text>();
+        scanIndicator = GetComponent<TextMesh>();
     }
 
     // Update is called once per frame
