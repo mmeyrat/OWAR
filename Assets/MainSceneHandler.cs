@@ -74,8 +74,7 @@ public class MainSceneHandler : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
-                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
-                        FileListHandler.SetToChoosen(f);
+                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");                        
                         offsetDisplay += 0.01f;
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                     }
@@ -96,8 +95,7 @@ public class MainSceneHandler : MonoBehaviour
                         textPrefab.GetComponent<DisplayText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         textPrefab.GetComponent<DisplayText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
-                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");
-                        FileListHandler.SetToChoosen(f);
+                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");                    
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                         offsetDisplay += 0.01f;
                     } 
@@ -123,6 +121,7 @@ public class MainSceneHandler : MonoBehaviour
 
         for (int i = 0; i < panelListComp.transform.childCount; i++) 
         {
+
             GameObject currentChild = panelListComp.transform.GetChild(i).gameObject;
             //Check if it's an item which corresponds to a selected file 
             string fileName = currentChild.transform.GetChild(1).GetChild(1).GetComponent<Text>().text;
