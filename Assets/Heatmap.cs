@@ -99,7 +99,9 @@ public class Heatmap : MonoBehaviour
                         if (distance(point, pointLooked) < 0.25) {
                             int index = Array.IndexOf(positions, point);
                             properties[index] += new Vector2(0.0f, 0.1f); 
-                            zones[index].transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+                            if (zones[index].transform.localScale.x < 0.35) {
+                                zones[index].transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+                            }
                             zones[index].GetComponent<Renderer>().material.color += new Color(0.015f, -0.015f, 0.0f, 0.0f);
                             return true;
                         } else {

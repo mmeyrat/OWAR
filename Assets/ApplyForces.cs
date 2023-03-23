@@ -28,7 +28,12 @@ public class ApplyForces : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-
+        // Distances are decupled by 2 to get a long range to see a lot of files (after 12 opened)
+        if (filesObjects.Count >= 12) {
+            distanceDesiredFromCenterMax = 1.0f;
+            desiredConnectedDistance = 0.8f;
+            desiredConnectedDistanceMax = 1.6f;
+        }
         if (!IsEmpty(filesObjects) || filesObjects.Count > 1) {
             if (!areFilesPlaced) {
                 ApplyCenterForce();

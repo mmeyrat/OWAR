@@ -22,7 +22,7 @@ public class MainSceneHandler : MonoBehaviour
     private static List<Vector3> positionsFiles;
     private static List<Vector3> orientationsFiles;
     private static float timeFilesSelected;
-    private float offsetDisplay = 0.01f;
+    private float offsetDisplay = 0.1f;
     private GameObject gravityCenter;
 
     /**
@@ -74,8 +74,7 @@ public class MainSceneHandler : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
-                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");                        
-                        offsetDisplay += 0.01f;
+                        offsetDisplay += 0.1f;
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                     }
                     else if (f.EndsWith(textExtension)) 
@@ -95,14 +94,13 @@ public class MainSceneHandler : MonoBehaviour
                         textPrefab.GetComponent<DisplayText>().SetTextObject(textPrefab.transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>());
                         textPrefab.GetComponent<DisplayText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
-                        selectedFiles.text = selectedFiles.text.Replace($"\n - {f}", "");                    
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
-                        offsetDisplay += 0.01f;
+                        offsetDisplay += 0.1f;
                     } 
                 }
             }
 
-            offsetDisplay = 0.01f;
+            offsetDisplay = 0.1f;
             timeFilesSelected = Time.time;
 
             // Init a center of gravity for objects files
@@ -121,7 +119,6 @@ public class MainSceneHandler : MonoBehaviour
 
         for (int i = 0; i < panelListComp.transform.childCount; i++) 
         {
-
             GameObject currentChild = panelListComp.transform.GetChild(i).gameObject;
             //Check if it's an item which corresponds to a selected file 
             string fileName = currentChild.transform.GetChild(1).GetChild(1).GetComponent<Text>().text;
