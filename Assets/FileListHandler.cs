@@ -61,8 +61,6 @@ public class FileListHandler : MonoBehaviour
         Text label = listItem.transform.GetChild(1).GetChild(1).GetComponent<Text>();
         label.text = file;
 
-        listItem.transform.GetChild(1).GetChild(2).GetComponent<Text>().text = tag;
-
         // Set event to toggle on the item
         MainSceneHandler msh = GameObject.Find("Menu").GetComponent<MainSceneHandler>();
         Toggle toggle = listItem.transform.GetChild(1).GetComponent<Toggle>();

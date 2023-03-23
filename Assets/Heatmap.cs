@@ -1,6 +1,4 @@
-﻿// Alan Zucconi
-// www.alanzucconi.com
-// doc : https://forum.unity.com/threads/how-to-create-heatmap-in-unity.423163/
+﻿// Code inspired from Alan Zucconi 
 // https://www.alanzucconi.com/2016/01/27/arrays-shaders-heatmaps-in-unity3d/#more-2003
 
 using UnityEngine;
@@ -12,31 +10,35 @@ using Microsoft.MixedReality.Toolkit;
 
 
 public class Heatmap : MonoBehaviour
-{
-    private Vector3[] positions;
-    private Vector2[] properties;
-    private Vector3[] orientations;
-    private GameObject[] zones;
-    
-    // Number of points in the heatmap (Max is 1024 if we use the shader)
-    public int count = 100;
-
-    private int cpt = 0;
-
-    // The time to wait before to update the map
-    private float nextActionTime = 0.0f;
-
-    // Period of time after each one we add a point in the map 
-    private float period = 0.1f;
-
-    // Get menu to not count when user is looking the menu 
+{   
+    // Get menu to not place zones on the menu
     public GameObject menu;
+    // A gameobject to detect the cursor presence
     public GameObject displayer;
 
-    // Timer of 30 seconds to scan around (lower to test)
-    private float timeRemaining = 10.0f;
+    // Array which contains all coordinates (x, y, z) of positions where user is looking 
+    private Vector3[] positions;
+    // Array containing properties about a position looked by the user (radius and intensity of the zone)
+    private Vector2[] properties;
+    // Array containing orientations (x, y, z) of each zone to place correctly files
+    private Vector3[] orientations;
+    // Array containing spheres to represent each position looked
+    private GameObject[] zones;
     
+    // Number of points in the heatmap (Limited to 500 because it's enough)
+    private int count = 500;
+    // A counter to verify if we have placed the number of "count" points
+    private int cpt = 0;
+    // The time to wait before to update the map (is incremented during the time)
+    private float nextActionTime = 0.0f;
+    // Period of time after each one we add and update a point in the map 
+    private float period = 0.05f;
+    // Timer of 30 seconds to scan around (can be set lower to test)
+    private float timeRemaining = 30.0f;
+    // A boolean to clean scene and set values only one time in the Update method
     private bool canBeUpdated = false;
+
+    // Start is called before the first frame update
     void Start ()
     {
         positions = new Vector3[count];
@@ -46,14 +48,11 @@ public class Heatmap : MonoBehaviour
 
         for (int i = 0; i < positions.Length; i++)
         {
-            // pos = (x, y, z)
-            // At the launch the pointer is in the center so we initialize all points to 0.0f
-            positions[i] = new Vector3(0.0f, 0.0f, 0.0f);
+            // Default value, so if user don't scan files will be displayed around this position
+            positions[i] = new Vector3(0.5f, 0.5f, 1.0f);
             
-            // x = radius 
-            // y = intensity
-            // radius is 0.05 to be enough large and no too large
-            // intensity will correspond to time the user look at this particular point 
+            // radius is 0.05 to be enough large and no too large to instantiate spheres
+            // intensity is 0.0f because no points are looked at this moment
             properties[i] = new Vector2(0.05f, 0.0f);
 
             // Initialise orientations with 0.0f for each positions
@@ -72,34 +71,34 @@ public class Heatmap : MonoBehaviour
             zones[i] = sphere;
         }
     }
- 
-    /*
-    * Instead of adding points precisely, we can define a perimeter and if the user is looking
-    * in this perimeter we add intensity to the concerned point. 
-    * Let be this perimeter like 0.5 
-    */
+    
+    // Update is called once per frame
     void Update()
     {
-        if (cpt < count && timeRemaining > 0.0f) {
+        if (cpt < count && timeRemaining > 0.0f) 
+        {
             menu.SetActive(false);
             timeRemaining -= Time.deltaTime;
 
-            if (Time.time > nextActionTime ) { 
+            if (Time.time > nextActionTime ) 
+            { 
                 nextActionTime = Time.time + period;
 
                 // Update positions points where the user is looking
                 Vector3 pointLooked = CoreServices.InputSystem.GazeProvider.HitPosition;
                 
                 // Direction where the user is looking 
-                Vector3 lookDirection = -1.0f * CoreServices.InputSystem.EyeGazeProvider.HitNormal;
+                Vector3 lookDirection = -1.0f * CoreServices.InputSystem.GazeProvider.HitNormal;
 
                 // we put the point where the user is looking in to the map 
                 bool isAlreadyLooked = Array.Exists(positions, point => 
                     {
-                        if (distance(point, pointLooked) < 0.25) {
+                        if (Vector3.Distance(point, pointLooked) < 0.25) 
+                        {
                             int index = Array.IndexOf(positions, point);
                             properties[index] += new Vector2(0.0f, 0.1f); 
-                            if (zones[index].transform.localScale.x < 0.35) {
+                            if (zones[index].transform.localScale.x < 0.35) 
+                            {
                                 zones[index].transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
                             }
                             zones[index].GetComponent<Renderer>().material.color += new Color(0.015f, -0.015f, 0.0f, 0.0f);
@@ -112,8 +111,9 @@ public class Heatmap : MonoBehaviour
 
                 float semiWidth = menu.transform.localScale.x / 2.0f;
                 double diag = Math.Sqrt(Math.Pow(2 * semiWidth, 2));
-                bool isLookingMenu = distance(menu.transform.position, pointLooked) < diag;
-                if (!isAlreadyLooked && !isLookingMenu) {
+                bool isLookingMenu = Vector3.Distance(menu.transform.position, pointLooked) < diag;
+                if (!isAlreadyLooked && !isLookingMenu) 
+                {
                     positions[cpt] = pointLooked;
 
                     // Update the intensity of this point a little bit 
@@ -129,12 +129,15 @@ public class Heatmap : MonoBehaviour
                 } 
             } 
         } else {
-            if (!canBeUpdated) {
+            // Only done one time in Update with the boolean
+            if (!canBeUpdated) 
+            {
                 menu.SetActive(true);
                 displayer.SetActive(false);
                 MainSceneHandler.SetPositions(GetMostLookedPositions());
                 MainSceneHandler.SetOrientations(GetOrientations());
-                foreach (GameObject go in zones) {
+                foreach (GameObject go in zones) 
+                {
                     go.SetActive(false);
                 }
                 canBeUpdated = true;
@@ -142,29 +145,29 @@ public class Heatmap : MonoBehaviour
         }
     }
 
-    private double distance(Vector3 p1, Vector3 p2) {
-        return Math.Sqrt(Math.Pow(p2.x-p1.x, 2) + Math.Pow(p2.y-p1.y, 2) + Math.Pow(p2.z-p1.z, 2));
-    }
-
-    private float[] GetIntensities() {
+    /**
+    * Get only intensities from the properties array
+    *
+    * @return array of each intensities for each positions
+    **/
+    private float[] GetIntensities() 
+    {
         float[] intensities = new float[count];
-        for (int i=0; i<count; i++) {
+        for (int i=0; i<count; i++) 
+        {
             intensities[i] = properties[i].y;
         }
 
         return intensities;
     }
 
-    private Vector3[] GetPositions() {
-        Vector3[] positionsXYZ = new Vector3[count];
-        for (int i=0; i<count; i++) {
-            positionsXYZ[i] = new Vector3(positions[i].x, positions[i].y, positions[i].z);
-        }
-
-        return positionsXYZ;
-    }
-
-    private List<int> GetIndices() {
+    /**
+    * Get the numberOfFiles highest intensities
+    *
+    * @return : list of int of numberOfFiles indices of the best intensities  
+    **/
+    private List<int> GetIndices() 
+    {
         int numberFiles = FileListHandler.GetNumberOfChoosenFiles();
         float[] intensities = GetIntensities();
         float[] intensitiesInOrder = GetIntensities();
@@ -174,18 +177,26 @@ public class Heatmap : MonoBehaviour
         Array.Sort(intensities);
         Array.Reverse(intensities);
         // Only taking the intensities for the number of files to display
-        for (int k=0; k<=numberFiles; k++) {
+        for (int k=0; k<=numberFiles; k++) 
+        {
             bestIntensities.Add(intensities[k]);
         }
         // Get index of each intensities we want 
-        foreach(float i in bestIntensities) {
+        foreach(float i in bestIntensities) 
+        {
             indices.Add(Array.IndexOf(intensitiesInOrder, i));
         }
 
         return indices;
     }
 
-    public List<Vector3> GetOrientations() {
+    /**
+    * Get the concerned positions orientations
+    *
+    * @return list of Vector3 of orientations for concerned indices
+    **/
+    public List<Vector3> GetOrientations() 
+    {
         List<Vector3> fileOrientations = new List<Vector3>();
         List<int> indexToLook = GetIndices();
         
@@ -196,28 +207,44 @@ public class Heatmap : MonoBehaviour
         return fileOrientations;
     }
 
-    public List<Vector3> GetMostLookedPositions() {
+    /**
+    * Get the most looked positions according the number of files to visualize
+    * 
+    * @return a list of Vector3 of the most looked positions 
+    **/
+    public List<Vector3> GetMostLookedPositions() 
+    {
         List<Vector3> mostLookedPositions = new List<Vector3>();
-        Vector3[] positionsXYZ = GetPositions();
         List<int> indexToLook = GetIndices();
 
-        foreach(int index in indexToLook) {
-            mostLookedPositions.Add(positionsXYZ[index]);
+        foreach(int index in indexToLook) 
+        {
+            mostLookedPositions.Add(positions[index]);
         }
 
         return mostLookedPositions;
     }
 
-    public void ScanEnvironment() {
+    /**
+    * Method to init important variables when the user want to scan his environment again
+    **/
+    public void ScanEnvironment() 
+    {
         cpt = 0;
-        timeRemaining = 15.0f;
+        timeRemaining = 30.0f;
         canBeUpdated = false;
         menu.SetActive(false);
         displayer.SetActive(true);
         Start();
     }
 
-    public float GetTimeRemaining() {
+    /**
+    * Get the time remaining to scan the environment
+    *
+    * @return the time remaining to scan
+    **/
+    public float GetTimeRemaining() 
+    {
         return timeRemaining;
     }
 

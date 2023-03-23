@@ -19,10 +19,15 @@ public class MainSceneHandler : MonoBehaviour
     private string[] imageExtensions = { ".jpg", ".jpeg", ".png" };
     private string textExtension = ".txt";
 
+    // List of position for each file
     private static List<Vector3> positionsFiles;
+    // List of orientation for each file
     private static List<Vector3> orientationsFiles;
+    // Time when the user click on visualize
     private static float timeFilesSelected;
+    // A little offset to apply a correct force on files when they appear
     private float offsetDisplay = 0.1f;
+    // A little sphere representing the center of the most looked zone
     private GameObject gravityCenter;
 
     /**
@@ -74,7 +79,7 @@ public class MainSceneHandler : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
-                        offsetDisplay += 0.1f;
+                        offsetDisplay += 0.15f;
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                     }
                     else if (f.EndsWith(textExtension)) 
@@ -95,7 +100,7 @@ public class MainSceneHandler : MonoBehaviour
                         textPrefab.GetComponent<DisplayText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
-                        offsetDisplay += 0.1f;
+                        offsetDisplay += 0.15f;
                     } 
                 }
             }
@@ -130,6 +135,9 @@ public class MainSceneHandler : MonoBehaviour
         }
     }
 
+    /**
+    * Put a little sphere where the user has looked the most
+    **/
     private void InitGravityCenter() 
     {
         gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -138,35 +146,66 @@ public class MainSceneHandler : MonoBehaviour
         gravityCenter.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
     }
 
+    /**
+    * Method to set the scene and important variables
+    **/
     public void StartScanningEnvironment() 
     {
         mixedRealityPlayspace.GetComponent<ApplyForces>().RemoveAllObjects();
         mixedRealityPlayspace.GetComponent<Heatmap>().ScanEnvironment();
     }
 
+    /**
+    * Set the positions of game objects representing each files
+    * @param positionsXYZ : list of vector of positions looked
+    **/
     public static void SetPositions(List<Vector3> positionsXYZ) 
     {
         positionsFiles = positionsXYZ;
     }
 
+    /** 
+    * Get the position where the user has the most looked
+    *
+    * @return a Vector3 which is the most looked position
+    **/
     private Vector3 GetTheMostLookedPosition() {
         return positionsFiles[0];
     }
 
+    /**
+    * Get the orientation to display file from the most looked position
+    * 
+    * @return a Vector3 designing the orientation
+    **/
     private Vector3 GetOrientationOfMostLookedPosition() {
         return orientationsFiles[0];
     }
 
+    /** 
+    * Set the orientations for each positions where the user has the most looked
+    * @param orientations : list of Vector3 of orientations for each position 
+    **/
     public static void SetOrientations(List<Vector3> orientations) 
     {
         orientationsFiles = orientations;
     }
 
+    /** 
+    * Get the time when the user has clicked on the "visualize" button
+    *
+    * @return a float which correspond to the time in second from the launch of the application
+    **/
     public static float GetTimeFilesSelected() 
     {
         return timeFilesSelected;
     }
 
+    /** 
+    * Get the position along axis x and y of the most looked position
+    *
+    * @return a Vector2 which is the most looked position along axis x and y
+    **/
     public static Vector2 GetGravityCenterPosition() 
     {
         return new Vector2(positionsFiles[0].x, positionsFiles[0].y);

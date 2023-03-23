@@ -7,8 +7,10 @@ public class ScanTimer : MonoBehaviour
 {
 
     public GameObject mixedRealityPlayspace; 
+    // Text to display time remaining
     private TextMesh scanIndicator;
 
+    // Start is called before the first frame update
     void Start() 
     {
         scanIndicator = GetComponent<TextMesh>();
