@@ -34,9 +34,11 @@ public class Heatmap : MonoBehaviour
     // Period of time after each one we add and update a point in the map 
     private float period = 0.05f;
     // Timer of 30 seconds to scan around (can be set lower to test)
-    private float timeRemaining = 30.0f;
+    private float timeRemaining = 20.0f;
     // A boolean to clean scene and set values only one time in the Update method
     private bool canBeUpdated = false;
+    // The number of zones where files will be placed (can be changed)
+    private static int numberOfZones = 3; 
 
     // Start is called before the first frame update
     void Start ()
@@ -162,22 +164,21 @@ public class Heatmap : MonoBehaviour
     }
 
     /**
-    * Get the numberOfFiles highest intensities
+    * Get the numberOfZones highest intensities
     *
-    * @return : list of int of numberOfFiles indices of the best intensities  
+    * @return : list of int of numberOfZones indices of the best intensities  
     **/
     private List<int> GetIndices() 
     {
-        int numberFiles = FileListHandler.GetNumberOfChoosenFiles();
         float[] intensities = GetIntensities();
         float[] intensitiesInOrder = GetIntensities();
         List<int> indices = new List<int>();
         List<float> bestIntensities = new List<float>();
-        // Sorting array from the larger to the smallest intensity to get numberFiles intensities
+        // Sorting array from the larger to the smallest intensity to get numberofZones intensities
         Array.Sort(intensities);
         Array.Reverse(intensities);
-        // Only taking the intensities for the number of files to display
-        for (int k=0; k<=numberFiles; k++) 
+        // Only taking the numberOfZones intensities 
+        for (int k=0; k<numberOfZones; k++) 
         {
             bestIntensities.Add(intensities[k]);
         }
@@ -208,7 +209,7 @@ public class Heatmap : MonoBehaviour
     }
 
     /**
-    * Get the most looked positions according the number of files to visualize
+    * Get the most looked positions according the number of zones limited
     * 
     * @return a list of Vector3 of the most looked positions 
     **/
@@ -231,7 +232,7 @@ public class Heatmap : MonoBehaviour
     public void ScanEnvironment() 
     {
         cpt = 0;
-        timeRemaining = 30.0f;
+        timeRemaining = 20.0f;
         canBeUpdated = false;
         menu.SetActive(false);
         displayer.SetActive(true);
@@ -246,6 +247,16 @@ public class Heatmap : MonoBehaviour
     public float GetTimeRemaining() 
     {
         return timeRemaining;
+    }
+
+    /**
+    * Get the number max of zones where the files are placed
+    * 
+    * @return the number of zones where files can be placed
+    **/ 
+    public static int GetNumberOfZones() 
+    {
+        return numberOfZones;
     }
 
 }

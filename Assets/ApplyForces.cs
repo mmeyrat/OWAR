@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ApplyForces : MonoBehaviour
 {
-    // List of prefabs containing images or texts
-    private static List<GameObject> filesObjects;
+    // List of lists of prefabs containing images or texts for each zone
+    private static List<List<GameObject>> filesObjects;
     // Time to do another action
     private float nextActionTime = 5.0f;
     // Time after which one files are placed
@@ -31,51 +31,61 @@ public class ApplyForces : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        filesObjects = new List<GameObject>();
+        filesObjects = new List<List<GameObject>>();
+        for (int i=0; i<Heatmap.GetNumberOfZones(); i++) 
+        {
+            filesObjects.Add(new List<GameObject>());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {   
-        // Distances are decupled by 2 to get a long range to see a lot of files (after 12 opened)
-        if (filesObjects.Count >= 12) 
+        // Distances are augmented to get a long range to see a lot of files (after 12 opened)
+        if (filesObjects[0].Count >= 10 || filesObjects[1].Count >= 10 || filesObjects[2].Count >= 10) 
         {
-            distanceDesiredFromCenterMax = 1.0f;
-            desiredConnectedDistance = 0.8f;
-            desiredConnectedDistanceMax = 1.6f;
+            distanceDesiredFromCenterMax = 0.8f;
+            desiredConnectedDistance = 0.7f;
+            desiredConnectedDistanceMax = 1.0f;
         }
-        if (!IsEmpty(filesObjects) || filesObjects.Count > 1) 
+
+        if (!IsEmpty(filesObjects[0]) || filesObjects[0].Count > 1) 
         {
             if (!areFilesPlaced) 
             {
-                // Forces only between objects and center
-                ApplyCenterForce();
-                foreach(GameObject go in filesObjects) 
+                foreach(List<GameObject> list in filesObjects)
                 {
-                    if (go.GetComponent<DisplayText>() != null) 
+                    // Forces only between objects and center
+                    ApplyCenterForce();
+                    foreach(GameObject go in list) 
                     {
-                        Vector3 velocity = go.GetComponent<DisplayText>().GetVelocity();
-                        go.transform.localPosition += velocity / 10.0f;
-                    } else {
-                        Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
-                        go.transform.localPosition += velocity / 10.0f;
+                        if (go.GetComponent<DisplayText>() != null) 
+                        {
+                            Vector3 velocity = go.GetComponent<DisplayText>().GetVelocity();
+                            go.transform.localPosition += velocity / 10.0f;
+                        } else {
+                            Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
+                            go.transform.localPosition += velocity / 10.0f;
+                        }
                     }
-                }
-                CleanVelocities();
-                // Forces only between objects
-                ApplyFilesObjectsForces();
-                foreach(GameObject go in filesObjects) 
-                {
-                    if (go.GetComponent<DisplayText>() != null) 
+                    CleanVelocities();
+
+                    // Forces only between objects
+                    ApplyFilesObjectsForces();
+                    foreach(GameObject go in list) 
                     {
-                        Vector3 velocity = go.GetComponent<DisplayText>().GetVelocity();
-                        go.transform.localPosition += velocity / 10.0f;
-                    } else {
-                        Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
-                        go.transform.localPosition += velocity / 10.0f;
+                        if (go.GetComponent<DisplayText>() != null) 
+                        {
+                            Vector3 velocity = go.GetComponent<DisplayText>().GetVelocity();
+                            go.transform.localPosition += velocity / 10.0f;
+                        } else {
+                            Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
+                            go.transform.localPosition += velocity / 10.0f;
+                        }
                     }
+                    CleanVelocities();
                 }
-                CleanVelocities();
+                
                 if ((Time.time - MainSceneHandler.GetTimeFilesSelected()) >= nextActionTime) 
                 {
                     nextActionTime += interval;
@@ -93,34 +103,37 @@ public class ApplyForces : MonoBehaviour
     **/
     private void ApplyFilesObjectsForces() 
     {
-        foreach(GameObject go in filesObjects) 
+        foreach (List<GameObject> list in filesObjects)
         {
-            foreach (GameObject gobj in filesObjects) 
+            foreach(GameObject go in list) 
             {
-                if (go != gobj) 
+                foreach (GameObject gobj in list) 
                 {
-                    // Positions of each object along x and y axis
-                    Vector2 p1 = new Vector2(go.transform.localPosition.x, go.transform.localPosition.y);
-                    Vector2 p2 = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
-                    // Difference between these positions 
-                    Vector2 difference = p1 - p2;
-                    float distance = difference.magnitude;
-                    float mode = (float)Mode.neutral;
-                    if (distance <= desiredConnectedDistance) 
+                    if (go != gobj) 
                     {
-                        mode = (float)Mode.repulsion;
-                    }
-                    if (distance >= desiredConnectedDistanceMax) 
-                    {
-                        mode = (float)Mode.attraction;
-                    }
-                    // Difference.normalize to obtain the direction
-                    var appliedForce = difference.normalized * (connectedForce / distance) * mode;
-                    if (gobj.GetComponent<DisplayText>() != null) 
-                    {
-                        gobj.GetComponent<DisplayText>().SetVelocity(appliedForce*Time.deltaTime);
-                    } else {
-                        gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime); 
+                        // Positions of each object along x and y axis
+                        Vector2 p1 = new Vector2(go.transform.localPosition.x, go.transform.localPosition.y);
+                        Vector2 p2 = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
+                        // Difference between these positions 
+                        Vector2 difference = p1 - p2;
+                        float distance = difference.magnitude;
+                        float mode = (float)Mode.neutral;
+                        if (distance <= desiredConnectedDistance) 
+                        {
+                            mode = (float)Mode.repulsion;
+                        }
+                        if (distance >= desiredConnectedDistanceMax) 
+                        {
+                            mode = (float)Mode.attraction;
+                        }
+                        // Difference.normalize to obtain the direction
+                        var appliedForce = difference.normalized * (connectedForce / distance) * mode;
+                        if (gobj.GetComponent<DisplayText>() != null) 
+                        {
+                            gobj.GetComponent<DisplayText>().SetVelocity(appliedForce*Time.deltaTime);
+                        } else {
+                            gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime); 
+                        }
                     }
                 }
             }
@@ -132,29 +145,32 @@ public class ApplyForces : MonoBehaviour
     **/
     private void ApplyCenterForce() 
     {
-        Vector2 p1 = MainSceneHandler.GetGravityCenterPosition();
-        foreach(GameObject go in filesObjects) 
+        for(int i=0; i<Heatmap.GetNumberOfZones(); i++) 
         {
-            Vector2 p2 = new Vector2(go.transform.localPosition.x, go.transform.localPosition.y);
-            Vector2 difference = p1 - p2;
-            float distance = difference.magnitude;
-            float mode = (float)Mode.neutral;
-            if (distance >= distanceDesiredFromCenterMax) 
+            Vector2 p1 = MainSceneHandler.GetGravityCenterPosition(i);
+            foreach(GameObject go in filesObjects[i]) 
             {
-                mode = (float)Mode.attraction;
+                Vector2 p2 = new Vector2(go.transform.localPosition.x, go.transform.localPosition.y);
+                Vector2 difference = p1 - p2;
+                float distance = difference.magnitude;
+                float mode = (float)Mode.neutral;
+                if (distance >= distanceDesiredFromCenterMax) 
+                {
+                    mode = (float)Mode.attraction;
+                }
+                if (distance < distanceDesiredFromCenterMax) 
+                {
+                    mode = (float)Mode.repulsion;
+                }
+                var appliedForce = difference.normalized * (connectedForce / distance) * mode;
+                if (go.GetComponent<DisplayText>() != null) 
+                {
+                    go.GetComponent<DisplayText>().SetVelocity(appliedForce*Time.deltaTime);
+                } else {
+                    go.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime); 
+                }
             }
-            if (distance < distanceDesiredFromCenterMax) 
-            {
-                mode = (float)Mode.repulsion;
-            }
-            var appliedForce = difference.normalized * (connectedForce / distance) * mode;
-            if (go.GetComponent<DisplayText>() != null) 
-            {
-                go.GetComponent<DisplayText>().SetVelocity(appliedForce*Time.deltaTime);
-            } else {
-                go.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime); 
-            }
-        }
+        } 
     }
 
     /**
@@ -162,13 +178,16 @@ public class ApplyForces : MonoBehaviour
     **/
     private void CleanVelocities() 
     {
-        foreach(GameObject go in filesObjects) 
+        foreach(List<GameObject> list in filesObjects) 
         {
-            if (go.GetComponent<DisplayText>() != null) 
+            foreach(GameObject go in list) 
             {
-                go.GetComponent<DisplayText>().InitVelocity();
-            } else {
-                go.GetComponent<DisplayImage>().InitVelocity();
+                if (go.GetComponent<DisplayText>() != null) 
+                {
+                    go.GetComponent<DisplayText>().InitVelocity();
+                } else {
+                    go.GetComponent<DisplayImage>().InitVelocity();
+                }
             }
         }
     }
@@ -190,29 +209,31 @@ public class ApplyForces : MonoBehaviour
     }
 
     /** 
-    * Add a game object file to the list of these game objects
+    * Add a game object file to the list of the specified zone
     * @param go : game object to add 
     **/
-    public void AddObj(GameObject go) 
+    public void AddObj(GameObject go, int indexZone) 
     {
-        filesObjects.Add(go);
+        filesObjects[indexZone].Add(go);
     }
 
     /**
-    * Remove a game object file to the list of these game objects
+    * Remove a game object file to the list of the specified zone
     * @param go : game object to remove 
     **/
-    public static void RemoveObj(GameObject go) 
+    public static void RemoveObj(GameObject go, int indexZone) 
     {
-        filesObjects.Remove(go);
+        filesObjects[indexZone].Remove(go);
     }
 
     /**
-    * Remove all game objects from the list of game objects file
+    * Remove all game objects from each list of game objects file
     **/
     public void RemoveAllObjects() 
     {
-        filesObjects.Clear();
+        foreach(List<GameObject> l in filesObjects) {
+            l.Clear();
+        }
     }
 
     /**
@@ -224,5 +245,4 @@ public class ApplyForces : MonoBehaviour
         connectedForce = 1.0f;
         nextActionTime = 0.0f;
     }
-
 }
