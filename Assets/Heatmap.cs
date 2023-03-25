@@ -50,8 +50,8 @@ public class Heatmap : MonoBehaviour
 
         for (int i = 0; i < positions.Length; i++)
         {
-            // Default value, so if user don't scan files will be displayed around this position
-            positions[i] = new Vector3(0.5f, 0.5f, 1.0f);
+            // Default value updated after
+            positions[i] = new Vector3(0.0f, 0.0f, 0.0f);
             
             // radius is 0.05 to be enough large and no too large to instantiate spheres
             // intensity is 0.0f because no points are looked at this moment
@@ -71,6 +71,16 @@ public class Heatmap : MonoBehaviour
             sphere.GetComponent<Renderer>().material.SetColor("_Color", customColor);
             sphere.SetActive(false);
             zones[i] = sphere;
+        }
+
+        // Default values if user do nothing during scan or scan less zones than 3
+        float x = -2.0f;
+        float defaultIntensity = 0.01f;
+        for (int i=0; i<Heatmap.GetNumberOfZones(); i++) {
+            properties[i] = new Vector2(0.05f, defaultIntensity);
+            positions[i] = new Vector3(x, 0.3f, 1.5f);
+            x += 2.0f;
+            defaultIntensity++;
         }
     }
     
