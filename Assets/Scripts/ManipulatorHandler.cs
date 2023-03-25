@@ -18,6 +18,13 @@ public class ManipulatorHandler : MonoBehaviour
         {
             if (!TagSceneHandler.GetTagAreaList()[tagAreaId].GetSlotAvailability(slotId))
             {
+                if (this.transform.parent != null)
+                {
+                    GameObject parent = this.transform.parent.gameObject;
+                    this.transform.SetParent(null);
+                    Destroy(parent);
+                }
+
                 TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
             }
         }
