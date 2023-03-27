@@ -15,18 +15,22 @@ public class ApplyForces : MonoBehaviour
     // Interval of time added to the nextActionTime
     private float interval = 2.0f;
     // Minimal distance between two files
-    private float desiredConnectedDistance = 0.4f;
+    private float desiredConnectedDistance = 13.0f;
     // Maximal distance between two files
-    private float desiredConnectedDistanceMax = 0.8f;
+    private float desiredConnectedDistanceMax = 18.0f;
     // Maximal distance between a file and the center of the zone concerned
-    private float distanceDesiredFromCenterMax = 0.5f;
+    private float distanceDesiredFromCenterMax = 16.0f;
     // Constant of force applied to a file
     private float connectedForce = 1.0f;
     // Boolean to know if the system of forces must be stopped 
     private bool areFilesPlaced = false;
 
+    private bool areFilesOriented = false;
+
     // Enum used to specified if there is an attraction, repulsive or none force applied to the concerned object
     private enum Mode { repulsion = -1, neutral = 0, attraction = 1 }
+
+    public GameObject mixedRealityPlayspace;
 
     // Start is called before the first frame update
     void Start()
@@ -42,11 +46,11 @@ public class ApplyForces : MonoBehaviour
     void Update()
     {   
         // Distances are augmented to get a long range to see a lot of files (after 12 opened)
-        if (filesObjects[0].Count >= 10 || filesObjects[1].Count >= 10 || filesObjects[2].Count >= 10) 
+        if (filesObjects[0].Count >= 12 || filesObjects[1].Count >= 10 || filesObjects[2].Count >= 10) 
         {
-            distanceDesiredFromCenterMax = 0.8f;
-            desiredConnectedDistance = 0.7f;
-            desiredConnectedDistanceMax = 1.0f;
+            distanceDesiredFromCenterMax = 22.0f;
+            desiredConnectedDistance = 19.0f;
+            desiredConnectedDistanceMax = 24.0f;
         }
 
         if (!IsEmpty(filesObjects[0]) || filesObjects[0].Count > 1) 
@@ -77,10 +81,10 @@ public class ApplyForces : MonoBehaviour
                         if (go.GetComponent<DisplayText>() != null) 
                         {
                             Vector3 velocity = go.GetComponent<DisplayText>().GetVelocity();
-                            go.transform.localPosition += velocity / 10.0f;
+                            go.transform.localPosition += velocity;
                         } else {
                             Vector3 velocity = go.GetComponent<DisplayImage>().GetVelocity(); 
-                            go.transform.localPosition += velocity / 10.0f;
+                            go.transform.localPosition += velocity;
                         }
                     }
                     CleanVelocities();
@@ -130,9 +134,9 @@ public class ApplyForces : MonoBehaviour
                         var appliedForce = difference.normalized * (connectedForce / distance) * mode;
                         if (gobj.GetComponent<DisplayText>() != null) 
                         {
-                            gobj.GetComponent<DisplayText>().SetVelocity(appliedForce*Time.deltaTime);
+                            gobj.GetComponent<DisplayText>().SetVelocity(appliedForce);
                         } else {
-                            gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce*Time.deltaTime); 
+                            gobj.GetComponent<DisplayImage>().SetVelocity(appliedForce); 
                         }
                     }
                 }
@@ -147,7 +151,7 @@ public class ApplyForces : MonoBehaviour
     {
         for(int i=0; i<Heatmap.GetNumberOfZones(); i++) 
         {
-            Vector2 p1 = MainSceneHandler.GetGravityCenterPosition(i);
+            Vector2 p1 = new Vector2(0.0f, 0.0f);
             foreach(GameObject go in filesObjects[i]) 
             {
                 Vector2 p2 = new Vector2(go.transform.localPosition.x, go.transform.localPosition.y);

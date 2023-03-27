@@ -14,6 +14,7 @@ public class MainSceneHandler : MonoBehaviour
     public Text selectedFiles;
     public GameObject warning;
     public GameObject mixedRealityPlayspace; 
+    public GameObject mainCamera;
 
     private int minChoosenFiles = 0;
     private string[] imageExtensions = { ".jpg", ".jpeg", ".png" };
@@ -23,6 +24,8 @@ public class MainSceneHandler : MonoBehaviour
     private static List<Vector3> positionsFiles;
     // List of orientation for each file
     private static List<Vector3> orientationsFiles;
+
+    private List<GameObject> centers = new List<GameObject>();
     // Time when the user click on visualize
     private static float timeFilesSelected;
     // A little offset to apply a correct force on files when they appear
@@ -64,6 +67,9 @@ public class MainSceneHandler : MonoBehaviour
             int counterFilePerZone = 0;
             int nbFilesMaxPerZone = FileListHandler.GetNumberOfChoosenFiles()/numberOfZones;
 
+            // Init all centers of gravity for objects files
+            InitGravityCenters();
+
             foreach (string f in files) 
             {
                 if (FileListHandler.IsFileChoosen(f)) 
@@ -80,8 +86,9 @@ public class MainSceneHandler : MonoBehaviour
                     if (Array.IndexOf(imageExtensions, Path.GetExtension(f)) >= 0) 
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
-                        imagePrefab.transform.localPosition = new Vector3(center.x + offsetDisplay, center.y + offsetDisplay, center.z);
-                        imagePrefab.transform.rotation = Quaternion.LookRotation(orientation);
+                        imagePrefab.transform.SetParent(centers[indexZone].transform);
+                        imagePrefab.transform.localPosition = new Vector3(offsetDisplay, offsetDisplay, 0.0f);
+                        imagePrefab.transform.localRotation = Quaternion.identity;
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(imagePrefab, indexZone);
                         counterFilePerZone++;
                         
@@ -100,8 +107,10 @@ public class MainSceneHandler : MonoBehaviour
                         GameObject textPrefab = Instantiate(Resources.Load("TextPrefab")) as GameObject;
 
                         // Setting position according informations obtained with the heatmap
-                        textPrefab.transform.localPosition = new Vector3(center.x + offsetDisplay, center.y + offsetDisplay, center.z);
-                        textPrefab.transform.rotation = Quaternion.LookRotation(orientation);
+                        textPrefab.transform.SetParent(centers[indexZone].transform);
+                        textPrefab.transform.localPosition = new Vector3(offsetDisplay, - offsetDisplay, 0.0f);
+                        textPrefab.transform.localRotation = Quaternion.identity;
+                        //textPrefab.transform.rotation = Quaternion.LookRotation(orientation);
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(textPrefab, indexZone);
                         counterFilePerZone++;
 
@@ -123,9 +132,6 @@ public class MainSceneHandler : MonoBehaviour
 
             offsetDisplay = 0.1f;
             timeFilesSelected = Time.time;
-
-            // Init all centers of gravity for objects files
-            InitGravityCenters();
             
             mixedRealityPlayspace.GetComponent<ApplyForces>().InitMovements();
 
@@ -158,10 +164,12 @@ public class MainSceneHandler : MonoBehaviour
     {
         for (int i=0; i < Heatmap.GetNumberOfZones(); i++) 
         {
-            gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Cube);
             gravityCenter.name = "GravityCenter";
             gravityCenter.transform.position = positionsFiles[i];
+            gravityCenter.transform.rotation = Quaternion.LookRotation(orientationsFiles[i]);
             gravityCenter.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+            centers.Add(gravityCenter);
         }
     }
 
@@ -200,15 +208,5 @@ public class MainSceneHandler : MonoBehaviour
     public static float GetTimeFilesSelected() 
     {
         return timeFilesSelected;
-    }
-
-    /** 
-    * Get the position along axis x and y of the most looked positions
-    *
-    * @return a Vector2 which is the most looked position along axis x and y depending about the zone concerned
-    **/
-    public static Vector2 GetGravityCenterPosition(int indexZone) 
-    {
-        return new Vector2(positionsFiles[indexZone].x, positionsFiles[indexZone].y);
     }
 }

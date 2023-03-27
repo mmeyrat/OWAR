@@ -760,6 +760,7 @@ MonoBehaviour:
   selectedFiles: {fileID: 581947916}
   warning: {fileID: 1060080627}
   mixedRealityPlayspace: {fileID: 2021360882}
+  mainCamera: {fileID: 449406000}
 --- !u!114 &466056592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2201,7 +2202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da42bf6ff57f1704385355c367d95e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 500
   menu: {fileID: 215388884}
   displayer: {fileID: 585402830}
 --- !u!114 &2021360885
@@ -2216,6 +2216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98260f967d2ccc9499c096d71d1cc833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mixedRealityPlayspace: {fileID: 2021360882}
 --- !u!1 &1154865597499794
 GameObject:
   m_ObjectHideFlags: 0

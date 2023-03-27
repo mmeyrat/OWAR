@@ -33,7 +33,7 @@ public class Heatmap : MonoBehaviour
     private float nextActionTime = 0.0f;
     // Period of time after each one we add and update a point in the map 
     private float period = 0.05f;
-    // Timer of 30 seconds to scan around (can be set lower to test)
+    // Timer of 20 seconds to scan around (can be set lower to test)
     private float timeRemaining = 20.0f;
     // A boolean to clean scene and set values only one time in the Update method
     private bool canBeUpdated = false;
@@ -79,6 +79,7 @@ public class Heatmap : MonoBehaviour
         for (int i=0; i<Heatmap.GetNumberOfZones(); i++) {
             properties[i] = new Vector2(0.05f, defaultIntensity);
             positions[i] = new Vector3(x, 0.3f, 1.5f);
+            orientations[i] = positions[i];
             x += 2.0f;
             defaultIntensity++;
         }
