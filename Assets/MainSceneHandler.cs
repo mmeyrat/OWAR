@@ -108,7 +108,6 @@ public class MainSceneHandler : MonoBehaviour
                         textPrefab.transform.SetParent(centers[indexZone].transform);
                         textPrefab.transform.localPosition = new Vector3(offsetDisplay, - offsetDisplay, 0.0f);
                         textPrefab.transform.localRotation = Quaternion.identity;
-                        //textPrefab.transform.rotation = Quaternion.LookRotation(orientation);
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(textPrefab, indexZone);
                         counterFilePerZone++;
 
