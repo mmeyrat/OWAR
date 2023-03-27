@@ -24,14 +24,12 @@ public class MainSceneHandler : MonoBehaviour
     private static List<Vector3> positionsFiles;
     // List of orientation for each file
     private static List<Vector3> orientationsFiles;
-
+    // List of spheres representing centers of zones
     private List<GameObject> centers = new List<GameObject>();
     // Time when the user click on visualize
     private static float timeFilesSelected;
     // A little offset to apply a correct force on files when they appear
     private float offsetDisplay = 0.1f;
-    // A little sphere representing the center of the most looked zone
-    private GameObject gravityCenter;
     
     /**
     * Add the selecetd files in a text preview
@@ -164,7 +162,7 @@ public class MainSceneHandler : MonoBehaviour
     {
         for (int i=0; i < Heatmap.GetNumberOfZones(); i++) 
         {
-            gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             gravityCenter.name = "GravityCenter";
             gravityCenter.transform.position = positionsFiles[i];
             gravityCenter.transform.rotation = Quaternion.LookRotation(orientationsFiles[i]);

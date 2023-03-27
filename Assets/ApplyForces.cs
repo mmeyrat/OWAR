@@ -15,22 +15,18 @@ public class ApplyForces : MonoBehaviour
     // Interval of time added to the nextActionTime
     private float interval = 2.0f;
     // Minimal distance between two files
-    private float desiredConnectedDistance = 13.0f;
+    private float desiredConnectedDistance = 12.0f;
     // Maximal distance between two files
-    private float desiredConnectedDistanceMax = 18.0f;
+    private float desiredConnectedDistanceMax = 17.0f;
     // Maximal distance between a file and the center of the zone concerned
-    private float distanceDesiredFromCenterMax = 16.0f;
+    private float distanceDesiredFromCenterMax = 15.0f;
     // Constant of force applied to a file
     private float connectedForce = 1.0f;
     // Boolean to know if the system of forces must be stopped 
     private bool areFilesPlaced = false;
 
-    private bool areFilesOriented = false;
-
     // Enum used to specified if there is an attraction, repulsive or none force applied to the concerned object
     private enum Mode { repulsion = -1, neutral = 0, attraction = 1 }
-
-    public GameObject mixedRealityPlayspace;
 
     // Start is called before the first frame update
     void Start()
@@ -48,9 +44,9 @@ public class ApplyForces : MonoBehaviour
         // Distances are augmented to get a long range to see a lot of files (after 12 opened)
         if (filesObjects[0].Count >= 12 || filesObjects[1].Count >= 10 || filesObjects[2].Count >= 10) 
         {
-            distanceDesiredFromCenterMax = 22.0f;
-            desiredConnectedDistance = 19.0f;
-            desiredConnectedDistanceMax = 24.0f;
+            distanceDesiredFromCenterMax = 21.0f;
+            desiredConnectedDistance = 18.0f;
+            desiredConnectedDistanceMax = 23.0f;
         }
 
         if (!IsEmpty(filesObjects[0]) || filesObjects[0].Count > 1) 
@@ -151,6 +147,7 @@ public class ApplyForces : MonoBehaviour
     {
         for(int i=0; i<Heatmap.GetNumberOfZones(); i++) 
         {
+            // Center is located locally in 0.0f 
             Vector2 p1 = new Vector2(0.0f, 0.0f);
             foreach(GameObject go in filesObjects[i]) 
             {
@@ -246,7 +243,6 @@ public class ApplyForces : MonoBehaviour
     public void InitMovements() 
     {
         areFilesPlaced = false;
-        connectedForce = 1.0f;
         nextActionTime = 0.0f;
     }
 }
