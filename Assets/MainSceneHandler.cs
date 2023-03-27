@@ -14,7 +14,6 @@ public class MainSceneHandler : MonoBehaviour
     public Text selectedFiles;
     public GameObject warning;
     public GameObject mixedRealityPlayspace; 
-    public GameObject mainCamera;
 
     private int minChoosenFiles = 0;
     private string[] imageExtensions = { ".jpg", ".jpeg", ".png" };
@@ -161,7 +160,7 @@ public class MainSceneHandler : MonoBehaviour
     {
         for (int i=0; i < Heatmap.GetNumberOfZones(); i++) 
         {
-            gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            GameObject gravityCenter = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             gravityCenter.name = "GravityCenter";
             gravityCenter.transform.position = positionsFiles[i];
             gravityCenter.transform.rotation = Quaternion.LookRotation(orientationsFiles[i]);
