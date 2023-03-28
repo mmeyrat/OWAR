@@ -32,13 +32,15 @@ public class Heatmap : MonoBehaviour
     // The time to wait before to update the map (is incremented during the time)
     private float nextActionTime = 0.0f;
     // Period of time after each one we add and update a point in the map 
-    private float period = 0.05f;
+    private float period = 0.035f;
     // Timer of 20 seconds to scan around (can be set lower to test)
     private float timeRemaining = 20.0f;
     // A boolean to clean scene and set values only one time in the Update method
     private bool canBeUpdated = false;
     // The number of zones where files will be placed (can be changed)
     private static int numberOfZones = 3; 
+    // Object to define the zone where user can't place sphere during scan
+    private GameObject menuZonePrefab;
 
     // Start is called before the first frame update
     void Start ()
@@ -83,6 +85,11 @@ public class Heatmap : MonoBehaviour
             x += 2.0f;
             defaultIntensity++;
         }
+
+        // Instiate the zone where user can't place spheres (menu zone)
+        menuZonePrefab = Instantiate(Resources.Load("MenuZonePrefab")) as GameObject;
+        menuZonePrefab.transform.position = new Vector3(menu.transform.position.x, menu.transform.position.y, menu.transform.position.z);
+        menuZonePrefab.SetActive(true);
     }
     
     // Update is called once per frame
@@ -106,7 +113,7 @@ public class Heatmap : MonoBehaviour
                 // we put the point where the user is looking in to the map 
                 bool isAlreadyLooked = Array.Exists(positions, point => 
                     {
-                        if (Vector3.Distance(point, pointLooked) < 0.25) 
+                        if (Vector3.Distance(point, pointLooked) < 0.2) 
                         {
                             int index = Array.IndexOf(positions, point);
                             properties[index] += new Vector2(0.0f, 0.1f); 
@@ -123,8 +130,10 @@ public class Heatmap : MonoBehaviour
                 );
 
                 float semiWidth = menu.transform.localScale.x / 2.0f;
-                double diag = Math.Sqrt(Math.Pow(2 * semiWidth, 2));
-                bool isLookingMenu = Vector3.Distance(menu.transform.position, pointLooked) < diag;
+                double diag = Math.Sqrt(2 * Math.Pow(semiWidth, 2));
+                Vector2 p1 = new Vector2(menu.transform.position.x, menu.transform.position.y);
+                Vector2 p2 = new Vector2(pointLooked.x, pointLooked.y);
+                bool isLookingMenu = Vector2.Distance(p1, p2) < semiWidth;
                 if (!isAlreadyLooked && !isLookingMenu) 
                 {
                     positions[cpt] = pointLooked;
@@ -145,6 +154,7 @@ public class Heatmap : MonoBehaviour
             // Only done one time in Update with the boolean
             if (!canBeUpdated) 
             {
+                menuZonePrefab.SetActive(false);
                 menu.SetActive(true);
                 displayer.SetActive(false);
                 MainSceneHandler.SetPositions(GetMostLookedPositions());
