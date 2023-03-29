@@ -20,6 +20,7 @@ public class MainSceneHandler : MonoBehaviour
     private int maxSlots = 4; // Number of slots per tag area
     private int minTagAreaId = 0;
     private float dist = 1.0f; // Distance between object and camera
+    private float fileWithNoAreaOffset = 0.05f; // Gap between files placed with no tag area 
     private float posDistOffset = 2.0f; // For slot positionning
     private string[] imageExtensions = { ".jpg", ".jpeg", ".png" };
     private string textExtension = ".txt";
@@ -62,6 +63,7 @@ public class MainSceneHandler : MonoBehaviour
         {
             string[] files = FileListHandler.GetFiles();
             FileTagList ftl = FileTagList.GetFileTagList();
+            float nbOfFilesWithNoArea = 0.0f;
             
             foreach (string f in files) 
             {
@@ -110,8 +112,9 @@ public class MainSceneHandler : MonoBehaviour
                     }    
                     else 
                     {
-                        prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * dist;
+                        prefab.transform.position = mainCamera.transform.position + mainCamera.transform.forward * (dist + nbOfFilesWithNoArea * fileWithNoAreaOffset);
                         prefab.transform.rotation = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0);
+                        nbOfFilesWithNoArea++;
                     }
 
                     // Link to close button
