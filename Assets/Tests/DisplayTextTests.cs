@@ -4,39 +4,50 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using System.IO;
-
+using System.Text;
+using TMPro;
 
 namespace Tests
 {
     public class DisplayTextTests
     {
+        string errorMessage = "Loading error.";
+
         [Test]
-        public void ReadCorrectlyTextFromFileTest()
+        public void LoadTextCorrectlyTest()
         {
-            string filePath = "Assets/StreamingAssets/LoremIpsum.txt";
-            string textContent = File.ReadAllText(filePath);
+            DisplayText dt = new DisplayText();
+            GameObject go = new GameObject();
+            TMP_Text tmp = go.AddComponent<TextMeshPro>();
 
-            string text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. \r\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+            dt.SetTextObject(tmp);
+            dt.SetFileName("Assets/StreamingAssets/LoremIpsum.txt");
+            
+            dt.LoadText();
 
-            Assert.AreEqual(textContent, text);
+            Assert.AreNotEqual(dt.GetTextObject().text, errorMessage);
         }
 
         [Test]
-        public void ReadIncorrectlyTextFromFileTest()
+        public void LoadTextIncorrectlyTest()
         {
-            string filePath = "Assets/StreamingAssets/LoremIpsum.txt";
-            string textContent = File.ReadAllText(filePath);
+            DisplayText dt = new DisplayText();
+            GameObject go = new GameObject();
+            TMP_Text tmp = go.AddComponent<TextMeshPro>();
 
-            string text = "This text is incorrect.";
+            dt.SetTextObject(tmp);
+            dt.SetFileName("Assets/StreamingAssets/IpsumLorem.txt");
+            
+            dt.LoadText();
 
-            Assert.AreNotEqual(textContent, text);
+            Assert.AreEqual(dt.GetTextObject().text, errorMessage);
         }
 
         [Test]
         public void FileNameSetterIsCorrectTest()
         {
             DisplayText rt = new DisplayText();
-            string fn = "Assets/StreamingAssets/Giorno.png";
+            string fn = "Assets/StreamingAssets/LoremIpsum.txt";
 
             rt.SetFileName(fn);
 

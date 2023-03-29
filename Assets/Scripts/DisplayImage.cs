@@ -21,11 +21,9 @@ public class DisplayImage : MonoBehaviour
     * Start is called before the first frame update
     * The image is loaded and applied to the object
     **/
-    public void Start()
+    void Start()
     {
-        Texture2D texture = new Texture2D(textureSize, textureSize);
-		texture.LoadImage(File.ReadAllBytes(fileName));
-        imageObject.texture = texture;
+        LoadImage();
 
         minSize = imageObject.GetComponent<RectTransform>().sizeDelta.x;
         mainCamera = GameObject.Find("Main Camera");
@@ -42,6 +40,19 @@ public class DisplayImage : MonoBehaviour
         float newSize = Mathf.Min(Mathf.Max(roundedSize, minSize), minSize * maxDist);
 
         imageObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (newSize, newSize);
+    }
+
+    /**
+    * Load the image from the file path
+    **/
+    public void LoadImage()
+    {
+        if (File.Exists(fileName))
+        {
+            Texture2D texture = new Texture2D(textureSize, textureSize);
+            texture.LoadImage(File.ReadAllBytes(fileName));
+            imageObject.texture = texture;
+        }
     }
 
     /**

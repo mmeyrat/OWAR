@@ -22,8 +22,7 @@ public class DisplayText : MonoBehaviour
     **/
     void Start()
     {
-        string textContent = File.ReadAllText(fileName);
-        textObject.text = textContent;
+        LoadText();
 
         minFontSize = textObject.fontSize;
         mainCamera = GameObject.Find("Main Camera");
@@ -46,6 +45,22 @@ public class DisplayText : MonoBehaviour
             {
                 textObject.pageToDisplay = textObject.textInfo.pageCount;
             }
+        }
+    }
+
+    /**
+    * Load the text from the file path
+    **/
+    public void LoadText()
+    {
+        if (File.Exists(fileName))
+        {
+            string textContent = File.ReadAllText(fileName);
+            textObject.text = textContent;
+        }
+        else 
+        {
+            textObject.text = "Loading error.";
         }
     }
 
@@ -77,5 +92,15 @@ public class DisplayText : MonoBehaviour
     public string GetFileName() 
     {
         return this.fileName;
+    }
+    
+    /**
+    * Return the value of the text object
+    * 
+    * @return text object 
+    **/
+    public TMP_Text GetTextObject() 
+    {
+        return this.textObject;
     }
 }

@@ -7,7 +7,6 @@ using System.IO;
 using System.Text;
 using UnityEngine.UI;
 
-
 namespace Tests
 {
     public class DisplayImageTests
@@ -22,7 +21,7 @@ namespace Tests
             di.SetImageObject(ri);
             di.SetFileName("Assets/StreamingAssets/Giorno.png");
             
-            di.Start();
+            di.LoadImage();
 
             Assert.IsNotNull(di.GetImageObject().texture);
         }
@@ -35,16 +34,9 @@ namespace Tests
             RawImage ri = go.AddComponent<RawImage>();
 
             di.SetImageObject(ri);
-            di.SetFileName("Assets/StreamingAssets/GironoGirovana.png");
+            di.SetFileName("Assets/StreamingAssets/Girono.png");
             
-            try 
-            {
-                di.Start();
-            } 
-            catch
-            {
-                Debug.Log("File not loaded.");
-            }
+            di.LoadImage();
 
             Assert.IsNull(di.GetImageObject().texture);
         }
@@ -53,7 +45,7 @@ namespace Tests
         public void FileNameSetterIsCorrectTest()
         {
             DisplayImage di = new DisplayImage();
-            string fn = "Assets/Images/giorno.png";
+            string fn = "Assets/StreamingAssets/Giorno.png";
 
             di.SetFileName(fn);
 
