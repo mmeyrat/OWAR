@@ -113,7 +113,10 @@ public class FileListHandler : MonoBehaviour
     **/
     public static void SetToChoosen(string file) 
     {
-        choosenFiles[file] = !choosenFiles[file];
+        if (choosenFiles.ContainsKey(file))
+        {
+            choosenFiles[file] = !choosenFiles[file];
+        }
     }
 
     /**

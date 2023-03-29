@@ -34,7 +34,7 @@ public class MainSceneHandler : MonoBehaviour
     }
 
     /**
-    * Add the selecetd files in a text preview
+    * Add the selected files in a text preview
     *
     * @param label : Text object containing the file's name 
     **/
