@@ -20,8 +20,10 @@ public class ManipulatorHandler : MonoBehaviour
             {
                 if (this.transform.parent != null)
                 {
+                    Vector3 oldPos = this.transform.position; 
                     GameObject parent = this.transform.parent.gameObject;
                     this.transform.SetParent(null);
+                    this.transform.position = oldPos; 
                     Destroy(parent);
                 }
 

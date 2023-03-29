@@ -28,6 +28,13 @@ public class Close : MonoBehaviour
 
             if (tagAreaId >= minTagAreaId)
             {
+                if (objectToClose.transform.parent != null)
+                {
+                    GameObject parent = objectToClose.transform.parent.gameObject;
+                    objectToClose.transform.SetParent(null);
+                    Destroy(parent);
+                }
+
                 TagSceneHandler.GetTagAreaList()[tagAreaId].SetSlotAvailability(slotId, true);
             }
         }
