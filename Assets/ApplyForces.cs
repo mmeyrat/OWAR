@@ -49,7 +49,7 @@ public class ApplyForces : MonoBehaviour
             desiredConnectedDistanceMax = 23.0f;
         }
 
-        if (!IsEmpty(filesObjects[0]) || filesObjects[0].Count > 1) 
+        if (!IsEmpty(filesObjects[0]) || !IsEmpty(filesObjects[1]) || !IsEmpty(filesObjects[2])) 
         {
             if (!areFilesPlaced) 
             {
