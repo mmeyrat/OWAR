@@ -19,11 +19,59 @@ The controls of this application are based on head movements and hand gestures. 
 
 ## Visuals
 
-Soon
+### Presentation Video
+
+[![Presentation video](https://img.youtube.com/vi/Cn3_thKMAy4/0.jpg)](https://www.youtube.com/watch?v=Cn3_thKMAy4)
+
+### Pictures
+
+![Text File](Images/TextFile.png)  |  ![Main Menu](Images/MainMenu.png)
+:-------------------------:|:-------------------------:
+![Forces](Images/Forces.png)  |  ![HeatMapScan](Images/HeatMapScan.png)
+
 
 ## Installation
 
-Soon
+This project was developped with the first generation of HoloLens in mind. So the following guide will only focus on this hardware. 
+
+### Requirements
+
+For the proper functioning of this project, it is essential to have completed the following steps:
+1. Install Unity 2019.4.40f.
+2. Install Microsoft Visual Studio 2019 16.11.23.
+3. Install the Windows SDK, available [here](https://developer.microsoft.com/en-US/windows/downloads/windows-sdk/).
+4. Verify that the MRTK 2.8.3 Foundation package is already included in the Packages folder. Otherwise, download it [here](https://github.com/Microsoft/MixedRealityToolkit-Unity/releases). Then, import this package in Unity, go to `Assets > Import Package > Custom Package` and select the MRTK package.
+
+### Building in Unity
+
+Open the project with Unity and go to `Assets > Build Settings > Universal Windows Platform`. When building the project, be sure that the parameters are the same as below. Also, make sure to put the different scenes in the build. The first scene (indice 0) must be `TagScene` for main and `LaunchTimer` for heatmap. Then , the second scene (indice 1) must be `MainScene`. 
+
+Main branch            |  Heatmap branch
+:-------------------------:|:-------------------------:
+![Build settings Main](Images/BuildSettingsMain.png)  |  ![Build settings Heatmap](Images/BuildSettingsHeatmap.png)
+
+
+After that click on the build button and select the destination folder where the project will be built.
+
+### Deployment on HoloLens
+
+The HoloLens must be setup for deployement, which means developer mode must be active. To do so, follow these instructions : 
+1. Turn on your HoloLens and put on the device.
+2. Use the flower gesture to display the main menu.
+3. Select the `Settings` tile to launch the app in your environment.
+4. Select the `Update` menu item.
+5. Select the `For developers` menu item.
+6. Enable Use developer features to deploy apps from Visual Studio to your HoloLens.
+
+Then on your computer, open the `.SLN` with Visual Studio. While deploying, the HoloLens must be turned on connected to your local internet network. Then follow these steps :
+1. Go to `Project > Properties > Debugging > Device name`.
+2. Search for your HoloLens IP address and select it.
+3. Click on apply and close the window.
+4. In the toolbar at the top of the window, the mode must be on `Release`, `x86` and `Remote Machine`. 
+5. Click on play and put your HoloLens on.
+
+If you encounter any problem during the deployement, refer to the guide from the official [Microsoft website](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/advanced-concepts/using-visual-studio?tabs=hl2).
+
 
 ## Contribution standards
 
