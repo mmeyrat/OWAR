@@ -28,9 +28,20 @@ Make sure before everything, you have installed the specific version 2019.4.40f 
 To make this project work on Unity, first install the Windows SDK which is available here https://developer.microsoft.com/en-US/windows/downloads/windows-sdk/. 
 Normally the MRTK Foundation package (Microsoft MixedReality Toolkit Unity Foundation 2.8.3) is already included in the Packages folder. If you have to download it, it's available here https://github.com/Microsoft/MixedRealityToolkit-Unity/releases. Then, this package must be imported in the project, in Unity go to Assets > Import Package > Custom Package and select the package you have just downloaded. The project can now be executed on Unity.
 
-### Deployment on Hololens 
+## Deployment on Hololens 
 This project was developped to work properly on Hololens first generation. If you want to deploy on your own hololens, make sure when you build, the parameters below are the same for you. 
-![Build settings](https://gitlab.emi.u-bordeaux.fr/-/ide/project/group_pfe/pfe_project/tree/heatmap/-/BuildSettings.PNG/)
+
+![Build settings](BuildSettings.PNG)
+
+After that click on the build button and select the folder where the project will be build. When the build is finished, the folder will be opened automatically. Open the file with the extension sln. Visual Studio is now opened with the solution build. At this moment, the hololens must be turned on connected to your local internet network and developer mode must be active. To do that, follow these instructions : 
+1. Turn on your HoloLens and put on the device.
+2. Use the start gesture to launch the main menu.
+3. Select the Settings tile to launch the app in your environment.
+4. Select the Update menu item.
+5. Select the For developers menu item.
+6. Enable Use developer features to deploy apps from Visual Studio to your HoloLens.
+
+Then go back on your computer, on visual studio go to Project > Properties > Debugging > Device name. Here search for your hololens IP adress and select it. Click on apply and close the window. In the toolbar at the top of the window, the mode is must be on Release, x86 and Remote Machine. Click on play and put your hololens on, just wait to see it on the screen. 
 
 ## Contribution standards
 
