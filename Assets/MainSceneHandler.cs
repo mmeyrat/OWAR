@@ -27,9 +27,8 @@ public class MainSceneHandler : MonoBehaviour
     private List<GameObject> centers = new List<GameObject>();
     // Time when the user click on visualize
     private static float timeFilesSelected;
-    // Little offsets to apply a correct force on files when they appear
-    private float poseX = -5.0f;
-    private float poseY = -5.0f;
+    // Random to generate position when files are spawning to apply a correct force on files
+    private static System.Random random = new System.Random();
     
     /**
     * Add the selecetd files in a text preview
@@ -75,8 +74,6 @@ public class MainSceneHandler : MonoBehaviour
                     if (indexZone < 2 && counterFilePerZone == nbFilesMaxPerZone) {
                         indexZone++;
                         counterFilePerZone = 0;
-                        poseX = -5.0f;
-                        poseY= -5.0f;
                     }
 
                     Vector3 center = positionsFiles[indexZone];
@@ -86,6 +83,8 @@ public class MainSceneHandler : MonoBehaviour
                     {
                         GameObject imagePrefab = Instantiate(Resources.Load("ImagePrefab")) as GameObject;
                         imagePrefab.transform.SetParent(centers[indexZone].transform);
+                        float poseX = (float)GetRandomNumber(-15.0, 15.0);
+                        float poseY = (float)GetRandomNumber(-15.0, 15.0);
                         imagePrefab.transform.localPosition = new Vector3(poseX, poseY, 0.0f);
                         imagePrefab.transform.localRotation = Quaternion.identity;
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(imagePrefab, indexZone);
@@ -98,8 +97,6 @@ public class MainSceneHandler : MonoBehaviour
                         imagePrefab.GetComponent<DisplayImage>().SetImageObject(imagePrefab.transform.GetChild(0).GetChild(0).GetComponent<RawImage>());
                         imagePrefab.GetComponent<DisplayImage>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
-                        poseX += 1.05f;
-                        poseY += 1.75f;
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
                     }
                     else if (f.EndsWith(textExtension)) 
@@ -108,6 +105,8 @@ public class MainSceneHandler : MonoBehaviour
 
                         // Setting position according informations obtained with the heatmap
                         textPrefab.transform.SetParent(centers[indexZone].transform);
+                        float poseX = (float)GetRandomNumber(-15.0, 15.0);
+                        float poseY = (float)GetRandomNumber(-15.0, 15.0);
                         textPrefab.transform.localPosition = new Vector3(poseX, poseY, 0.0f);
                         textPrefab.transform.localRotation = Quaternion.identity;
                         mixedRealityPlayspace.GetComponent<ApplyForces>().AddObj(textPrefab, indexZone);
@@ -124,14 +123,9 @@ public class MainSceneHandler : MonoBehaviour
                         textPrefab.GetComponent<DisplayText>().SetFileName(Path.Combine(FileListHandler.GetPath(), f));
 
                         selectedFiles.text = selectedFiles.text.Replace($"\n• {f}", "");
-                        poseX += 1.05f;
-                        poseY += 1.75f;
                     } 
                 }
             }
-
-            poseX = -5.0f;
-            poseY = -5.0f;
             timeFilesSelected = Time.time;
             
             mixedRealityPlayspace.GetComponent<ApplyForces>().InitMovements();
@@ -158,11 +152,14 @@ public class MainSceneHandler : MonoBehaviour
         }
     }
 
-    private float NextFloat(float min, float max) 
-    {
-        System.Random random = new System.Random();
-        double val = (random.NextDouble() * (max - min) + min);
-        return (float)val;
+    /**
+    * Get a random double number between two double numbers
+    * 
+    * @return a random double number between minimum and maximum 
+    **/
+    public double GetRandomNumber(double minimum, double maximum)
+    { 
+        return random.NextDouble() * (maximum - minimum) + minimum;
     }
 
     /**
