@@ -11,7 +11,7 @@ Our application currently supports two types of documents which are images files
 It is possible to anchor a file either in world space or in view space. View space anchored documents follow the user's head and are always visible on screen.  
 
 For this prototype, we developped two main visualisation methods opening different automatic organizations. The first one is based on tag areas. A user can place a zone object linked to a specific label, around which the documents are going to be automatically placed (available on main branch). The labels are retrieved from a local JSON setting file, linking each file with a tag. 
-The second one is based on visualization heat maps. The more a place is looked at, the more it will gain interest. A sphere is placed where the user is looking curently. If he is staying on this zone, the sphere is bigger and become more red. Documents are then automatically placed following the most 3 interesting places.
+The second one is based on visualization heat maps. The more a place is looked at, the more it will gain interest. The user has 20 seconds to look a few zones that he prefers. A sphere is placed where the user is looking curently. If he is staying on this zone, the sphere is bigger and become more red. Documents are then automatically placed following the most 3 interesting places.
 To avoid overlapping, a force system is used. On each zone, each files are repelling one another and are repelled by the center. This visualization mode is available on the heatmap branch. 
 
 ## Controls
@@ -20,7 +20,13 @@ The controls of this application are based on head movements and hand gestures. 
 
 ## Visuals
 
-Soon
+There is below a picture which is illustrating what the user see when he is placing spheres to represent his favorite zones during 20 seconds. 
+
+[Scan Heatmap](Scan_heatmap.png)
+
+Then there is a picture to illustrate how files are disposing them selves around the center of the zone concerned. 
+
+[Forces](Forces.PNG)
 
 ## Installation
 
