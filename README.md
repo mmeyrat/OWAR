@@ -22,11 +22,13 @@ The controls of this application are based on head movements and hand gestures. 
 
 There is below a picture which is illustrating what the user see when he is placing spheres to represent his favorite zones during 20 seconds. 
 
-[Scan Heatmap](Scan_heatmap.png)
+![Scan Heatmap](Scan_heatmap.png)
 
 Then there is a picture to illustrate how files are disposing them selves around the center of the zone concerned. 
 
-[Forces](Forces.PNG)
+![Forces](Forces.PNG)
+
+You can see all the process of files visualization based on our own heatmap with the following video from 2.08 min : https://www.youtube.com/watch?v=Cn3_thKMAy4
 
 ## Installation
 
