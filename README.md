@@ -10,9 +10,8 @@ Our application currently supports two types of documents which are images files
 
 It is possible to anchor a file either in world space or in view space. View space anchored documents follow the user's head and are always visible on screen.  
 
-For this prototype, we developped two main visualisation methods opening different automatic organizations. The first one is based on tag areas. A user can place a zone object linked to a specific label, around which the documents are going to be automatically placed (available on main branch). The labels are retrieved from a local JSON setting file, linking each file with a tag. 
-The second one is based on visualization heat maps. The more a place is looked at, the more it will gain interest. The user has 20 seconds to look a few zones that he prefers. A sphere is placed where the user is looking curently. If he is staying on this zone, the sphere is bigger and become more red. Documents are then automatically placed following the most 3 interesting places.
-To avoid overlapping, a force system is used. On each zone, each files are repelling one another and are repelled by the center. This visualization mode is available on the heatmap branch. 
+For this prototype, we developped two main visualisation methods opening different automatic organizations. The first one is based on tag areas. A user can place a zone object linked to a specific label, around which the documents are going to be automatically placed. 
+The labels are retrieved from a local JSON setting file, linking each file with a tag. The second one is based on visualization heat maps. The more a place is looked at, the more it will gain interest. Documents are then automatically placed following the most interesting places.  
 
 ## Controls
 
@@ -20,37 +19,59 @@ The controls of this application are based on head movements and hand gestures. 
 
 ## Visuals
 
-There is below a picture which is illustrating what the user see when he is placing spheres to represent his favorite zones during 20 seconds. 
+### Presentation Video
 
-![Scan Heatmap](Scan_heatmap.PNG)
+[![Presentation video](https://img.youtube.com/vi/Cn3_thKMAy4/0.jpg)](https://www.youtube.com/watch?v=Cn3_thKMAy4)
 
-Then there is a picture to illustrate how files are disposing them selves around the center of the zone concerned. 
+### Pictures
 
-![Forces](Forces.PNG)
+![Text File](Images/TextFile.png)  |  ![Main Menu](Images/MainMenu.png)
+:-------------------------:|:-------------------------:
+![Forces](Images/Forces.png)  |  ![HeatMapScan](Images/HeatMapScan.png)
 
-You can see all the process of files visualization based on our own heatmap with the following video from 2.08 min : https://www.youtube.com/watch?v=Cn3_thKMAy4
 
 ## Installation
 
-Make sure before everything, you have installed the specific version 2019.4.40f of Unity. 
-To make this project work on Unity, first install the Windows SDK which is available here https://developer.microsoft.com/en-US/windows/downloads/windows-sdk/. 
-Normally the MRTK Foundation package (Microsoft MixedReality Toolkit Unity Foundation 2.8.3) is already included in the Packages folder. If you have to download it, it's available here https://github.com/Microsoft/MixedRealityToolkit-Unity/releases. Then, this package must be imported in the project, in Unity go to Assets > Import Package > Custom Package and select the package you have just downloaded. The project can now be executed on Unity.
+This project was developped with the first generation of HoloLens in mind. So the following guide will only focus on this hardware. 
 
-## Deployment on Hololens 
-This project was developped to work properly on Hololens first generation. If you want to deploy on your own hololens, make sure when you build, the parameters below are the same for you. Don't forget to put the different scenes in the build. The first scene must be LaunchTimer(indice 0) and the second one must be MainScene (indice 1). The picture below contains all details about the build settings you must have.
+### Requirements
 
-![Build settings](BuildSettings.PNG)
+For the proper functioning of this project, it is essential to have completed the following steps:
+1. Install Unity 2019.4.40f.
+2. Install Microsoft Visual Studio 2019 16.11.23.
+3. Install the Windows SDK, available [here](https://developer.microsoft.com/en-US/windows/downloads/windows-sdk/).
+4. Verify that the MRTK 2.8.3 Foundation package is already included in the Packages folder. Otherwise, download it [here](https://github.com/Microsoft/MixedRealityToolkit-Unity/releases). Then, import this package in Unity, go to `Assets > Import Package > Custom Package` and select the MRTK package.
 
-After that click on the build button and select the folder where the project will be build. When the build is finished, the folder will be opened automatically. Open the file with the extension sln. Visual Studio is now opened with the solution build. At this moment, the hololens must be turned on connected to your local internet network and developer mode must be active. To do that, follow these instructions : 
+### Building in Unity
+
+Open the project with Unity and go to `Assets > Build Settings > Universal Windows Platform`. When building the project, be sure that the parameters are the same as below. Also, make sure to put the different scenes in the build. The first scene (indice 0) must be `TagScene` for main and `LaunchTimer` for heatmap. Then , the second scene (indice 1) must be `MainScene`. 
+
+Main branch            |  Heatmap branch
+:-------------------------:|:-------------------------:
+![Build settings Main](Images/BuildSettingsMain.png)  |  ![Build settings Heatmap](Images/BuildSettingsHeatmap.png)
+
+
+After that click on the build button and select the destination folder where the project will be built.
+
+### Deployment on HoloLens
+
+The HoloLens must be setup for deployement, which means developer mode must be active. To do so, follow these instructions : 
 1. Turn on your HoloLens and put on the device.
-2. Use the start gesture to launch the main menu.
-3. Select the Settings tile to launch the app in your environment.
-4. Select the Update menu item.
-5. Select the For developers menu item.
+2. Use the flower gesture to display the main menu.
+3. Select the `Settings` tile to launch the app in your environment.
+4. Select the `Update` menu item.
+5. Select the `For developers` menu item.
 6. Enable Use developer features to deploy apps from Visual Studio to your HoloLens.
 
-Then go back on your computer, on visual studio go to Project > Properties > Debugging > Device name. Here search for your hololens IP adress and select it. Click on apply and close the window. In the toolbar at the top of the window, the mode is must be on Release, x86 and Remote Machine. Click on play and put your hololens on, just wait to see it on the screen. 
-If any problems are encountered, you can follow the more complete guide given by Microsoft https://learn.microsoft.com/en-us/windows/mixed-reality/develop/advanced-concepts/using-visual-studio?tabs=hl2.
+Then on your computer, open the `.SLN` with Visual Studio. While deploying, the HoloLens must be turned on connected to your local internet network. Then follow these steps :
+1. Go to `Project > Properties > Debugging > Device name`.
+2. Search for your HoloLens IP address and select it.
+3. Click on apply and close the window.
+4. In the toolbar at the top of the window, the mode must be on `Release`, `x86` and `Remote Machine`. 
+5. Click on play and put your HoloLens on.
+
+If you encounter any problem during the deployement, refer to the guide from the official [Microsoft website](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/advanced-concepts/using-visual-studio?tabs=hl2).
+
 
 ## Contribution standards
 
