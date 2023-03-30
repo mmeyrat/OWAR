@@ -385,31 +385,36 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();
-            yield return new WaitForSeconds(2f);
 
-            // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
-            yield return rightHand.Show(firstPosition);
+            // Get Menu transformation to test later
+            Vector3 menuBasicPosition = backgroundMenu.transform.position;
+
+            // Move the hand to anchor button  
+            Vector3 anchorButtonPosition = new Vector3(0.11f, -0.22f, 0.3f);
+            yield return rightHand.Show(anchorButtonPosition);
+
+            yield return new WaitForSeconds(4f);
 
             // Click on anchor button
             yield return rightHand.Click();
+
+            // Check if anchor is activated 
+            Assert.IsTrue(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
 
             // Moving the hand now 
             Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
             yield return rightHand.MoveTo(movedPosition);
 
-            yield return new WaitForSeconds(2f);
-
             // Move the playspace to simulate head movement again
             MixedRealityPlayspace.PerformTransformation(p =>
             {
                 p.position = Vector3.right;
+                p.LookAt(Vector3.right);
             });
 
-            // Make sure the menu is really anchored
-            Assert.LessOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu isn't correctly anchored");
-            
-            yield return new WaitForSeconds(5f);
+            // Check if the menu has really move        
+            Assert.AreNotEqual(backgroundMenu.transform.position, menuBasicPosition, "The menu isn't correctly anchored");
+
             yield return new WaitForFixedUpdate();
             yield return null;
         }
@@ -425,35 +430,39 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             GameObject backgroundMenu = GameObject.Find("Menu");
             Assert.IsNotNull(backgroundMenu);
 
-            TestUtilities.PlayspaceToOriginLookingForward();
-            yield return new WaitForSeconds(2f);
+            TestUtilities.PlayspaceToOriginLookingForward();            
 
-            // Instanciate a hand to click on button  
-           Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
-            yield return rightHand.Show(firstPosition);
+            // Get Menu transformation to test later
+            Vector3 menuBasicPosition = backgroundMenu.transform.position;                  
+
+            // Move the hand to anchor button  
+            Vector3 anchorButtonPosition = new Vector3(0.11f, -0.22f, 0.3f);
+            yield return rightHand.Show(anchorButtonPosition);
+
+            yield return new WaitForSeconds(4f);
 
             // Click on anchor button
             yield return rightHand.Click();
 
+            // Check if anchor is activated 
+            Assert.IsTrue(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);         
+
             // Moving the hand now 
             Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
-            yield return rightHand.MoveTo(movedPosition);
-
-            yield return new WaitForSeconds(2f);
+            yield return rightHand.MoveTo(movedPosition);          
 
             // Move the playspace to simulate head movement again
             MixedRealityPlayspace.PerformTransformation(p =>
             {
                 p.position = Vector3.left;
+                p.LookAt(Vector3.left);
             });
 
-            // Make sure the menu is really anchored
-            Assert.GreaterOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu isn't correctly anchored");
+            // Check if the menu has really move        
+            Assert.AreNotEqual(backgroundMenu.transform.position, menuBasicPosition, "The menu isn't correctly anchored");                    
             
-            yield return new WaitForSeconds(5f);
             yield return new WaitForFixedUpdate();
             yield return null;
-
         }
         
         /// <summary>
@@ -468,31 +477,36 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();
-            yield return new WaitForSeconds(2f);
 
-            // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
-            yield return rightHand.Show(firstPosition);
+            // Get Menu transformation to test later
+            Vector3 menuBasicPosition = backgroundMenu.transform.position;
+
+            // Move the hand to anchor button  
+            Vector3 anchorButtonPosition = new Vector3(0.11f, -0.22f, 0.3f);
+            yield return rightHand.Show(anchorButtonPosition);
+
+            yield return new WaitForSeconds(4f);
 
             // Click on anchor button
             yield return rightHand.Click();
+
+            // Check if anchor is activated 
+            Assert.IsTrue(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
 
             // Moving the hand now 
             Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
             yield return rightHand.MoveTo(movedPosition);
 
-            yield return new WaitForSeconds(2f);
-
             // Move the playspace to simulate head movement again
             MixedRealityPlayspace.PerformTransformation(p =>
             {
                 p.position = Vector3.up;
+                p.LookAt(Vector3.up);
             });
 
-            // Make sure the menu is really anchored
-            Assert.GreaterOrEqual((int)backgroundMenu.transform.position.y, (int)CameraCache.Main.transform.position.y, "The menu isn't correctly anchored");
-            
-            yield return new WaitForSeconds(5f);
+            // Check if the menu has really move        
+            Assert.AreNotEqual(backgroundMenu.transform.position, menuBasicPosition, "The menu isn't correctly anchored");
+
             yield return new WaitForFixedUpdate();
             yield return null;
         }
@@ -509,38 +523,143 @@ namespace Microsoft.MixedReality.Toolkit.Tests
             Assert.IsNotNull(backgroundMenu);
 
             TestUtilities.PlayspaceToOriginLookingForward();
-            yield return new WaitForSeconds(2f);
 
-            // Instanciate a hand to click on button  
-            Vector3 firstPosition = new Vector3(0.11f, -0.21f, 0.3f); 
-            yield return rightHand.Show(firstPosition);
+            // Get Menu transformation to test later
+            Vector3 menuBasicPosition = backgroundMenu.transform.position;
 
-            yield return new WaitForSeconds(2f);
+            // Move the hand to anchor button  
+            Vector3 anchorButtonPosition = new Vector3(0.11f, -0.22f, 0.3f);
+            yield return rightHand.Show(anchorButtonPosition);
+
+            yield return new WaitForSeconds(4f);
 
             // Click on anchor button
-            yield return rightHand.Click(); 
+            yield return rightHand.Click();
 
-            yield return new WaitForSeconds(2f);
+            // Check if anchor is activated 
+            Assert.IsTrue(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
 
             // Moving the hand now 
             Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
             yield return rightHand.MoveTo(movedPosition);
 
-            yield return new WaitForSeconds(2f);
-
             // Move the playspace to simulate head movement again
             MixedRealityPlayspace.PerformTransformation(p =>
             {
                 p.position = Vector3.down;
+                p.LookAt(Vector3.down);
             });
 
-            // Make sure the menu is really anchored
-            Assert.LessOrEqual((int)backgroundMenu.transform.position.x, (int)CameraCache.Main.transform.position.x, "The menu isn't correctly anchored");
-            
-            yield return new WaitForSeconds(5f);
+            // Check if the menu has really move        
+            Assert.AreNotEqual(backgroundMenu.transform.position, menuBasicPosition, "The menu isn't correctly anchored");
+
             yield return new WaitForFixedUpdate();
             yield return null;
         }
+
+        /// <summary>
+        /// Test the anchor enable and disable.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator TestMenuAnchorEnableDisable()
+        {
+            // Finding objects used for this test
+            GameObject backgroundMenu = GameObject.Find("Menu");
+            Assert.IsNotNull(backgroundMenu);
+
+            TestUtilities.PlayspaceToOriginLookingForward();
+
+            // Move the hand to anchor button  
+            Vector3 anchorButtonPosition = new Vector3(0.11f, -0.22f, 0.3f);
+            yield return rightHand.Show(anchorButtonPosition);
+
+            // Check if anchor is disbale
+            Assert.IsFalse(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
+
+            // Click on anchor button
+            yield return rightHand.Click();
+
+            // Moving the hand now 
+            Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
+            yield return rightHand.MoveTo(movedPosition);
+
+            // Check if anchor is activated 
+            Assert.IsTrue(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
+
+            // Move and click again on anchor button
+            yield return rightHand.Show(anchorButtonPosition);
+            yield return rightHand.Click();
+
+            // Check if anchor is disable
+            Assert.IsFalse(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
+
+            yield return new WaitForFixedUpdate();
+            yield return null;
+        }
+
+        /// <summary>
+        /// Test the anchor enable and disable after movement.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator TestMenuAnchorEnableDisableAfterMovement()
+        {
+            // Finding objects used for this test
+            GameObject backgroundMenu = GameObject.Find("Menu");
+            Assert.IsNotNull(backgroundMenu);
+
+            TestUtilities.PlayspaceToOriginLookingForward();
+
+            // Move the hand to anchor button  
+            Vector3 anchorButtonPosition = new Vector3(0.11f, -0.22f, 0.3f);
+            yield return rightHand.Show(anchorButtonPosition);
+
+            // Check if anchor is disbale
+            Assert.IsFalse(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
+
+            // Click on anchor button
+            yield return rightHand.Click();
+
+            // Moving the hand now 
+            Vector3 movedPosition = new Vector3(0.1f, -0.07f, 0.6f);
+            yield return rightHand.MoveTo(movedPosition);
+
+            // Check if anchor is activated 
+            Assert.IsTrue(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);            
+
+            // Move the playspace to simulate head movement
+            MixedRealityPlayspace.PerformTransformation(p =>
+            {
+                p.position = Vector3.up;
+                p.LookAt(Vector3.up);
+            });
+
+            // Get anchored menu position to test later
+            Vector3 menuPosition = backgroundMenu.transform.position;
+
+            // Move and click again on anchor button
+            Vector3 movedUpPosition = new Vector3(0.15f, 0.68f, 0.6f);
+            yield return rightHand.Show(movedUpPosition);        
+
+            yield return rightHand.Click();
+
+            // Check if anchor is disable
+            Assert.IsFalse(backgroundMenu.GetComponent<SolverHandler>().isActiveAndEnabled);
+
+            // Move the playspace to simulate head movement again
+            MixedRealityPlayspace.PerformTransformation(p =>
+            {
+                p.position = Vector3.left;
+                p.LookAt(Vector3.left);
+            });
+
+            // Check if the menu does not move
+            Assert.Equals(backgroundMenu.transform.position, menuPosition);
+
+            yield return new WaitForFixedUpdate();
+            yield return null;
+        }
+
+
         #endregion
 
         #region TapToPlace Tests
