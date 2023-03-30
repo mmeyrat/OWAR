@@ -21,5 +21,17 @@ namespace Tests
 
             Assert.IsTrue(go == null);            
         }
+
+        [Test]
+        public void CloseWindowIncorrectlyTest()
+        {
+            GameObject go = new GameObject();
+            Close close = new Close();
+
+            close.SetObj(go);
+            close.CloseWindow();
+
+            Assert.IsTrue(go != null);            
+        }
     }
 }

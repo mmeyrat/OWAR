@@ -35,6 +35,20 @@ namespace Tests
         }
 
         [Test]
+        public void ChangeToMenuSceneIncorrectlyTest()
+        {
+            string mainScene = "TagScene";
+            GameObject go2 = new GameObject();
+            TagSceneHandler tsh = go2.AddComponent<TagSceneHandler>();
+            tsh.buttonMenu = new GameObject();
+
+            tsh.SwitchToMenuScene();
+            string activeSceneName = SceneManager.GetActiveScene().name;
+
+            Assert.IsTrue(activeSceneName != mainScene);
+        }
+
+        [Test]
         public void GenerateTagAreaCorrectlyTest()
         {
             string tag = "TagArea";
@@ -43,13 +57,26 @@ namespace Tests
             tsh.buttonMenu = new GameObject();
             
             int oldCount = tsh.GetTempTagAreaList().Count;
-
             tsh.Start();
             tsh.GenerateTagArea(tag);
-
             int newCount = tsh.GetTempTagAreaList().Count;
 
             Assert.IsTrue(newCount > oldCount);
+        }
+
+        [Test]
+        public void GenerateTagAreaIncorrectlyTest()
+        {
+            string tag = "TagArea";
+            GameObject go2 = new GameObject();
+            TagSceneHandler tsh = go2.AddComponent<TagSceneHandler>();
+            tsh.buttonMenu = new GameObject();
+            
+            int oldCount = tsh.GetTempTagAreaList().Count;
+            tsh.Start();
+            int newCount = tsh.GetTempTagAreaList().Count;
+
+            Assert.IsTrue(newCount <= oldCount);
         }
     }
 }
