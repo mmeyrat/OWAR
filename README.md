@@ -22,7 +22,7 @@ The controls of this application are based on head movements and hand gestures. 
 
 There is below a picture which is illustrating what the user see when he is placing spheres to represent his favorite zones during 20 seconds. 
 
-![Scan Heatmap](Scan_heatmap.png)
+![Scan Heatmap](Scan_heatmap.PNG)
 
 Then there is a picture to illustrate how files are disposing them selves around the center of the zone concerned. 
 
