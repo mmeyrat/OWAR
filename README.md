@@ -29,7 +29,7 @@ To make this project work on Unity, first install the Windows SDK which is avail
 Normally the MRTK Foundation package (Microsoft MixedReality Toolkit Unity Foundation 2.8.3) is already included in the Packages folder. If you have to download it, it's available here https://github.com/Microsoft/MixedRealityToolkit-Unity/releases. Then, this package must be imported in the project, in Unity go to Assets > Import Package > Custom Package and select the package you have just downloaded. The project can now be executed on Unity.
 
 ## Deployment on Hololens 
-This project was developped to work properly on Hololens first generation. If you want to deploy on your own hololens, make sure when you build, the parameters below are the same for you. 
+This project was developped to work properly on Hololens first generation. If you want to deploy on your own hololens, make sure when you build, the parameters below are the same for you. Don't forget to put the different scenes in the build. The first scene must be LaunchTimer(indice 0) and the second one must be MainScene (indice 1). The picture below contains all details about the build settings you must have.
 
 ![Build settings](BuildSettings.PNG)
 
@@ -42,6 +42,7 @@ After that click on the build button and select the folder where the project wil
 6. Enable Use developer features to deploy apps from Visual Studio to your HoloLens.
 
 Then go back on your computer, on visual studio go to Project > Properties > Debugging > Device name. Here search for your hololens IP adress and select it. Click on apply and close the window. In the toolbar at the top of the window, the mode is must be on Release, x86 and Remote Machine. Click on play and put your hololens on, just wait to see it on the screen. 
+If any problems are encountered, you can follow the more complete guide given by Microsoft https://learn.microsoft.com/en-us/windows/mixed-reality/develop/advanced-concepts/using-visual-studio?tabs=hl2.
 
 ## Contribution standards
 
