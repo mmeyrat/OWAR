@@ -1,4 +1,4 @@
-# Organization of the workspace in Augmented Reality - PFE
+# Organization of the Workspace in Augmented Reality (OWAR)
 
 This project was realized within the scope of a "Projet de Fin d'Etude" (End of Study Project) at University of Bordeaux.
 
